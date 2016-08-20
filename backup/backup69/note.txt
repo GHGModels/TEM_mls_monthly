@@ -1,2 +1,0 @@
-Jan-21-2015 at 3:55 pm
-Ben indicated that AVLN is correct. So try to use soil.getAVLN rather than y[I_AVLN] and try to use the sum of three rather than the total AVLN. 

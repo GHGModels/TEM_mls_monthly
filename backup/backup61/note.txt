@@ -1,5 +1,0 @@
-Jan-11-2015 at 4:10 pm
-Concluded the calculation for y[I_VNUP]. Now veg.setNUPTAKE not in stepmonth anymore, but in natvegDynamics and cropDynamics.
-
-Still not able to get non-zero value for y[I_VNUP] in natvegDynamics, need to check with Ben.
-Next: DOCPROD, DONPROD and Rh

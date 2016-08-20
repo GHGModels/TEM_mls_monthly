@@ -1,2 +1,0 @@
-Nov-24-2014 at 11:10 am: 
-First attempt to modify ctem45_cwd.cpp file. Added kdfs and kdslow and adjusted MAXTCAL number from 62 to 63.
