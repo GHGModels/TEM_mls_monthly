@@ -1,0 +1,14 @@
+CXX = /share/apps/pgi10.8/linux86-64/10.8/bin/pgCC
+CFLAGS = -O2 -Mscalarsse -mcmodel=medium
+
+ELMNTOBJ = ttemdat45a.o \
+	tmaxcohortdat45.o
+
+tem_mon :  ${ELMNTOBJ} tem_mon.cpp
+	${CXX} ${CFLAGS} -o tem_mon ${ELMNTOBJ} tem_mon.cpp
+
+ttemdat45a.o : ttemdat45a.cpp ttemdat45a.h
+	${CXX} ${CFLAGS} -c ttemdat45a.cpp
+
+tmaxcohortdat45.o : tmaxcohortdat45.cpp tmaxcohortdat45.h
+	${CXX} ${CFLAGS} -c tmaxcohortdat45.cpp

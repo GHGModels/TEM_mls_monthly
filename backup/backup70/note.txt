@@ -1,0 +1,7 @@
+Feb-09-2015 at 6:30 pm
+
+Added backward Euler function in TEM, called bkeu
+Modified cpp and h files for ttem and xtem
+Copied all modified files to original files
+Not compiled successfully. 
+Also, need to adjust for monthly and layer differentiations.

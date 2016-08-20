@@ -1,0 +1,122 @@
+using hvd_tem_hydro.xml for information on this run 
+ running tem in transient mode 
+ start transient run in 1896
+ initialize model using dynamic equilibration
+ startyear for dynamic equilibration: 1896
+ number of years for dynamic equilibration loop: 40
+ model will run for 116 years in transient mode following initialization
+ the model will be run for 1 grid cells 
+ grid cells are located in input files by longitude/latitude
+ the logfile will include a timestamp after each of the first 1 grid cells 
+ the model will start at the beginning of the GIS files 
+ the model will end at the end of the GIS files 
+ the TEMclm model will be run for solar radiation variables 
+transient surface radiation data will be used
+ filename for solar radiation data input: /share/partition7/bfelzer/tem/daily/harvard/tem_harvard_nirrec_fix.csv
+ transient tair dataset: /share/partition7/bfelzer/tem/daily/harvard/tem_harvard_tairec_fix.csv
+ transient prec dataset: /share/partition7/bfelzer/tem/daily/harvard/tem_harvard_pptec_fix.csv
+ transient trange dataset: /share/partition7/bfelzer/tem/daily/harvard/tem_harvard_dtrec_fix.csv
+ transient vpr dataset: /share/partition7/bfelzer/tem/daily/harvard/tem_harvard_vprec_fix.csv
+ initial co2 concentration (ppmv) : 280
+ final equilibrium co2 concentration (ppmv) : 280
+ transient co2 dataset: /share/partition7/bfelzer/tem/daily/harvard/k2CO21895_2011.data
+ transient o3 dataset: /share/partition7/bfelzer/tem/daily/harvard/iod40cor_1895_2011.hvd
+ transient ndep dataset: /share/partition2/tem/CRU3.2/ndep_1895_2011.hvd
+ long-term average ws10 dataset: /share/partition7/bfelzer/tem/daily/harvard/wind.hvd
+ climate data will be output
+ output for 6 climate variables: 
+      output/TAIR_MON.HVD opened for output of TAIR
+      output/PREC_MON.HVD opened for output of PREC
+      output/CLDS_MON.HVD opened for output of CLDINESS
+      output/PAR_MON.HVD opened for output of PAR
+      output/VPR_MON.HVD opened for output of VPR
+      output/DTR_MON.HVD opened for output of TRANGE
+ the file describing vegetation mosaics is: /share/partition7/mij212/temhydro_mls/temhydro_mls_monthly/ecds/tcomm45_lulc.ecd
+ transient land use will be used 
+ file describing number of cohorts in each grid cell: /share/partition7/bfelzer/tem/msb_lulc/crumxcohrts1895_2011.hvd
+ file describing land use cover and change in each cohort of each grid cell: /share/partition7/bfelzer/tem/msb_lulc/crululccohrts1895_2011.hvd
+ the last year of transient cohort data is: 2011
+ allowing available N to fluctuate 
+ running TEM with N feedback on GPP 
+ not solving for baseline soil nitrogen
+ moisture limitation is on
+ ozone damage to gpp is on
+ model will check for equilibrium after running for 500 years 
+ decomposition must equilibrate 
+ absolute tolerance for the water cycle: 1
+ absolute tolerance for the carbon cycle: 5
+ absolute tolerance for the nitrogen cycle: 1
+ maximum number of years for the model to run before initialization is complete: 10000 years 
+ maximum number of attempts to reach a solution: 1
+ averaging time for equilibration: 500 years 
+ factor for changing relative c:n per change in co2 concentration: 0
+ first year for collection of output data: 1895
+ last year for collection of output data: 2011
+ time between years for output data (1 = annual): 1
+ proportional tolerance of the integrator: 0.01
+ maximum number of tolerance-reductions in a month: 20
+ maximum number of iterations in a month: 200
+ root zone parameters found in /share/partition7/mij212/temhydro_mls/temhydro_mls_monthly/ecds/trotz45_lulc.ecd
+ vegetation parameters found in /share/partition7/mij212/temhydro_mls/temhydro_mls_monthly/ecds/tveg45_lulc.ecd
+ hydraulic and conductance-related parameters found in /share/partition7/mij212/temhydro_mls/temhydro_mls_monthly/ecds/tconduct45_lulc.ecd
+ microbial parameters found in /share/partition7/mij212/temhydro_mls/temhydro_mls_monthly/ecds/tmcrv45_lulc.ecd
+ agricultural parameters found in /share/partition7/mij212/temhydro_mls/temhydro_mls_monthly/ecds/ag45_lulc.ecd
+ agricultural tilling is off
+ agricultural irrigation is off
+ agricultural fertilization is off
+ datfile /share/partition7/mij212/temhydro_mls/temhydro_mls_monthly/datfile/hvc45_openn.dat opened for input of vegetation cmnt 0
+ datfile /share/partition7/mij212/temhydro_mls/temhydro_mls_monthly/datfile/hvd45_openn.dat opened for input of vegetation cmnt 1
+ datfile /share/partition7/mij212/temhydro_mls/temhydro_mls_monthly/datfile/hvd45_openn.dat opened for input of vegetation cmnt 2
+ datfile /share/partition7/mij212/temhydro_mls/temhydro_mls_monthly/datfile/hvd45_openn.dat opened for input of vegetation cmnt 3
+ datfile /share/partition7/mij212/temhydro_mls/temhydro_mls_monthly/datfile/hvd45_openn.dat opened for input of vegetation cmnt 4
+ datfile /share/partition7/mij212/temhydro_mls/temhydro_mls_monthly/datfile/hvd45_openn.dat opened for input of vegetation cmnt 5
+ datfile /share/partition7/mij212/temhydro_mls/temhydro_mls_monthly/datfile/hvd45_openn.dat opened for input of vegetation cmnt 6
+ datfile /share/partition7/mij212/temhydro_mls/temhydro_mls_monthly/datfile/hvd45_openn.dat opened for input of vegetation cmnt 7
+ datfile /share/partition7/mij212/temhydro_mls/temhydro_mls_monthly/datfile/hvd45_openn.dat opened for input of vegetation cmnt 8
+ datfile /share/partition7/mij212/temhydro_mls/temhydro_mls_monthly/datfile/hvd45_openn.dat opened for input of vegetation cmnt 9
+ datfile /share/partition7/mij212/temhydro_mls/temhydro_mls_monthly/datfile/hvd45_openn.dat opened for input of vegetation cmnt 10
+ datfile /share/partition7/mij212/temhydro_mls/temhydro_mls_monthly/datfile/hvd45_openn.dat opened for input of vegetation cmnt 11
+ datfile /share/partition7/mij212/temhydro_mls/temhydro_mls_monthly/datfile/hvd45_openn.dat opened for input of vegetation cmnt 12
+ datfile /share/partition7/mij212/temhydro_mls/temhydro_mls_monthly/datfile/hvd45_openn.dat opened for input of vegetation cmnt 13
+ datfile /share/partition7/mij212/temhydro_mls/temhydro_mls_monthly/datfile/hvd45_openn.dat opened for input of vegetation cmnt 14
+ datfile /share/partition7/mij212/temhydro_mls/temhydro_mls_monthly/datfile/hvd45_openn.dat opened for input of vegetation cmnt 15
+ datfile /share/partition7/mij212/temhydro_mls/temhydro_mls_monthly/datfile/hvd45_openn.dat opened for input of vegetation cmnt 16
+ datfile /share/partition7/mij212/temhydro_mls/temhydro_mls_monthly/datfile/hvd45_openn.dat opened for input of vegetation cmnt 17
+ datfile /share/partition7/mij212/temhydro_mls/temhydro_mls_monthly/datfile/hvd45_openn.dat opened for input of vegetation cmnt 18
+/share/partition7/bfelzer/tem/daily/harvard/crufao.hvd opened for soil texture input 
+/share/partition7/bfelzer/tem/daily/harvard/cruelev.hvd opened for elevation input 
+ output from TEM will written
+ 26 output variables 
+output/AVAILN opened for output of AVAILN
+output/AVAILNFB opened for output of AVAILNFB
+output/AVAILNAM opened for output of AVAILNAM
+output/AVAILNMN opened for output of AVAILNMN
+output/VEGC_MONTR.HVD opened for output of VEGC
+output/SOLC_MONTR.HVD opened for output of SOILORGC
+output/NPP_MONTR.HVD opened for output of NPP
+output/NEP_MONTR.HVD opened for output of NEP
+output/GPP_MONTR.HVD opened for output of GPP
+output/NCE_MONTR.HVD opened for output of NCE
+output/WYLD_MONTR.HVD opened for output of AVAILH2O
+output/EET_MONTR.HVD opened for output of EET
+output/RH_MONTR.HVD opened for output of RH
+output/RHFB opened for output of RHFB
+output/RHAM opened for output of RHAM
+output/RHMN opened for output of RHMN
+output/NLST opened for output of NLST
+output/NLSTFB opened for output of NLSTFB
+output/NLSTAM opened for output of NLSTAM
+output/NLSTMN opened for output of NLSTMN
+output/FBC opened for output of FBC
+output/FBN opened for output of FBN
+output/AMC opened for output of AMC
+output/AMN opened for output of AMN
+output/MNC opened for output of MNC
+output/MNN opened for output of MNN
+ output from spinup period will written 
+    for 0 years 
+ input state ( 0 -> require initizlization; 1 -> file input at equilibrium; 2 -> file input for specific year) 0
+ output state ( 0 -> do not write TEMSTATE file; 1-> save TEMSTATE at equilibrium; 2 -> save TEMSTATE at a specific year) 1
+ output state file: TEMSTATE_HVD_1997
+Finished cell 0 (-999999.9 , -999999.9)  TOTYR = -99 TOL = 0.010000 Wed Jan 21 15:38:48 2015
+final equilibration year = 10000
