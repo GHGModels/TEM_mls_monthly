@@ -3,13 +3,6 @@ TSOLDAT45.H - object to read and write the structure of soil
                  texture data from/to files used by the
                  Terrestrial Ecosystem Model (TEM)
 
-Modifications:
-
-20060114 - DWK created by modifying tsoldat425.h
-20060114 - DWK changed class Soildata to class Soildata43
-20060114 - DWK deleted tsoldat425.cpp from bottom of file
-20070105 - TWC changed name to tsoildat45
-
 ************************************************************* */
 
 #ifndef TSOLDAT45_H

@@ -50,13 +50,13 @@ class Humnact45 : public ProcessXML45
                       const double& vstrn,
                       const double& vston,
 //                      const double& solc,
-                      const double& fbc,
-                      const double& amc,
-                      const double& mnc,                        
+                      const double& active_c,
+                      const double& slow_c,
+                      const double& passive_c,                        
 //                      const double& soiln
-                      const double& fbn,
-                      const double& amn,
-                      const double& mnn );
+                      const double& active_n,
+                      const double& slow_n,
+                      const double& passive_n );
 
      void createWoodProducts( const int& outyr,
                               const double& stemc,
@@ -725,11 +725,12 @@ class Humnact45 : public ProcessXML45
      }
 
      // kd *****************************************************
+     /* Assume KDC is for active soilc only */
+     inline double getKDC( void ) { return kdc; }
 
-     inline double getKDFB( void ) { return kdfb; }
+     inline void setKDC( const double& pkdc ) { kdc = pkdc; }
 
-     inline void setKDFB( const double& pkdfb ) { kdfb = pkdfb; }
-
+     /* 
      inline double getKDAM( void ) { return kdam; }
 
      inline void setKDAM( const double& pkdam ) { kdam = pkdam; }
@@ -737,10 +738,10 @@ class Humnact45 : public ProcessXML45
      inline double getKDMN( void ) { return kdmn; }
 
      inline void setKDMN( const double& pkdmn ) { kdmn = pkdmn; }
-
+     */
 
      // kdfbam and kdfbmn coefficients ****************************
-
+     /*
      inline double getKDFBAM( void ) { return kdfbam; }
 
      inline void setKDFBAM( const double& pkdfbam ) { kdfbam = pkdfbam; }
@@ -748,7 +749,7 @@ class Humnact45 : public ProcessXML45
      inline double getKDFBMN( void ) { return kdfbmn; }
 
      inline void setKDFBMN( const double& pkdfbmn ) { kdfbmn = pkdfbmn; }
-
+     */
 
 
      // natseedC ***********************************************
@@ -840,31 +841,31 @@ class Humnact45 : public ProcessXML45
        nsretent = pnsretent;
      }
 
-     // nsretentfb ***********************************************
+     // nsretent_active ***********************************************
 
-     inline double getNSRETENTFB( void ) { return nsretentfb; }
+     inline double getNSRETENT_ACTIVE( void ) { return nsretent_active; }
 
-     inline void setNSRETENTFB( const double& pnsretentfb )
+     inline void setNSRETENT_ACTIVE( const double& pnsretent_active )
      {
-       nsretentfb = pnsretentfb;
+       nsretent_active = pnsretent_active;
      }
 
-     // nsretentam ***********************************************
+     // nsretent_slow ***********************************************
 
-     inline double getNSRETENTAM( void ) { return nsretentam; }
+     inline double getNSRETENT_SLOW( void ) { return nsretent_slow; }
 
-     inline void setNSRETENTAM( const double& pnsretentam )
+     inline void setNSRETENT_SLOW( const double& pnsretent_slow )
      {
-       nsretentam = pnsretentam;
+       nsretent_slow = pnsretent_slow;
      }
 
-     // nsretentmn ***********************************************
+     // nsretent_passive ***********************************************
 
-     inline double getNSRETENTMN( void ) { return nsretentmn; }
+     inline double getNSRETENT_PASSIVE( void ) { return nsretent_passive; }
 
-     inline void setNSRETENTMN( const double& pnsretentmn )
+     inline void setNSRETENT_PASSIVE( const double& pnsretent_passive )
      {
-       nsretentmn = pnsretentmn;
+       nsretent_passive = pnsretent_passive;
      }
 
 
@@ -1173,40 +1174,40 @@ class Humnact45 : public ProcessXML45
        sconvrtflx.carbon = pscnvrtflxc;
      }
 
-     // sconvrtflxfb.carbon **************************************
+     // sconvrtflx_active.carbon **************************************
 
-     inline double getSCONVRTFLXCFB( void )
+     inline double getSCONVRTFLXC_ACTIVE( void )
      {
-       return sconvrtflxfb.carbon;
+       return sconvrtflx_active.carbon;
      }
 
-     inline void setSCONVRTFLXCFB( const double& pscnvrtflxcfb )
+     inline void setSCONVRTFLXC_ACTIVE( const double& pscnvrtflxc_active )
      {
-       sconvrtflxfb.carbon = pscnvrtflxcfb;
+       sconvrtflx_active.carbon = pscnvrtflxc_active;
      }
 
-     // sconvrtflxam.carbon **************************************
+     // sconvrtflx_slow.carbon **************************************
 
-     inline double getSCONVRTFLXCAM( void )
+     inline double getSCONVRTFLXC_SLOW( void )
      {
-       return sconvrtflxam.carbon;
+       return sconvrtflx_slow.carbon;
      }
 
-     inline void setSCONVRTFLXCAM( const double& pscnvrtflxcam )
+     inline void setSCONVRTFLXC_SLOW( const double& pscnvrtflxc_slow )
      {
-       sconvrtflxam.carbon = pscnvrtflxcam;
+       sconvrtflx_slow.carbon = pscnvrtflxc_slow;
      }
 
-     // sconvrtflxmn.carbon **************************************
+     // sconvrtflx_passive.carbon **************************************
 
-     inline double getSCONVRTFLXCMN( void )
+     inline double getSCONVRTFLXC_PASSIVE( void )
      {
-       return sconvrtflxmn.carbon;
+       return sconvrtflx_passive.carbon;
      }
 
-     inline void setSCONVRTFLXCMN( const double& pscnvrtflxcmn )
+     inline void setSCONVRTFLXC_PASSIVE( const double& pscnvrtflxc_passive )
      {
-       sconvrtflxmn.carbon = pscnvrtflxcmn;
+       sconvrtflx_passive.carbon = pscnvrtflxc_passive;
      }
 
 
@@ -1222,40 +1223,40 @@ class Humnact45 : public ProcessXML45
        sconvrtflx.nitrogen = pscnvrtflxn;
      }
 
-     // sconvrtflxfb.nitrogen ************************************
+     // sconvrtflx_active.nitrogen ************************************
 
-     inline double getSCONVRTFLXNFB( void )
+     inline double getSCONVRTFLXN_ACTIVE( void )
      {
-       return sconvrtflxfb.nitrogen;
+       return sconvrtflx_active.nitrogen;
      }
 
-     inline void setSCONVRTFLXNFB( const double& pscnvrtflxnfb )
+     inline void setSCONVRTFLXN_ACTIVE( const double& pscnvrtflxn_active )
      {
-       sconvrtflxfb.nitrogen = pscnvrtflxnfb;
+       sconvrtflx_active.nitrogen = pscnvrtflxn_active;
      }
 
-     // sconvrtflxam.nitrogen ************************************
+     // sconvrtflx_slow.nitrogen ************************************
 
-     inline double getSCONVRTFLXNAM( void )
+     inline double getSCONVRTFLXN_SLOW( void )
      {
-       return sconvrtflxam.nitrogen;
+       return sconvrtflx_slow.nitrogen;
      }
 
-     inline void setSCONVRTFLXNAM( const double& pscnvrtflxnam )
+     inline void setSCONVRTFLXN_SLOW( const double& pscnvrtflxn_slow )
      {
-       sconvrtflxam.nitrogen = pscnvrtflxnam;
+       sconvrtflx_slow.nitrogen = pscnvrtflxn_slow;
      }
 
-     // sconvrtflxmn.nitrogen ************************************
+     // sconvrtflx_passive.nitrogen ************************************
 
-     inline double getSCONVRTFLXNMN( void )
+     inline double getSCONVRTFLXN_PASSIVE( void )
      {
-       return sconvrtflxmn.nitrogen;
+       return sconvrtflx_passive.nitrogen;
      }
 
-     inline void setSCONVRTFLXNMN( const double& pscnvrtflxnmn )
+     inline void setSCONVRTFLXN_PASSIVE( const double& pscnvrtflxn_passive )
      {
-       sconvrtflxmn.nitrogen = pscnvrtflxnmn;
+       sconvrtflx_passive.nitrogen = pscnvrtflxn_passive;
      }
 
      // slash.carbon *******************************************
@@ -1707,12 +1708,14 @@ class Humnact45 : public ProcessXML45
     int isPerennial[MAXCMNT];
 
      // Intrinsic decomposition rate
-    double kdfb;
+    double kdc;
+    /*
     double kdam;
     double kdmn;
     double kdfbam;
     double kdfbmn;
-
+    */
+    
     // Monthly manure inputs
     Biomass manure;
 
@@ -1732,9 +1735,9 @@ class Humnact45 : public ProcessXML45
     // Nitrogen from soil organic matter retained after
     //   conversion
     double nsretent;
-    double nsretentfb;
-    double nsretentam;
-    double nsretentmn;
+    double nsretent_active;
+    double nsretent_slow;
+    double nsretent_passive;
 
     // Nitrogen from vegetation biomass retained after
     //   conversion
@@ -1786,9 +1789,9 @@ class Humnact45 : public ProcessXML45
 
     // Soil organic matter lost during conversion to agriculture
     Biomass sconvrtflx;
-    Biomass sconvrtflxfb;
-    Biomass sconvrtflxam;
-    Biomass sconvrtflxmn;
+    Biomass sconvrtflx_active;
+    Biomass sconvrtflx_slow;
+    Biomass sconvrtflx_passive;
 
     // Stock of slash resulting from conversion to agriculture
     Biomass slash;

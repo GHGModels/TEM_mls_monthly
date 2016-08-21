@@ -47,7 +47,7 @@ class Tmcrb45: public ProcessXML45
 		 Public Functions
 ************************************************************** */
 
-     void kdxclm(                    );
+     //void kdxclm(                    );
 
      void getvegecd( const string& ecd );
 
@@ -71,7 +71,7 @@ class Tmcrb45: public ProcessXML45
                         const double& vsm,
                         const int& moistlim );
 
-     void setTEMPfb(const int&pdcmnt, const double& tair);
+     void setTEMP(const int&pdcmnt, const double& tair);
 
      void showecd( const int& pdcmnt );
 
@@ -80,18 +80,16 @@ class Tmcrb45: public ProcessXML45
                           const double& pctwiltpt,
                           const double& pctpor,
                           const double& solc,
-                          const double& fbc,
-                          const double& amc,
-                          const double& mnc,
+                          const double& active_c,
+                          const double& slow_c,
+                          const double& passive_c,
                           const double& soln,
-                          const double& fbn,
-                          const double& amn,
-                          const double& mnn,
+                          const double& active_n,
+                          const double& slow_n,
+                          const double& passive_n,
                           const double& soilh2o,
                           const double& vsm,
-                          const double& availnfb,
-                          const double& availnam,
-                          const double& availnmn,
+                          const double& availn,
                           const int& moistlim,
                           const int& tillflag,
                           const double& tillfactor,
@@ -110,37 +108,37 @@ class Tmcrb45: public ProcessXML45
 
      // cnsoil *************************************************
 
-     inline double getCNSOILFB( const int& pcmnt )
+     inline double getCNSOIL_ACTIVE( const int& pcmnt )
      {
-       return cnsoilfb[pcmnt];
+       return cnsoil_active[pcmnt];
      }
 
-     inline void setCNSOILFB( const double& pcnsoilfb,
+     inline void setCNSOIL_ACTIVE( const double& pcnsoil_active,
                             const int& pcmnt )
      {
-       cnsoilfb[pcmnt] = pcnsoilfb;
+       cnsoil_active[pcmnt] = pcnsoil_active;
      }
 
-     inline double getCNSOILAM( const int& pcmnt )
+     inline double getCNSOIL_SLOW( const int& pcmnt )
      {
-       return cnsoilam[pcmnt];
+       return cnsoil_slow[pcmnt];
      }
 
-     inline void setCNSOILAM( const double& pcnsoilam,
+     inline void setCNSOIL_SLOW( const double& pcnsoil_slow,
                             const int& pcmnt )
      {
-       cnsoilam[pcmnt] = pcnsoilam;
+       cnsoil_slow[pcmnt] = pcnsoil_slow;
      }
 
-      inline double getCNSOILMN( const int& pcmnt )
+      inline double getCNSOIL_PASSIVE( const int& pcmnt )
      {
-       return cnsoilmn[pcmnt];
+       return cnsoil_passive[pcmnt];
      }
 
-     inline void setCNSOILMN( const double& pcnsoilmn,
+     inline void setCNSOIL_PASSIVE( const double& pcnsoil_passive,
                             const int& pcmnt )
      {
-       cnsoilmn[pcmnt] = pcnsoilmn;
+       cnsoil_passive[pcmnt] = pcnsoil_passive;
      }
 
 
@@ -159,9 +157,9 @@ class Tmcrb45: public ProcessXML45
      // gmin **************************************************
      
           inline double getGMIN( void ) { return gmin; }
-          inline double getGMINFB( void ) { return gminfb; }
-          inline double getGMINAM( void ) { return gminam; }
-          inline double getGMINMN( void ) { return gminmn; } 
+          inline double getGMIN_ACTIVE( void ) { return gmin_active; }
+          inline double getGMIN_SLOW( void ) { return gmin_slow; }
+          inline double getGMIN_PASSIVE( void ) { return gmin_passive; } 
 
      // kd *****************************************************     //what to do with KD? MJ MLS;
      
@@ -171,24 +169,24 @@ class Tmcrb45: public ProcessXML45
 
       // decomp **********************************************
 
-     inline double getDECOMPFB( void ) { return decompfb; };
-     inline double getDECOMPAM( void ) { return decompam; };
-     inline double getDECOMPMN( void ) { return decompmn; };
+     inline double getDECOMP_ACTIVE( void ) { return decomp_active; };
+     inline double getDECOMP_SLOW( void ) { return decomp_slow; };
+     inline double getDECOMP_PASSIVE( void ) { return decomp_passive; };
 
       // docprod **********************************************
 
      inline double getDOCPROD( void ) { return docprod; };
-     inline double getDOCPRODFB( void ) { return docprodfb; };
-     inline double getDOCPRODAM( void ) { return docprodam; };
-     inline double getDOCPRODMN( void ) { return docprodmn; };
+     inline double getDOCPROD_ACTIVE( void ) { return docprod_active; };
+     inline double getDOCPROD_SLOW( void ) { return docprod_slow; };
+     inline double getDOCPROD_PASSIVE( void ) { return docprod_passive; };
 
 
       // donprod **********************************************
 
      inline double getDONPROD( void ) { return donprod; };
-     inline double getDONPRODFB( void ) { return donprodfb; };
-     inline double getDONPRODAM( void ) { return donprodam; };
-     inline double getDONPRODMN( void ) { return donprodmn; };
+     inline double getDONPROD_ACTIVE( void ) { return donprod_active; };
+     inline double getDONPROD_SLOW( void ) { return donprod_slow; };
+     inline double getDONPROD_PASSIVE( void ) { return donprod_passive; };
 
 
      // kdb ****************************************************
@@ -204,17 +202,17 @@ class Tmcrb45: public ProcessXML45
        kdb[pcmnt] = pkdb;
      }
 
-      // kdfb ****************************************************
+      // kd_active ****************************************************
       
-     inline double getKDFB( void ) { return kdfb; }
+     inline double getKD_ACTIVE( void ) { return kd_active; }
 
-     // kdam ****************************************************
+     // kd_slow ****************************************************
 
-     inline double getKDAM( void ) { return kdam; }
+     inline double getKD_SLOW( void ) { return kd_slow; }
 
-     //kdmn ****************************************************
+     //kd_passive ****************************************************
 
-     inline double getKDMN( void ) { return kdmn; }
+     inline double getKD_PASSIVE( void ) { return kd_passive; }
 
      // kdc ****************************************************
 
@@ -302,41 +300,42 @@ class Tmcrb45: public ProcessXML45
        netnmin = pnetnmin;
      }
 
-     inline double getNETNMINFB( void ) { return netnminfb; }
+     inline double getNETNMIN_ACTIVE( void ) { return netnmin_active; }
 
-     inline void setNETNMINFB( const double& pnetnminfb )
+     inline void setNETNMIN_ACTIVE( const double& pnetnmin_active )
      {
-       netnminfb = pnetnminfb;
+       netnmin_active = pnetnmin_active;
      }
 
-     inline double getNETNMINAM( void ) { return netnminam; }
+     inline double getNETNMIN_SLOW( void ) { return netnmin_slow; }
 
-     inline void setNETNMINAM( const double& pnetnminam )
+     inline void setNETNMIN_SLOW( const double& pnetnmin_slow )
      {
-       netnminam = pnetnminam;
+       netnmin_slow = pnetnmin_slow;
      }
 
-     inline double getNETNMINMN( void ) { return netnminmn; }
+     inline double getNETNMIN_PASSIVE( void ) { return netnmin_passive; }
 
-     inline void setNETNMINMN( const double& pnetnminmn )
+     inline void setNETNMIN_PASSIVE( const double& pnetnmin_passive )
      {
-       netnminmn = pnetnminmn;
+       netnmin_passive = pnetnmin_passive;
      }
 
 
-     // nupfb ***************************************************
+     // nup ***************************************************
 
-     inline double getNUPFB( const int& pcmnt )
+     inline double getNUP( const int& pcmnt )
      {
-       return nupfb[pcmnt];
+       return nup[pcmnt];
      }
 
-     inline void setNUPFB( const double& pnupfb,
+     inline void setNUP( const double& pnup,
                           const int& pcmnt )
      {
-       nupfb[pcmnt] = pnupfb;
+       nup[pcmnt] = pnup;
      }
 
+     /*
      inline double getNUPFBAM( const int& pcmnt )
      {
        return nupfbam[pcmnt];
@@ -358,7 +357,7 @@ class Tmcrb45: public ProcessXML45
      {
        nupfbmn[pcmnt] = pnupfbmn;
      }
-
+     */
 
      // nuptake ************************************************
 
@@ -369,12 +368,14 @@ class Tmcrb45: public ProcessXML45
        nuptake = pnuptake;
      }
 
+     /*
      inline double getNUPTAKEFB( void ) { return nuptakefb; }
 
      inline double getNUPTAKEAM( void ) { return nuptakeam; }
 
      inline double getNUPTAKEMN( void ) { return nuptakemn; }
-
+     */
+      
      // propftos ***********************************************
 
      inline double getPROPFTOS( const int& pcmnt )
@@ -398,9 +399,9 @@ class Tmcrb45: public ProcessXML45
        rh = prh;
      }
 
-     inline double getRHFB( void ) { return rhfb; }
-     inline double getRHAM( void ) { return rham; }
-     inline double getRHMN( void ) { return rhmn; }
+     inline double getRH_ACTIVE( void ) { return rh_active; }
+     inline double getRH_SLOW( void ) { return rh_slow; }
+     inline double getRH_PASSIVE( void ) { return rh_passive; }
 
 
      // rrh **********************************************
@@ -434,6 +435,10 @@ class Tmcrb45: public ProcessXML45
 
      // Annual sum of netnmin
      double yrnmin;         // (g N / (sq. meter * year))
+     double yrnmin_active;         // (g N / (sq. meter * year))
+     double yrnmin_slow;         // (g N / (sq. meter * year))
+     double yrnmin_passive;         // (g N / (sq. meter * year))
+     
 
      // Annual sum of nuptake
      double yrnuptake;      // (g N / (sq. meter * year))
@@ -481,43 +486,44 @@ class Tmcrb45: public ProcessXML45
      double dq10;
 
      // Net nitrogen mineralization
-     double netnmin; // (g N / (sq. meter * month))
-     double netnminfb; // (g N / (sq. meter * month))
-     double netnminam; // (g N / (sq. meter * month))
-     double netnminmn; // (g N / (sq. meter * month))
+     double netnmin;           // (g N / (sq. meter * month))
+     double netnmin_active;    // (g N / (sq. meter * month))
+     double netnmin_slow;      // (g N / (sq. meter * month))
+     double netnmin_passive;   // (g N / (sq. meter * month))
 
      // Total nitrogen uptake or "immobilzation" by microbes
-     double nuptake;  // (g N / (sq. meter * month))
+     double nuptake;    // (g N / (sq. meter * month))
+     /*    
      double nuptakefb;  // (g N / (sq. meter * month))
      double nuptakeam;  // (g N / (sq. meter * month))
      double nuptakemn;  // (g N / (sq. meter * month))
-
+     */
 
      // Heterotrophic respiration
-     double rh;  // (g C / (sq. meter * month))
-     double rhfb;  // (g C / (sq. meter * month))
-     double rham;  // (g C / (sq. meter * month))
-     double rhmn;  // (g C / (sq. meter * month))
+     double rh;            // (g C / (sq. meter * month))
+     double rh_active;     // (g C / (sq. meter * month))
+     double rh_slow;       // (g C / (sq. meter * month))
+     double rh_passive;    // (g C / (sq. meter * month))
      double docprod;
-     double docprodfb;
-     double docprodam;
-     double docprodmn;
+     double docprod_active;
+     double docprod_slow;
+     double docprod_passive;
      double donprod;
-     double donprodfb;
-     double donprodam;
-     double donprodmn;
-     double decompfb;
-     double decompam;
-     double decompmn;
+     double donprod_active;
+     double donprod_slow;
+     double donprod_passive;
+     double decomp_active;
+     double decomp_slow;
+     double decomp_passive;
 
 /* *************************************************************
 		 Private Parameters
 ************************************************************* */
 
 //     double cnsoil[MAXCMNT];
-     double cnsoilfb[MAXCMNT];
-     double cnsoilam[MAXCMNT];
-     double cnsoilmn[MAXCMNT];
+     double cnsoil_active[MAXCMNT];
+     double cnsoil_slow[MAXCMNT];
+     double cnsoil_passive[MAXCMNT];
 
      // Parameter representing the quality of soil organic matter
 
@@ -525,9 +531,9 @@ class Tmcrb45: public ProcessXML45
 
      // Gross Mineralization
      double gmin;
-     double gminfb;
-     double gminam;
-     double gminmn;
+     double gmin_active;
+     double gmin_slow;
+     double gmin_passive;
 
      // Biome-specific decomposition parameters for function rhxclm
 
@@ -561,22 +567,23 @@ class Tmcrb45: public ProcessXML45
     // N fixation parameter
 
 
-     double nupfb[MAXCMNT];
+     double nup[MAXCMNT];
+     /*
      double nupfbam[MAXCMNT];
      double nupfbmn[MAXCMNT];
-
+     */
      double propftos[MAXCMNT];
 
      double rhq10[MAXCMNT];
 
-  double rhalpha[MAXCMNT];
-  double rhbeta[MAXCMNT];
-  double rhgamma[MAXCMNT];
-  double rhqref[MAXCMNT];
-  double rhtref[MAXCMNT];
+     double rhalpha[MAXCMNT];
+     double rhbeta[MAXCMNT];
+     double rhgamma[MAXCMNT];
+     double rhqref[MAXCMNT];
+     double rhtref[MAXCMNT];
 
-  double docfr[MAXCMNT];
-  double docdon[MAXCMNT];
+     double docfr[MAXCMNT];
+     double docdon[MAXCMNT];
 };
 
 #endif

@@ -192,9 +192,9 @@ enum tcalkey { T_TOL,      T_TAVG,     T_CO2,      T_AVLNFLAG,
                T_CMAX,     T_KRA,      
                T_KDC,      //T_KDFB,     
                T_TAULEAF,  T_TAUSTEMA, T_TAUSTEMI,  T_TAUROOT,
-               T_TAUSEED,  T_NMAX,     T_MNUPFB,
-               T_CNSOLFB,
-               T_CNLTR,    T_NLOSSFB,
+               T_TAUSEED,  T_NMAX,     T_MNUP,
+               T_CNSOL_ACTIVE,
+               T_CNLTR,    T_NLOSS,
                // 15 "datfile-related" variables
                T_SLA,        T_MOPT,
                // 2 "vegfile-related" variables
@@ -225,7 +225,7 @@ inline tcalkey& next( tcalkey& s )
 {
   if(T_MANFLAG == s) { return s = T_TOL; }
   else if(T_IRRGFLAG == s) { return s = T_GDDMIN; }
-  else if(T_NLOSSFB == s) { return s = T_CMAX; }
+  else if(T_NLOSS == s) { return s = T_CMAX; }
   else if(T_MOPT == s) { return s = T_SLA; }
   else if(T_RHOSTEM == s) { return s = T_GROOT; }
   else if(T_OPTCN9 == s) { return s = T_OPTCN0; }
@@ -237,7 +237,7 @@ inline tcalkey& prev( tcalkey& s )
 {
   if(T_TOL == s) { return s = T_MANFLAG; }
   else if(T_GDDMIN == s) { return s = T_IRRGFLAG; }
-  else if(T_CMAX == s) { return s = T_NLOSSFB; }
+  else if(T_CMAX == s) { return s = T_NLOSS; }
   else if(T_SLA == s) { return s = T_MOPT; }
   else if(T_GROOT == s) { return s = T_RHOSTEM; }
   else if(T_OPTCN0 == s) { return s = T_OPTCN9; }
@@ -249,7 +249,7 @@ inline tcalkey& jump(tcalkey& s)
 {
   if((T_TOL <= s) && (T_MANFLAG >= s)) { return s = T_GDDMIN; }
   if((T_GDDMIN <= s) && (T_IRRGFLAG >= s)) { return s = T_CMAX; }
-  if((T_CMAX <= s) && (T_NLOSSFB >= s)) { return s = T_SLA; }
+  if((T_CMAX <= s) && (T_NLOSS >= s)) { return s = T_SLA; }
   if((T_SLA <= s) && (T_MOPT >= s)) { return s = T_GROOT; }
   if((T_GROOT <= s) && (T_RHOSTEM >= s)) { return s = T_OPTCN0; }
   if((T_OPTCN0 <= s) && (T_OPTCN9 >= s)) { return s = T_OPTH2O0; }
@@ -261,7 +261,7 @@ inline tcalkey& back(tcalkey& s)
 {
   if((T_TOL <= s) && (T_MANFLAG >= s)) { return s = T_OPTH2O0; }
   if((T_GDDMIN <= s) && (T_IRRGFLAG >= s)) { return s = T_TOL; }
-  if((T_CMAX <= s) && (T_NLOSSFB >= s)) { return s = T_GDDMIN; }
+  if((T_CMAX <= s) && (T_NLOSS >= s)) { return s = T_GDDMIN; }
   if((T_SLA <= s) && (T_MOPT >= s)) { return s = T_CMAX; }
   if((T_GROOT <= s) && (T_RHOSTEM >= s)) { return s = T_SLA; }
   if((T_OPTCN0 <= s) && (T_OPTCN9 >= s)) { return s = T_GROOT; }
@@ -1499,20 +1499,16 @@ void displayCalibPar( tcalkey& tcal )
                     printw( "KRA = %8.6lf                    ",
                             tem.veg.getKRA( tem.veg.cmnt ) );
                     break;
-//if KDC is not commented out in tmcrb, keep KDC here, otherwise use KDFB in the following lines MJ MLS;
+
+/* if KDC is not commented out in tmcrb, keep KDC here
+                    otherwise use KDFB in the following lines MJ MLS */
+
     case T_KDC:     move( VPARAMS_ROW+2, 20 );
                     
                     printw( "KDC = %8.6lf                    ",
                             tem.microbe.getKDC() );
                     break;
 
-//added for MJ MLS, position not right;
-/*    case T_KDFB:     move( VPARAMS_ROW+2, 20 );
-
-                    printw( "KDFB = %8.6lf                    ",
-                            tem.microbe.getKDFB( tem.veg.cmnt ) );
-                    break;
-*/
     case T_TAULEAF: move( VPARAMS_ROW+2, 20 );
                       
                     printw( "TAULEAF = %8.4lf                ",
@@ -1549,16 +1545,16 @@ void displayCalibPar( tcalkey& tcal )
                             tem.veg.getNMAX() );
                     break;
 
-    case T_MNUPFB:    move( VPARAMS_ROW+2, 20 );
+    case T_MNUP:    move( VPARAMS_ROW+2, 20 );
                     
-                    printw( "MNUPFB = %8.4lf                   ",
-                            tem.microbe.getNUPFB( tem.veg.cmnt ) );
+                    printw( "MNUP = %8.4lf                   ",
+                            tem.microbe.getNUP( tem.veg.cmnt ) );
                     break;
                     
-    case T_CNSOLFB:   move( VPARAMS_ROW+2, 20 );                          //should CNSOL be CNFB? MJ MLS;
+    case T_CNSOL:   move( VPARAMS_ROW+2, 20 );                          
                     
-                    printw( "CNSOILFB = %8.4lf                 ",
-                            tem.microbe.getCNSOILFB( tem.veg.cmnt ) );
+                    printw( "CNSOIL = %8.4lf                 ",
+                            tem.microbe.getCNSOIL( tem.veg.cmnt ) );
                     break;
 
     case T_CNLTR:   move( VPARAMS_ROW+2, 20 );
@@ -1568,10 +1564,10 @@ void displayCalibPar( tcalkey& tcal )
                     break;
                     
 
-    case T_NLOSSFB :  move( VPARAMS_ROW+2, 20 );
+    case T_NLOSS:  move( VPARAMS_ROW+2, 20 );
                      
-                    printw( "NLOSSFB = %8.2lf                  ",
-	                        tem.soil.getNLOSSFB( tem.veg.cmnt ) );
+                    printw( "NLOSS = %8.2lf                  ",
+	                        tem.soil.getNLOSS( tem.veg.cmnt ) );
 	                break;
      
 //// End of 19 datfile variables
@@ -2334,9 +2330,9 @@ void pcdisplayYear( const int& manflag )
           tem.veg.yrnpp, tem.veg.yrnup, tem.veg.yrc2n, tem.veg.yrrmleaf, tem.soil.yrsnowinf, (tem.soil.yrrgrndh2o + tem.soil.yrsgrndh2o), tem.veg.yrallocseedn );
           
   move( YRAVGS_ROW+6,1 );
-  printw( "YRLTRC =  %7.2lf | YRLTRN =   %6.3lf  | YRSOLCNFB =  %5.2lf  | RMSTEM  = %6.2lf  | RPERC  = %7.2lf | YRSMOIST = %7.2lf || YRPSEED = %5.3lf",
+  printw( "YRLTRC =  %7.2lf | YRLTRN =   %6.3lf  | YRSOLCN =  %5.2lf  | RMSTEM  = %6.2lf  | RPERC  = %7.2lf | YRSMOIST = %7.2lf || YRPSEED = %5.3lf",
 //          tem.veg.yrltrc, tem.veg.yrltrn, tem.soil.yrc2n, tem.veg.yrrmsapwood, tem.soil.yrrperc, tem.soil.yrsmoist, tem.ag.yrgrowdd );
-          tem.veg.yrltrc, tem.veg.yrltrn, tem.soil.yrc2nfb, tem.veg.yrrmsapwood, tem.soil.yrrperc, tem.soil.yrsmoist, tem.veg.yrpseed );
+          tem.veg.yrltrc, tem.veg.yrltrn, tem.soil.yrc2n, tem.veg.yrrmsapwood, tem.soil.yrrperc, tem.soil.yrsmoist, tem.veg.yrpseed );
           
   move( YRAVGS_ROW+7,1 );
 //  printw( "YRRH   =  %7.2lf | NMIN   =   %6.3lf  | YRNEP   = %6.2lf  | RMROOT  = %6.2lf  | SPERC  = %7.2lf | YRVSM    = %7.2lf || YRFROST  = %5.3lf",
@@ -2527,17 +2523,16 @@ void setCalibVar( void )
   tcalvar[T_KRA]  =  tem.veg.getKRA( tem.veg.cmnt );
 //if KDC is not commented out in tmcrb, then keep KDC here, otherwise use the following commented out line MJ MLS;
   tcalvar[T_KDC]  =  tem.microbe.getKDC();
-//  tcalvar[T_KDFB]  =  tem.microbe.getKDFB( tem.veg.cmnt );
   tcalvar[T_TAULEAF]  =  tem.veg.getTAULEAF( tem.veg.cmnt );
   tcalvar[T_TAUSTEMA]  =  tem.veg.getTAUSAPWOOD( tem.veg.cmnt );
   tcalvar[T_TAUSTEMI]  =  tem.veg.getTAUHEARTWOOD( tem.veg.cmnt );
   tcalvar[T_TAUROOT]  =  tem.veg.getTAUROOT( tem.veg.cmnt );
   tcalvar[T_TAUSEED]  =  tem.veg.getTAUSEED( tem.veg.cmnt );
   tcalvar[T_NMAX]  =  tem.veg.getNMAX();
-  tcalvar[T_MNUPFB]  =  tem.microbe.getNUPFB(tem.veg.cmnt);
-  tcalvar[T_CNSOLFB] =  tem.microbe.getCNSOILFB( tem.veg.cmnt );
+  tcalvar[T_MNUP]  =  tem.microbe.getNUP(tem.veg.cmnt);
+  tcalvar[T_CNSOL] =  tem.microbe.getCNSOIL( tem.veg.cmnt );
   tcalvar[T_CNLTR]  =  tem.veg.getCNLTR( tem.veg.cmnt );
-  tcalvar[T_NLOSSFB] =  tem.soil.getNLOSSFB( tem.veg.cmnt );
+  tcalvar[T_NLOSS] =  tem.soil.getNLOSS( tem.veg.cmnt );
   
   tcalvar[T_SLA] =  tem.veg.getSLA( tem.veg.cmnt );
   tcalvar[T_MOPT] =  tem.microbe.getMOISTOPT( tem.veg.cmnt );
@@ -2726,10 +2721,6 @@ void updateCalibPar( tcalkey& tcal,
 //if KDC is not commented out in tmcrb, then keep KDC here, MJ MLS;
     case T_KDC:     tem.microbe.setKDC( (tcalvar[T_KDC] * factor) );
                     break;
-/*
-    case T_KDFB:     tem.microbe.setKDFB( (tcalvar[T_KDFB] * factor), tem.veg.cmnt );
-                    break;
-*/
 
     case T_TAULEAF: tem.veg.setTAULEAF( (tcalvar[T_TAULEAF] * factor),
                                        tem.veg.cmnt );  
@@ -2754,10 +2745,10 @@ void updateCalibPar( tcalkey& tcal,
     case T_NMAX:    tem.veg.setNMAX( (tcalvar[T_NMAX] * factor) );
                     break;
 
-    case T_MNUPFB:    tem.microbe.setNUPFB( (tcalvar[T_MNUPFB] * factor), tem.veg.cmnt );
+    case T_MNUP:    tem.microbe.setNUP( (tcalvar[T_MNUP] * factor), tem.veg.cmnt );
                     break;
                     
-    case T_CNSOLFB:   tem.microbe.setCNSOILFB( (tcalvar[T_CNSOLFB] * factor),
+    case T_CNSOL:   tem.microbe.setCNSOIL( (tcalvar[T_CNSOL] * factor),
                                             tem.veg.cmnt );
                     break;
 
@@ -2766,7 +2757,7 @@ void updateCalibPar( tcalkey& tcal,
                     break;
                     
 
-    case T_NLOSSFB:  tem.soil.setNLOSSFB( (tcalvar[T_NLOSSFB] * factor),
+    case T_NLOSS:  tem.soil.setNLOSS( (tcalvar[T_NLOSS] * factor),
                                        tem.veg.cmnt ); 
                     break;
      

@@ -4,63 +4,6 @@ TTEM45_ndep.CPP - Terrestrial Ecosystem Model Version 4.5
 
 ****************************************************************
 
-Modifications:
-
-20060126 - DWK created by modifying ttem50b5.cpp
-20060126 - DWK changed include from ttem50b5.h to ttem437.h
-20060126 - DWK changed TTEM50:: to TTEMFLUX::
-20060126 - DWK deleted initialization of snowfile and
-           slayerfile int TTEMFLUX()
-20060126 - DWK added I_FOZONE and I_FINDOZNE to TTEMFLUX()
-20060126 - DWK deleted I_TSOIL, I_DST0, I_DST5, I_DST10,
-           I_DST20, I_DST50, I_DST100, I_DST200, I_FRONTD,
-           I_THAWBE, I_THAWEND, I_THAWPCT, and I_ACTLAYER from
-           TTEMFLUX()
-20060126 - DWK deleted displayOptionalSoilTemp() and
-           getOptionalSoilTemp()
-20060126 - DWK deleted rflog1 from monthlyTransient(),
-           int stepmonth() and getenviron()
-20070105 - TWC changed name to ttem45
-2007 - TWC/BSF Summary of Changes
-       RMLEAF, RMROOT: Delta, displayoptionsEflx, getoptionalEflx,
-                       pcdisplayODEerr, boundcon, and pools at top
-       GC, GS, TRANST, EVAP, INTER: Delta, displayoptionsWflx,
-                       getoptionalWflx, updateyrsummary, and
-                       pools at top
-       KRA, KRB, (remove RMMAX): ECDsetODEstate, getcropecd, getsiteecd,
-                                 writeecd
-       VSM, PCTP: Delta, Massbal, pcdisplayODEerr
-       include tconduct45.ecd
-       boundcon and pcdisplayODEerr also include GC
-       CropDynamics and NatVegDynamics:
-	     Call to SWP routine in soil
-		 Call to EVAP, EET, AVLH2O in soil
-		 Changes to veg.updatedynamics
-		 soil.updatehydrology: replace SM with AVLH2O
-		 soil.updateNLosses: replaces RAIN with RPERC + SPERC
-		 define nirrn, pme, lwout, dum
-	     Cropdynamics: ag.getGDDSEED, ag.getISPERENNIAL
-		 NatVegDynamics: perennial = 1
-	   getenviron: comment out petjh
-	   soil.getNINPUT()massbal:
-	     vnrsrb conditional to keep from getting negative
-		 NINP and NLST calculations
-	   monthlyTransient: VSM and resetEcds
-	   pcdisplayMonth: replace AVLH2O with SM-WILTPT
-	   stepmonth:
-	     seed natural vegetation following disturbance
-		 seed natural vegetation following crop abandonment
-		 kill crops at cold temperatures and allow for perennial crops
-		 changes to crop harvesting: allow for seeding and perennial crops
-		 Define I_VSM
-		 Initialize PRVLAI, LEAFADD, LEAFDROP
-		 ozone effect: no longer use 50% compounding (also baseline ozone
-		   but no longer used)
-		 Remove setRESPQ10
-		 Add soil.setsoil.getNINPUT()NINPUT
-		 setPREVPAR, PRVLAI, LEAFADD, LEAFDROP (and PME, LEAFEFCY no longer used)
-		 yrgc, yrgs, yrtranst, yrevap, yrinter
-
 ****************************************************************
 ************************************************************** */
 
@@ -267,11 +210,11 @@ Ttem45::Ttem45() : predstr( NUMTEM )
   // reactive soil organic carbon
   predstr.at( I_SOLC ) = "SOILORGC"; 
 
-  predstr.at( I_FBC ) = "FBC";          
+  predstr.at( I_ACTIVE_C ) = "ACTIVE_C";          
 
-  predstr.at( I_AMC ) = "AMC";
+  predstr.at( I_SLOW_C ) = "SLOW_C";
 
-  predstr.at( I_MNC ) = "MNC";
+  predstr.at( I_PASSIVE_C ) = "PASSIVE_C";
 
 
 // Ecosystem nitrogen pools determined by the integrator********
@@ -294,20 +237,14 @@ Ttem45::Ttem45() : predstr( NUMTEM )
   // reactive soil organic nitrogen
   predstr.at( I_SOLN ) = "SOILORGN";
 
-  predstr.at( I_FBN ) = "FBN";           
+  predstr.at( I_ACTIVE_N ) = "ACTIVE_N";           
 
-  predstr.at( I_AMN ) = "AMN";
+  predstr.at( I_SLOW_N ) = "SLOW_N";
 
-  predstr.at( I_MNN ) = "MNN";
+  predstr.at( I_PASSIVE_N ) = "PASSIVE_N";
 
   // soil available nitrogen
   predstr.at( I_AVLN ) = "AVAILN";
-
-  predstr.at( I_AVLNFB ) = "AVAILNFB";    
-
-  predstr.at( I_AVLNAM ) = "AVAILNAM";
-
-  predstr.at( I_AVLNMN ) = "AVAILNMN"; 
  
  // ozone damage factor
   predstr.at( I_FOZONE ) = "FOZONE";
@@ -437,20 +374,20 @@ Ttem45::Ttem45() : predstr( NUMTEM )
   // Dissolved Organic Carbon
   predstr.at( I_DOC ) = "DOC";
 
-  predstr.at( I_DOCFB ) = "DOCFB";
+  predstr.at( I_DOC_ACTIVE ) = "DOC_ACTIVE";
 
-  predstr.at( I_DOCAM ) = "DOCAM";
+  predstr.at( I_DOC_SLOW ) = "DOC_SLOW";
 
-  predstr.at( I_DOCMN ) = "DOCMN";
+  predstr.at( I_DOC_PASSIVE ) = "DOC_PASSIVE";
 
   // Dissolved Organic Nitrgoen
   predstr.at( I_DON ) = "DON";
 
-  predstr.at( I_DONFB ) = "DONFB";
+  predstr.at( I_DON_ACTIVE ) = "DON_ACTIVE";
 
-  predstr.at( I_DONAM ) = "DONAM";
+  predstr.at( I_DON_SLOW ) = "DON_SLOW";
 
-  predstr.at( I_DONMN ) = "DONMN";
+  predstr.at( I_DON_PASSIVE ) = "DON_PASSIVE";
 
 // Nitrogen fluxes for ecosystems determined by the integrator
 
@@ -490,47 +427,41 @@ Ttem45::Ttem45() : predstr( NUMTEM )
   // total DOC production into ecosystem
   predstr.at( I_DOCPROD ) = "DOCPROD";
 
-  predstr.at( I_DOCPRODFB ) = "DOCPRODFB";   
+  predstr.at( I_DOCPROD_ACTIVE ) = "DOCPROD_ACTIVE";   
 
-  predstr.at( I_DOCPRODAM ) = "DOCPRODAM";
+  predstr.at( I_DOCPROD_SLOW ) = "DOCPROD_SLOW";
 
-  predstr.at( I_DOCPRODMN ) = "DOCPRODMN";
+  predstr.at( I_DOCPROD_PASSIVE ) = "DOCPROD_PASSIVE";
 
   // total DOC leaching from ecosystem
   predstr.at( I_LCHDOC ) = "LCHDOC";
 
-  predstr.at( I_LCHDOCFB ) = "LCHDOCFB";
+  predstr.at( I_LCHDOC_ACTIVE ) = "LCHDOC_ACTIVE";
 
-  predstr.at( I_LCHDOCAM ) = "LCHDOCAM";
+  predstr.at( I_LCHDOC_SLOW ) = "LCHDOC_SLOW";
 
-  predstr.at( I_LCHDOCMN ) = "LCHDOCMN";  
+  predstr.at( I_LCHDOC_PASSIVE ) = "LCHDOC_PASSIVE";  
 
   // total DON production into ecosystem
   predstr.at( I_DONPROD ) = "DONPROD";
 
-  predstr.at( I_DONPRODFB ) = "DONPRODFB";   
+  predstr.at( I_DONPROD_ACTIVE ) = "DONPROD_ACTIVE";   
 
-  predstr.at( I_DONPRODAM ) = "DONPRODAM";
+  predstr.at( I_DONPROD_SLOW ) = "DONPROD_SLOW";
 
-  predstr.at( I_DONPRODMN ) = "DONPRODMN";
+  predstr.at( I_DONPROD_PASSIVE ) = "DONPROD_PASSIVE";
 
   // total DON leaching from ecosystem
   predstr.at( I_LCHDON ) = "LCHDON";
 
-  predstr.at( I_LCHDONFB ) = "LCHDONFB";
+  predstr.at( I_LCHDON_ACTIVE ) = "LCHDON_ACTIVE";
 
-  predstr.at( I_LCHDONAM ) = "LCHDONAM";
+  predstr.at( I_LCHDON_SLOW ) = "LCHDON_SLOW";
 
-  predstr.at( I_LCHDONMN ) = "LCHDONMN";
+  predstr.at( I_LCHDON_PASSIVE ) = "LCHDON_PASSIVE";
 
   // total DIN leaching from ecosystem
      predstr.at( I_LCHDIN ) = "LCHDIN";
- 
-     predstr.at( I_LCHDINFB ) = "LCHDINFB";
-
-     predstr.at( I_LCHDINAM ) = "LCHDINAM";
-
-     predstr.at( I_LCHDINMN ) = "LCHDINMN";
  
   // nitrogen fertilization
   predstr.at( I_AGFRTN ) = "AGFERTN";
@@ -540,9 +471,6 @@ Ttem45::Ttem45() : predstr( NUMTEM )
 
   // nitrogen uptake by vegetation
   predstr.at( I_VNUP ) = "VEGNUP";
-  predstr.at( I_VNUPFB ) = "VEGNUPFB";
-  predstr.at( I_VNUPAM ) = "VEGNUPAM";
-  predstr.at( I_VNUPMN ) = "VEGNUPMN";
 
   // nitrogen resorption by leaves
   predstr.at( I_NRESORBL ) = "NRESORBL";
@@ -574,20 +502,14 @@ Ttem45::Ttem45() : predstr( NUMTEM )
   // total nitrogen immobilization
   predstr.at( I_MNUP ) = "MICRONUP";
 
-  predstr.at( I_MNUPFB ) = "MICRONUPFB";   
-
-  predstr.at( I_MNUPAM ) = "MICRONUPAM";
-
-  predstr.at( I_MNUPMN ) = "MICRONUPMN";
-
   // net nitrogen mineralization
   predstr.at( I_NMIN ) = "NETNMIN";
 
-  predstr.at( I_NMINFB ) = "NETNMINFB";  
+  predstr.at( I_NMIN_ACTIVE ) = "NETNMIN_ACTIVE";  
 
-  predstr.at( I_NMINAM ) = "NETNMINAM";
+  predstr.at( I_NMIN_SLOW ) = "NETNMIN_SLOW";
 
-  predstr.at( I_NMINMN ) = "NETNMINMN";
+  predstr.at( I_NMIN_PASSIVE ) = "NETNMIN_PASSIVE";
 
   // Total nitrogen losses from ecosystems
   predstr.at( I_NLST ) = "NLOST";
@@ -768,9 +690,9 @@ Ttem45::Ttem45() : predstr( NUMTEM )
   // Soil organic N mineralized and retained in ecosystem
   //   after disturbance
   predstr.at( I_NSRTNT ) = "NSRETENT";
-  predstr.at( I_NSRTNTFB ) = "NSRETENTFB";       
-  predstr.at( I_NSRTNTAM ) = "NSRETENTAM";
-  predstr.at( I_NSRTNTMN ) = "NSRETENTMN";
+  predstr.at( I_NSRTNT_ACTIVE ) = "NSRETENT_ACTIVE";       
+  predstr.at( I_NSRTNT_SLOW ) = "NSRETENT_SLOW";
+  predstr.at( I_NSRTNT_PASSIVE ) = "NSRETENT_PASSIVE";
 
 // Carbon and nitrogen fluxes to/from products *****************
 
@@ -1389,9 +1311,6 @@ void Ttem45::cropDynamics( const int& pdm, double pstate[] )
   soil.setNINPUT( ag.getNRETENT() );
 //  soil.setNINPUT( 0.0);
   soil.setNLOST(0.0);
-  soil.setNLOSTFB( 0.0);
-  soil.setNLOSTAM( 0.0);
-  soil.setNLOSTMN( 0.0);
 
   if( pstate[I_LEAFC] > ZERO )
   {
@@ -1479,18 +1398,16 @@ nopen = 0;
                           soil.getPCTWILTPT(),
                           soil.getPCTPOR(),
                           soil.getSOLC(),
-                          pstate[I_FBC],    
-                          pstate[I_AMC],
-                          pstate[I_MNC],
+                          pstate[I_ACTIVE_C],    
+                          pstate[I_SLOW_C],
+                          pstate[I_PASSIVE_C],
                           soil.getSOLN(),
-                          pstate[I_FBN],    
-                          pstate[I_AMN],
-                          pstate[I_MNN],
+                          pstate[I_ACTIVE_N],    
+                          pstate[I_SLOW_N],
+                          pstate[I_PASSIVE_N],
                           pstate[I_SM],
                           pstate[I_VSM],
-                          pstate[I_AVLNFB],
-                          pstate[I_AVLNAM],
-                          pstate[I_AVLNMN],
+                          pstate[I_AVLN],
                           moistlim,
                           ag.tillflag,
                           ag.getTILLFACTOR( ag.cmnt ),
@@ -1504,41 +1421,21 @@ nopen = 0;
   if( (ag.getGROWDD() >= ag.getGDDSEED(ag.cmnt))
       || (1 == ag.getISPERENNIAL(ag.cmnt)))
   {
-    veg.nupxclmfb( ag.cmnt,
+    veg.nupxclm( ag.cmnt,
                  pstate[I_SM],
-                 pstate[I_AVLNFB],
+                 pstate[I_AVLN],
                  veg.getRMT(),
                  soil.getKH2O(),
                  veg.getFOZONE(),
-                 pstate[I_ROOTC] * soil.getFRROOTC_FB(veg.cmnt) );    
-
-//    nuptakefb = veg.getNUPTAKEFB();  
-             
-    veg.nupxclmam( ag.cmnt,
-                 pstate[I_SM],
-                 pstate[I_AVLNAM],
-                 veg.getRMT(),
-                 soil.getKH2O(),
-                 veg.getFOZONE(),
-                 pstate[I_ROOTC] * soil.getFRROOTC_FB(veg.cmnt));
-
-//    nuptakeam = veg.getNUPTAKEAM();
-
-    veg.nupxclmmn( ag.cmnt,
-                 pstate[I_SM],
-                 pstate[I_AVLNMN],
-                 veg.getRMT(),
-                 soil.getKH2O(),
-                 veg.getFOZONE(),
-                 pstate[I_ROOTC] * soil.getFRROOTC_FB(veg.cmnt));
+                 pstate[I_ROOTC] );    
 
 //    nuptakemn = veg.getNUPTAKEMN();
 
 //    veg.setNUPTAKE( nuptakefb + nuptakeam + nuptakemn );
 
-  veg.setINUPTAKE( veg.getINUPTAKEFB() + veg.getINUPTAKEAM() + veg.getINUPTAKEMN() );
+  veg.setINUPTAKE( veg.getINUPTAKE() );
 
-  veg.setNUPTAKE( veg.getNUPTAKEFB() + veg.getNUPTAKEAM() + veg.getNUPTAKEMN() );
+  veg.setNUPTAKE( veg.getNUPTAKE() );
 
     veg.gppxclm( ag.cmnt,
                  atms.getNDAYS(pdm),
@@ -1574,8 +1471,7 @@ nopen = 0;
 
   veg.updateDynamics( ag.cmnt,
                      soil.getNINPUT(),
-//                     pstate[I_AVLN],
-                     pstate[I_AVLNFB] + pstate[I_AVLNAM] + pstate[I_AVLNMN],
+                     pstate[I_AVLN],
                      nfeed,
                      ag.state,
                      ag.getISPERENNIAL(ag.cmnt),
@@ -1633,20 +1529,20 @@ nopen = 0;
 /*  soil.updateDOCLEACH( pstate[I_DOC],   //where should this line go? MJ MLS;
                  pstate[I_SM] );
 */
-  soil.updateDOCLEACH( pstate[I_DOCFB],
+  soil.updateDOCLEACH( pstate[I_DOC_ACTIVE],
                  pstate[I_SM] );
 
-  soil.setLCHDOCFB( soil.getLCHDOC() );
+  soil.setLCHDOC_ACTIVE( soil.getLCHDOC() );
 
-  soil.updateDOCLEACH( pstate[I_DOCAM],
+  soil.updateDOCLEACH( pstate[I_DOC_SLOW],
                  pstate[I_SM] );
 
-  soil.setLCHDOCAM( soil.getLCHDOC() );
+  soil.setLCHDOC_SLOW( soil.getLCHDOC() );
 
-  soil.updateDOCLEACH( pstate[I_DOCMN],
+  soil.updateDOCLEACH( pstate[I_DOC_PASSIVE],
                  pstate[I_SM] );
 
-  soil.setLCHDOCMN( soil.getLCHDOC() );
+  soil.setLCHDOC_PASSIVE( soil.getLCHDOC() );
 
   // Determine nitrogen losses from ecosystem
 
@@ -1654,80 +1550,45 @@ nopen = 0;
   {
 #ifdef OPENN
 //is it necessary to split among the three horizons? MJ MLS;
-  if(pstate[I_DOCFB] > 0.0)
+  if(pstate[I_DOC_ACTIVE] > 0.0)
   {
-  soil.setLCHDONFB( soil.getLCHDOCFB() * pstate[I_DONFB]/pstate[I_DOCFB]);
+  soil.setLCHDON_ACTIVE( soil.getLCHDOC_ACTIVE() * pstate[I_DON_ACTIVE]/pstate[I_DOC_ACTIVE]);
   }
   else
   {
-  soil.setLCHDONFB(ZERO);
+  soil.setLCHDON_ACTIVE(ZERO);
   }
 
-  if(pstate[I_DOCAM] > 0.0)
+  if(pstate[I_DOC_SLOW] > 0.0)
   {
-  soil.setLCHDONAM( soil.getLCHDOCAM() * pstate[I_DONAM]/pstate[I_DOCAM]);
+  soil.setLCHDON_SLOW( soil.getLCHDOC_SLOW() * pstate[I_DON_SLOW]/pstate[I_DOC_SLOW]);
   }
   else
   {
-  soil.setLCHDONAM(ZERO);
+  soil.setLCHDON_SLOW(ZERO);
   }
 
-  if(pstate[I_DOCMN] > 0.0)
+  if(pstate[I_DOC_PASSIVE] > 0.0)
   {
-  soil.setLCHDONMN( soil.getLCHDOCMN() * pstate[I_DONMN]/pstate[I_DOCMN]);
+  soil.setLCHDON_PASSIVE( soil.getLCHDOC_PASSIVE() * pstate[I_DON_PASSIVE]/pstate[I_DOC_PASSIVE]);
   }
   else
   {
-  soil.setLCHDONMN(ZERO);
+  soil.setLCHDON_PASSIVE(ZERO);
   }
 
-    soil.updateNLosses( ag.cmnt,
-                        (soil.getRPERC() + soil.getSPERC()),
-                        pstate[I_AVLNFB],
-                        pstate[I_AVLNAM],
-                        pstate[I_AVLNMN],
-                        pstate[I_SM] );
+  soil.updateNLosses( ag.cmnt,
+                    (soil.getRPERC() + soil.getSPERC()),
+                    pstate[I_AVLN],
+                    pstate[I_SM] );
   
-    soil.setLCHDINFB(soil.getNLOSTFB());      
-    soil.setLCHDINAM(soil.getNLOSTAM());
-    soil.setLCHDINMN(soil.getNLOSTMN());
+  soil.setLCHDIN_ACTIVE(soil.getNLOST_ACTIVE());      
+  soil.setLCHDIN_SLOW(soil.getNLOST_SLOW());
+  soil.setLCHDIN_PASSIVE(soil.getNLOST_PASSIVE());
 
-/*   if(initFlag == 0)
-   {
-//if(nseed != 0.0 || nprod != 0.0) {cout << "nseed, nprod = " << pdm << " " << nseed << " " << nprod << endl;}
-// nin = soil.getNINPUT() + soil.getSONINP() + veg.getVEGNINP() + ag.getSTUBBLEN();
-  nin = soil.getNINPUT() + soil.getSONINP() + veg.getVEGNINP() + nseed;    
-// nout = soil.getNLOST() + soil.getLCHDON() + ag.getCROPRESIDUEFLXN() + ag.getCROPPRODN();
- nout = soil.getNLOST() + soil.getLCHDON() + ag.getCROPRESIDUEFLXN() + nprod;
-// nout = soil.getNLOST() + soil.getLCHDON();
-
-//if(nseed != 0.0 || nprod != 0.0){ cout << "cropseedn = " << pdm << " " << nseed << " " << nprod  << " " << ag.getCROPRESIDUEFLXN() << endl;}
-
-//if(pdm == 9) {cout << "diag = " << pdm << " " << soil.getNINPUT() << " " << soil.getSONINP() << " " << veg.getVEGNINP() << " " << nseed << " " << soil.getNLOST() << " " << soil.getLCHDON() << " " << ag.getCROPRESIDUEFLXN() << " " << nprod << " " << nin << " " << nout << endl;}
-
-   if(nout < nin)
-   {
-//    if( ag.getCROPPRODN() > 0.0) {cout << "too much NIN " << nin - nout << " " << ag.getCROPPRODN() << endl;}
-//    if(nseed != 0.0 || nprod != 0.0) cout << "too much NIN " << nin - nout << " " << nin << " " << nout << endl;
-//    if(nseed != 0.0 || nprod != 0.0) cout << "too much NIN " << nseed << " " << nprod << endl;
-      soil.setNLOST(soil.getNLOST() + (nin - nout));
-//      soil.SetNINPUT(soil.getNINPUT() - (nin - nout));
-   }
-   if(nout > nin)
-   {
-//    if(nseed != 0.0 || nprod != 0.0) cout << "too much NOUT " << nout - nin << " " << nin << " " << nout << " " << soil.getNLOST() << " " << soil.getLCHDON() << " " << ag.getCROPRESIDUEFLXN() << " " << nprod << endl;
-//    if(nseed != 0.0 || nprod != 0.0) cout << "too much NOUT " << nseed << " " << nprod  << endl;
-      soil.setNINPUT(soil.getNINPUT() + (nout - nin));
-//        soil.setNLOST(soil.getNLOST() - (nout - nin));
-   }
-   }
-   else
-   { */
-      soil.setNLOSTFB( soil.getNLOSTFB() +  soil.getDENITR(veg.cmnt) * (0.01*microbe.getGMINFB() + veg.getDENITR()) );
-      soil.setNLOSTAM( soil.getNLOSTAM() +  soil.getDENITR(veg.cmnt) * (0.01*microbe.getGMINAM() + veg.getDENITR()) );
-      soil.setNLOSTMN( soil.getNLOSTMN() +  soil.getDENITR(veg.cmnt) * (0.01*microbe.getGMINMN() + veg.getDENITR()) );
-//   }
-
+  soil.setNLOSTFB( soil.getNLOSTFB() +  soil.getDENITR(veg.cmnt) * (0.01*microbe.getGMINFB() + veg.getDENITR()) );
+  soil.setNLOSTAM( soil.getNLOSTAM() +  soil.getDENITR(veg.cmnt) * (0.01*microbe.getGMINAM() + veg.getDENITR()) );
+  soil.setNLOSTMN( soil.getNLOSTMN() +  soil.getDENITR(veg.cmnt) * (0.01*microbe.getGMINMN() + veg.getDENITR()) );
 
 #endif
 //  soil.setNLOST(soil.getNLOST() + soil.getLCHDON() + ag.getCONVRTFLXN() + ag.getCROPRESIDUEFLXN());
@@ -1740,58 +1601,40 @@ nopen = 0;
 //
 //#endif 
 
-    if( (soil.getNLOSTFB() + soil.getNLOSTAM() + soil.getNLOSTMN() )  > pstate[I_AVLNFB] + pstate[I_AVLNAM] + pstate[I_AVLNMN] 
-                                                                      - veg.getNUPTAKEFB() + veg.getNUPTAKEAM() + veg.getNUPTAKEMN() 
-                                                                      + microbe.getNETNMINFB() + microbe.getNETNMINAM() + microbe.getNETNMINMN() 
-                                                                      + soil.getNINPUT() )
+    if( (soil.getNLOST()  )  > pstate[I_AVLN]
+                             - veg.getNUPTAKE() 
+                             + microbe.getNETNMIN_ACTIVE() 
+                             + microbe.getNETNMIN_SLOW() 
+                             + microbe.getNETNMIN_PASSIVE() 
+                             + soil.getNINPUT() )
 
     {
-      soil.setNLOSTMN( pstate[I_AVLNFB]
-                     +   pstate[I_AVLNAM]
-                     +   pstate[I_AVLNMN]
-                     - veg.getNUPTAKEFB()
-                     - veg.getNUPTAKEAM()
-                     - veg.getNUPTAKEMN()
-                     + microbe.getNETNMINFB()
-                     + microbe.getNETNMINAM()
-                     + microbe.getNETNMINMN()  );
+      soil.setNLOST_PASSIVE( pstate[I_AVLN]
+                     - veg.getNUPTAKE()
+                     + microbe.getNETNMIN_ACTIVE()
+                     + microbe.getNETNMIN_SLOW()
+                     + microbe.getNETNMIN_PASSIVE()  );
 //                     + soil.getNINPUT()) );
     }
-    if( soil.getNLOSTMN() < ZERO )
+    if( soil.getNLOST_PASSIVE() < ZERO )
     {
-      soil.setNLOSTMN( ZERO ); 
+      soil.setNLOST_PASSIVE( ZERO ); 
 
-      microbe.setNETNMINMN( (soil.getNLOSTFB()
-                          + soil.getNLOSTMN()
-                          + soil.getNLOSTAM()
-                          + veg.getNUPTAKEFB()
-                          + veg.getNUPTAKEAM()
-                          + veg.getNUPTAKEMN()
-//                          - soil.getNINPUT()
-                          - pstate[I_AVLNFB]
-                          - pstate[I_AVLNAM]
-                          - pstate[I_AVLNMN] ) );
+      microbe.setNETNMIN_PASSIVE( (soil.getNLOST_ACTIVE()
+                                 + soil.getNLOST_SLOW()
+                                 + soil.getNLOST_PASSIVE()
+                                 + veg.getNUPTAKE()
+//                               - soil.getNINPUT()
+                                 - pstate[I_AVLN] ) );
     }  
   }
   else
   {
     // Do not allow changes in available nitrogen in soil
     //   (used during calibration process)
-//the following lines are replaced by multiple horizon calculations MJ MLS;
-/*    soil.setNLOST( (soil.getNINPUT()
+    soil.setNLOST( (soil.getNINPUT()
                    + microbe.getNETNMIN()
-                       - veg.getNUPTAKE()) );
-*/
-    soil.setNLOSTFB( (soil.getNINPUT()
-                   + microbe.getNETNMINFB()
-                       - veg.getNUPTAKEFB()) );
-
-    soil.setNLOSTAM( microbe.getNETNMINAM()
-                       - veg.getNUPTAKEAM() );
-
-    soil.setNLOSTMN( microbe.getNETNMINMN()
-                       - veg.getNUPTAKEMN() );
-
+                   - veg.getNUPTAKE()) );
 
   }
 
@@ -1861,70 +1704,76 @@ void Ttem45::delta( const int& pdm,
                   - veg.getALLOCSEEDC()
                   - veg.getRGRWTH();
 
-  if(y[I_FBC] > soil.getC_DENFB(veg.cmnt))
+  if(y[I_ACTIVE_C] > soil.getC_DEN_ACTIVE(veg.cmnt))
   {
-    excessfb = y[I_FBC] - soil.getC_DENFB(veg.cmnt);
+    excess_active = y[I_ACTIVE_C] - soil.getC_DEN_ACTIVE(veg.cmnt);
   }
   else
   {
-    excessfb = 0.0;
+    excess_active = 0.0;
   }
 
-  pdstate[I_FBC] =    veg.getLTRLC()
+  pdstate[I_ACTIVE_C] =    veg.getLTRLC()
                     + veg.getLTRSC()
                     + veg.getLTRHC()
                     + veg.getLTRSEEDC() 
-                    + veg.getLTRRC() * soil.getFRROOTC_FB(veg.cmnt)
-                    - y[I_DOCPRODFB] 
+                    + veg.getLTRRC() 
+                    - y[I_DOCPROD_ACTIVE] 
                     + ag.getSLASHC() 
 //                    - ag.getSCONVRTFLXC() 
-                    - ag.getSCONVRTFLXCFB()
-                    - excessfb
-                    - microbe.getRHFB();
+                    - ag.getSCONVRTFLXC_ACTIVE()
+                    - excess_active
+                    - microbe.getRH_ACTIVE();
 
-  if(y[I_AMC] > soil.getC_DENAM(veg.cmnt))
+  if(y[I_SLOW_C] > soil.getC_DEN_SLOW(veg.cmnt))
   {
-    excessam = y[I_AMC] - soil.getC_DENAM(veg.cmnt);
+    excess_slow = y[I_SLOW_C] - soil.getC_DEN_SLOW(veg.cmnt);
   }
   else
   {
-    excessam = 0.0;
+    excess_slow = 0.0;
   }
 
-  pdstate[I_AMC] =  veg.getLTRRC() * soil.getFRROOTC_AM(veg.cmnt)
-                  + excessfb
-                  - y[I_DOCPRODAM] 
-                  - ag.getSCONVRTFLXCAM()
-                  - excessam
-                  - microbe.getRHAM();
+  pdstate[I_SLOW_C] =  veg.getLTRRC()
+                    + excess_slow
+                    - y[I_DOCPROD_SLOW] 
+                    - ag.getSCONVRTFLXC_SLOW()
+                    - excess_slow
+                    - microbe.getRH_SLOW();
 
-  pdstate[I_MNC] =  veg.getLTRRC() * soil.getFRROOTC_MN(veg.cmnt)
-                  + excessam
-                  - y[I_DOCPRODMN] 
-                  - ag.getSCONVRTFLXCMN()
-                  - microbe.getRHMN();
+  if(y[I_PASSIVE_C] > soil.getC_DEN_PASSIVE(veg.cmnt))
+  {
+      excess_passive = y[I_PASSIVE_C] - soil.getC_DEN_PASSIVE(veg.cmnt);
+  }
+  else
+  {
+      excess_passive = 0.0;
+  }
+    
+  pdstate[I_PASSIVE_C] =  veg.getLTRRC()
+                  + excess_passive
+                  - y[I_DOCPROD_PASSIVE] 
+                  - ag.getSCONVRTFLXC_PASSIVE()
+                  - microbe.getRH_PASSIVE();
 
   ag.setSLASHC(0.0);
 
 //  cout << "soil = " << pstate[I_SOLC] << " " << pdstate[I_SOLC] << " " << veg.getLTRLC() << " " << veg.getLTRSC() << " " << veg.getLTRHC() << " " << veg.getLTRRC() << " " << veg.getLTRSEEDC() << " " << ag.getSLASHC() << " " << ag.getSCONVRTFLXC() << " " << microbe.getRH() << " " << microbe.getDOCPROD() << endl;
 
-
-//commented out for MJ MLS, check for implication and reason;
-
 //  MLS adjust leaching between layers
 
-  pdstate[I_DOCFB] = microbe.getDOCPRODFB() - soil.getLCHDOCFB();
+  pdstate[I_DOC_ACTIVE] = microbe.getDOCPROD_ACTIVE() - soil.getLCHDOC_ACTIVE();
 
-  pdstate[I_DOCAM] = microbe.getDOCPRODAM() - soil.getLCHDOCAM();
+  pdstate[I_DOC_SLOW] = microbe.getDOCPROD_SLOW() - soil.getLCHDOC_SLOW();
 
-  pdstate[I_DOCMN] = microbe.getDOCPRODMN() - soil.getLCHDOCMN();
+  pdstate[I_DOC_PASSIVE] = microbe.getDOCPROD_PASSIVE() - soil.getLCHDOC_PASSIVE();
 
 #ifdef OPENN
-  pdstate[I_DONFB] = microbe.getDONPRODFB() - soil.getLCHDONFB();
+  pdstate[I_DON_ACTIVE] = microbe.getDONPROD_ACTIVE() - soil.getLCHDON_ACTIVE();
 
-  pdstate[I_DONAM] = microbe.getDONPRODAM() - soil.getLCHDONAM();
+  pdstate[I_DON_SLOW] = microbe.getDONPROD_SLOW() - soil.getLCHDON_SLOW();
 
-  pdstate[I_DONMN] = microbe.getDONPRODMN() - soil.getLCHDONMN();
+  pdstate[I_DON_PASSIVE] = microbe.getDONPROD_PASSIVE() - soil.getLCHDON_PASSIVE();
 #endif 
 
 
@@ -1936,8 +1785,6 @@ void Ttem45::delta( const int& pdm,
   pdstate[I_FO3] = veg.getFOZONE(); 
 
   // Nitrogen pools in ecosystems
-
-
   pdstate[I_LEAFN] = veg.getALLOCLN()
                    - veg.getNRESORBL()
                    - veg.getLTRLN();
@@ -1963,29 +1810,29 @@ void Ttem45::delta( const int& pdm,
 
 
 #ifdef OPENN
-    pdstate[I_FBN] =  veg.getLTRLN()
+    pdstate[I_ACTIVE_N] =  veg.getLTRLN()
                     + veg.getLTRSN()
                     + veg.getLTRHN()
-                    + veg.getLTRRN() * soil.getFRROOTC_FB(veg.cmnt)
+                    + veg.getLTRRN() 
                     + veg.getLTRSEEDN()
                     + ag.getSLASHN()
                     + soil.getSONINP()
-                    - y[I_DONPRODFB]
-                    - ag.getSCONVRTFLXNFB()
-                    - ag.getNSRETENTFB()
-                    - microbe.getNETNMINFB();
+                    - y[I_DONPROD_ACTIVE]
+                    - ag.getSCONVRTFLXN_ACTIVE()
+                    - ag.getNSRETENT_ACTIVE()
+                    - microbe.getNETNMIN_ACTIVE();
 
- pdstate[I_AMN] =   veg.getLTRRN() * soil.getFRROOTC_AM(veg.cmnt)
+ pdstate[I_SLOW_N] =   veg.getLTRRN() 
 //                    + soil.getSONINPAM()    //for simplication purpose swap with following line MJ MLS:
-                    - y[I_DONPRODAM]
-                    - ag.getNSRETENTAM()
-                    - microbe.getNETNMINAM();
+                    - y[I_DONPROD_SLOW]
+                    - ag.getNSRETENT_SLOW()
+                    - microbe.getNETNMIN_SLOW();
 
- pdstate[I_MNN] =   veg.getLTRRN() * soil.getFRROOTC_MN(veg.cmnt)
-//                    - microbe.getDONPRODMN()                     //left as an example for the modifications done for the three cases MJ MLS;
-                    -y[I_DONPRODMN]
-                    - ag.getNSRETENTMN()
-                    - microbe.getNETNMINMN();
+ pdstate[I_PASSIVE_N] =   veg.getLTRRN() 
+//                   - microbe.getDONPRODMN()//left as an example for the modifications done for the three cases MJ MLS;
+                    -y[I_DONPROD_PASSIVE]
+                    - ag.getNSRETENT_PASSIVE()
+                    - microbe.getNETNMIN_PASSIVE();
 
 
 //   cout << "deltasoln = " << pdstate[I_SOLN] << " " << ag.getNSRETENT() << " " << veg.getLTRLN() << " " << veg.getLTRSN() << " " << veg.getLTRHN() << " " << veg.getLTRRN() << " " << veg.getLTRSEEDN() << " " << ag.getSLASHN() << " "  << soil.getSONINP() << " " << microbe.getDONPROD() << " " << ag.getSCONVRTFLXN() << " " << microbe.getNETNMIN() << endl;
@@ -2016,25 +1863,25 @@ void Ttem45::delta( const int& pdm,
                     - ag.getNSRETENT()
                     - microbe.getNETNMIN();
 */
-    pdstate[I_FBN] =  veg.getLTRLN()
+    pdstate[I_ACTIVE_N] =  veg.getLTRLN()
                     + veg.getLTRSN()
                     + veg.getLTRHN()
-                    + veg.getLTRRN() * soil.getFRROOTC_FB(veg.cmnt)
+                    + veg.getLTRRN() 
                     + veg.getLTRSEEDN()
                     + ag.getSLASHN()
-                    - ag.getSCONVRTFLXNFB()
-                    - ag.getNSRETENTFB()
-                    - microbe.getNETNMINFB();
+                    - ag.getSCONVRTFLXN_ACTIVE()
+                    - ag.getNSRETENT_ACTIVE()
+                    - microbe.getNETNMIN_ACTIVE();
 
-    pdstate[I_AMN] =  veg.getLTRRN() * soil.getFRROOTC_AM(veg.cmnt)
-                    - ag.getSCONVRTFLXNAM()
-                    - ag.getNSRETENTAM()
-                    - microbe.getNETNMINAM();
+    pdstate[I_SLOW_N] =  veg.getLTRRN() 
+                    - ag.getSCONVRTFLXN_SLOW()
+                    - ag.getNSRETENT_SLOW()
+                    - microbe.getNETNMIN_SLOW();
 
-    pdstate[I_MNN] =  veg.getLTRRN() * soil.getFRROOTC_MN(veg.cmnt)
-                    - ag.getSCONVRTFLXNMN()
-                    - ag.getNSRETENTMN()
-                    - microbe.getNETNMINMN();
+    pdstate[I_PASSIVE_N] =  veg.getLTRRN() 
+                    - ag.getSCONVRTFLXN_PASSIVE()
+                    - ag.getNSRETENT_PASSIVE()
+                    - microbe.getNETNMIN_PASSIVE();
 
 
   pdstate[I_LABILEN] = veg.getNUPTAKE()
@@ -2069,54 +1916,25 @@ ag.setSLASHN(0.0);
 
 if (microbe.getNETNMIN() + soil.getNINPUT() > ZERO)
  {
-   pdstate[I_AVLNFB] = soil.getNINPUT()
-                    + microbe.getNETNMINFB()
-                    - veg.getNUPTAKEFB()
-                    - soil.getNLOSTFB();
+   pdstate[I_AVLN] = soil.getNINPUT()
+                    + microbe.getNETNMIN_ACTIVE()
+                    + microbe.getNETNMIN_SLOW()
+                    + microbe.getNETNMIN_PASSIVE()
+                    - veg.getNUPTAKE()
+                    - soil.getNLOST();
  }
  else
  {
- veg.setNUPTAKEFB(0.0);
- soil.setNLOSTFB(0.0);
+ veg.setNUPTAKE(0.0);
+ soil.setNLOST(0.0);
   
-  pdstate[I_AVLNFB] = soil.getNINPUT()
-                    + microbe.getNETNMINFB()
-                    - veg.getNUPTAKEFB()
-                    - soil.getNLOSTFB();
+ pdstate[I_AVLNFB] = soil.getNINPUT()
+                   + microbe.getNETNMIN_ACTIVE()
+                   + microbe.getNETNMIN_SLOW()
+                   + microbe.getNETNMIN_PASSIVE()
+                    - veg.getNUPTAKE()
+                    - soil.getNLOST();
  }
-
-if (microbe.getNETNMINAM() > ZERO)
- {
-  pdstate[I_AVLNAM] = microbe.getNETNMINAM()
-                    - veg.getNUPTAKEAM()
-                    - soil.getNLOSTAM();
- }
- else 
- {
- veg.setNUPTAKEAM(0.0);
- soil.setNLOSTAM(0.0);
-
- pdstate[I_AVLNAM] = microbe.getNETNMINAM()
-                    - veg.getNUPTAKEAM()
-                    - soil.getNLOSTAM();
- }
-
-if (microbe.getNETNMINMN() > ZERO)
- {
- pdstate[I_AVLNMN] = microbe.getNETNMINMN()
-                    - veg.getNUPTAKEMN()
-                    - soil.getNLOSTMN();
- }
- else
- {
- veg.setNUPTAKEMN(0.0);
- soil.setNLOSTMN(0.0);
-
- pdstate[I_AVLNMN] = microbe.getNETNMINMN()
-                    - veg.getNUPTAKEMN()
-                    - soil.getNLOSTMN();
- }
-
 
 //cout << "NINPUT = " << soil.getNINPUT() << endl;
 //cout << "diag FB in delta = " << microbe.getNETNMINFB() << " " << veg.getNUPTAKEFB() << " " <<  soil.getNLOSTFB() << " " << pdstate[I_AVLNFB] << endl;
@@ -2198,9 +2016,9 @@ if (microbe.getNETNMINMN() > ZERO)
   pdstate[I_LTRSEEDC] = veg.getLTRSEEDC();
 
   pdstate[I_RH] = microbe.getRH();
-  pdstate[I_RHFB] = microbe.getRHFB();
-  pdstate[I_RHAM] = microbe.getRHAM();
-  pdstate[I_RHMN] = microbe.getRHMN();
+  pdstate[I_RH_ACTIVE] = microbe.getRH_ACTIVE();
+  pdstate[I_RH_SLOW] = microbe.getRH_SLOW();
+  pdstate[I_RH_PASSIVE] = microbe.getRH_PASSIVE();
 
   // Nitrogen fluxes in ecosystems
 
@@ -2219,31 +2037,28 @@ if (microbe.getNETNMINMN() > ZERO)
   pdstate[I_NINP] = soil.getNINPUT();
 
   pdstate[I_DOCPROD] = microbe.getDOCPROD();
-  pdstate[I_DOCPRODFB] = microbe.getDOCPRODFB();
-  pdstate[I_DOCPRODAM] = microbe.getDOCPRODAM();
-  pdstate[I_DOCPRODMN] = microbe.getDOCPRODMN();
+  pdstate[I_DOCPROD_ACTIVE] = microbe.getDOCPROD_ACTIVE();
+  pdstate[I_DOCPROD_SLOW] = microbe.getDOCPROD_SLOW();
+  pdstate[I_DOCPROD_PASSIVE] = microbe.getDOCPROD_PASSIVE();
 
   pdstate[I_LCHDOC] = soil.getLCHDOC();
-  pdstate[I_LCHDOCFB] = soil.getLCHDOCFB();
-  pdstate[I_LCHDOCAM] = soil.getLCHDOCAM();
-  pdstate[I_LCHDOCMN] = soil.getLCHDOCMN();
+  pdstate[I_LCHDOC_ACTIVE] = soil.getLCHDOC_ACTIVE();
+  pdstate[I_LCHDOC_SLOW] = soil.getLCHDOC_SLOW();
+  pdstate[I_LCHDOC_PASSIVE] = soil.getLCHDOC_PASSIVE();
 
 // BSF SLOW
 //#ifdef OPENN
   pdstate[I_DONPROD] = microbe.getDONPROD();
-  pdstate[I_DONPRODFB] = microbe.getDONPRODFB();
-  pdstate[I_DONPRODAM] = microbe.getDONPRODAM();
-  pdstate[I_DONPRODMN] = microbe.getDONPRODMN();
+  pdstate[I_DONPROD_ACTIVE] = microbe.getDONPROD_ACTIVE();
+  pdstate[I_DONPROD_SLOW] = microbe.getDONPROD_SLOW();
+  pdstate[I_DONPROD_PASSIVE] = microbe.getDONPROD_PASSIVE();
 
   pdstate[I_LCHDON] = soil.getLCHDON();
-  pdstate[I_LCHDONFB] = soil.getLCHDONFB();
-  pdstate[I_LCHDONAM] = soil.getLCHDONAM();
-  pdstate[I_LCHDONMN] = soil.getLCHDONMN();
+  pdstate[I_LCHDON_ACTIVE] = soil.getLCHDON_ACTIVE();
+  pdstate[I_LCHDON_SLOW] = soil.getLCHDON_SLOW();
+  pdstate[I_LCHDON_PASSIVE] = soil.getLCHDON_PASSIVE();
 
   pdstate[I_LCHDIN] = soil.getLCHDIN();
-  pdstate[I_LCHDINFB] = soil.getLCHDINFB();
-  pdstate[I_LCHDINAM] = soil.getLCHDINAM();
-  pdstate[I_LCHDINMN] = soil.getLCHDINMN();
 //#endif  
 
   pdstate[I_AGFRTN] = ag.fertn;
@@ -2252,10 +2067,6 @@ if (microbe.getNETNMINMN() > ZERO)
 
   pdstate[I_VNUP] = veg.getNUPTAKE();
 //  cout << "delta I_VNUP = " << pdstate[I_VNUP] << " " << veg.getNUPTAKE() << " " << veg.getINUPTAKE() << endl;
- 
-  pdstate[I_VNUPFB] = veg.getNUPTAKEFB();
-  pdstate[I_VNUPAM] = veg.getNUPTAKEAM();
-  pdstate[I_VNUPMN] = veg.getNUPTAKEMN();
 
   pdstate[I_NRESORBL] = veg.getNRESORBL();
   pdstate[I_NRESORBS] = veg.getNRESORBS();
@@ -2270,31 +2081,24 @@ if (microbe.getNETNMINMN() > ZERO)
   pdstate[I_LTRSEEDN] = veg.getLTRSEEDN();
 
   pdstate[I_MNUP] = microbe.getNUPTAKE();
-  pdstate[I_MNUPFB] = microbe.getNUPTAKEFB();   
-  pdstate[I_MNUPAM] = microbe.getNUPTAKEAM();
-  pdstate[I_MNUPMN] = microbe.getNUPTAKEMN();
 
   pdstate[I_NMIN] = microbe.getNETNMIN();     
-  pdstate[I_NMINFB] = microbe.getNETNMINFB();
-  pdstate[I_NMINAM] = microbe.getNETNMINAM();
-  pdstate[I_NMINMN] = microbe.getNETNMINMN();
+  pdstate[I_NMIN_ACTIVE] = microbe.getNETNMIN_ACTIVE();
+  pdstate[I_NMIN_SLOW] = microbe.getNETNMIN_SLOW();
+  pdstate[I_NMIN_PASSIVE] = microbe.getNETNMIN_PASSIVE();
 
   pdstate[I_NLST] = soil.getNLOST();
-  pdstate[I_NLSTFB] = soil.getNLOSTFB();
-  pdstate[I_NLSTAM] = soil.getNLOSTAM();
-  pdstate[I_NLSTMN] = soil.getNLOSTMN();
 
 //cout << "nlost in  delta after natveg = " << pdstate[I_NLSTFB] << " " << soil.getNLOSTFB() << endl;
 
 //BSF SLOW
 //#ifdef OPENN
-  pdstate[I_NFIXN] = soil.getSONINP();    //commented out for MJ MLS;
-//  pdstate[I_NFIXN] = soil.getSONINPFB() + soil.getSONINPAM();  //modified for MJ MLS
+  pdstate[I_NFIXN] = soil.getSONINP();    
   pdstate[I_NFIXS] = veg.getVEGNINP();
 //#endif 
 //  pdstate[I_NLST] = soil.getNLOST() + soil.getLCHDON() + ag.getCONVRTFLXN() + ag.getCROPRESIDUEFLXN();
-  // Water fluxes
 
+  // Water fluxes
   pdstate[I_AGIRRIG] = ag.irrigate;
 
   pdstate[I_INEET] = soil.getINEET();
@@ -2522,19 +2326,19 @@ void Ttem45::displayOptionalWflx( const swykey& s )
     case GET_PECAN:   printw("  PECAN "); break;
     case GET_SHFLUX:  printw(" SHFLUX "); break;
     case GET_SWP:     printw("   SWP  "); break;
-	case GET_VEGH:    printw("  VEGH  "); break;
+	  case GET_VEGH:    printw("  VEGH  "); break;
     case GET_USTAR:   printw(" USTAR  "); break;
-	case GET_ZD:      printw("   ZD   "); break;
-	case GET_ZO:      printw("   ZO   "); break;
+  	case GET_ZD:      printw("   ZD   "); break;
+  	case GET_ZO:      printw("   ZO   "); break;
 	
-	case GET_R_AA:    printw("  R_AA  "); break;
+  	case GET_R_AA:    printw("  R_AA  "); break;
     case GET_R_AC:    printw("  R_AC  "); break;
-	case GET_R_AS:    printw("  R_AS  "); break;
-	case GET_R_SS:    printw("  R_SS  "); break;
+  	case GET_R_AS:    printw("  R_AS  "); break;
+	  case GET_R_SS:    printw("  R_SS  "); break;
 	
-	case GET_VAPR:    printw("  VAPR  "); break;
-	case GET_VPDD:    printw("  VPDD  "); break;
-	case GET_VPDN:    printw("  VPDN  "); break;
+  	case GET_VAPR:    printw("  VAPR  "); break;
+	  case GET_VPDD:    printw("  VPDD  "); break;
+	  case GET_VPDN:    printw("  VPDN  "); break;
 	
     case GET_AVLH2O:  printw(" AVLH2O "); break;
     case GET_RGRNDW:  printw(" RGRNDW "); break;
@@ -2590,57 +2394,66 @@ int Ttem45::ecdqc( const int& dcmnt )
 //  if( avlnb[dcmnt] <= -9999.99 ) { return qc = 130; }
 
   if( veg.getCMAX1B( dcmnt ) <= -9999.99 ) { return qc = 135; }
+  
   if( veg.getTAULEAF( dcmnt ) <= -99.99 ) { return qc = 138; }
+  
   if( veg.getTAUSAPWOOD( dcmnt ) <= -99.99 ) { return qc = 139; }
+  
   if( veg.getTAUHEARTWOOD( dcmnt ) <= -99.99 ) { return qc = 140; }
+  
   if( veg.getTAUROOT( dcmnt ) <= -99.99 ) { return qc = 141; }
+  
   if( veg.getTAUSEED( dcmnt ) <= -99.99 ) { return qc = 142; }
 
   if( veg.getKRA( dcmnt ) <= -99.99 ) { return qc = 143; }
 
   if( microbe.getKDB( dcmnt ) <= -99.99 ) { return qc = 146; }
-//  if( microbe.getKDFB( dcmnt ) <= -99.99 ) { return qc = 144; }  
-//  if( microbe.getKDFBAM( dcmnt ) <= -99.99 ) { return qc = 145; }
-//  if( microbe.getKDFBMN( dcmnt ) <= -99.99 ) { return qc = 146; }
 
   if( microbe.getLCCLNC( dcmnt ) <= -99.99 ) { return qc = 147; }
+  
   if( microbe.getPROPFTOS( dcmnt ) <= -99.99 ) { return qc = 148; }
 
   if( veg.getNMAX1B( dcmnt ) <= -9999.99 ) { return qc = 153; }
 
-  if( microbe.getNUPFB( dcmnt ) <= -9999.99 ) { return qc = 154; }
-  if( microbe.getNUPFBAM( dcmnt ) <= -9999.99 ) { return qc = 155; }
-  if( microbe.getNUPFBMN( dcmnt ) <= -9999.99 ) { return qc = 156; }
+  if( microbe.getNUP( dcmnt ) <= -9999.99 ) { return qc = 154; }
 
-  if( soil.getNLOSSFB( dcmnt ) <= -99.99 ) { return qc = 158; }
-  if( soil.getNLOSSFBAM( dcmnt ) <= -99.99 ) { return qc = 159; }
-  if( soil.getNLOSSFBMN( dcmnt ) <= -99.99 ) { return qc = 160; }
+  if( soil.getNLOSS( dcmnt ) <= -99.99 ) { return qc = 158; }
 
   if( soil.getDENITR( dcmnt ) <= -99.99 ) { return qc = 161; }
 
   if( veg.getCNLTR( dcmnt ) <= -99.99 ) { return qc = 162; }
-  if( soil.getC_DENFB( dcmnt ) <= -99.99 ) { return qc = 163; }
-  if( soil.getC_DENAM( dcmnt ) <= -99.99 ) { return qc = 164; }
+  
+  if( soil.getC_DEN_ACTIVE( dcmnt ) <= -99.99 ) { return qc = 163; }
+  
+  if( soil.getC_DEN_SLOW( dcmnt ) <= -99.99 ) { return qc = 164; }
 
 //  if( microbe.getCNSOIL( dcmnt ) <= -9999.99 ) { return qc = 165; }
-  if( microbe.getCNSOILFB( dcmnt ) <= -9999.99 ) { return qc = 165; }
-  if( microbe.getCNSOILAM( dcmnt ) <= -9999.99 ) { return qc = 166; }
-  if( microbe.getCNSOILMN( dcmnt ) <= -9999.99 ) { return qc = 167; }
+
+  if( microbe.getCNSOIL_ACTIVE( dcmnt ) <= -9999.99 ) { return qc = 165; }
+  
+  if( microbe.getCNSOIL_SLOW( dcmnt ) <= -9999.99 ) { return qc = 166; }
+  
+  if( microbe.getCNSOIL_PASSIVE( dcmnt ) <= -9999.99 ) { return qc = 167; }
 
   if( veg.getO3PARA( dcmnt ) <= -99.99 ) { return qc = 193; }
+  
   if( veg.getO3PARB( dcmnt ) <= -99.99 ) { return qc = 194; }
+  
   if( veg.getO3PARC( dcmnt ) <= -99.99 ) { return qc = 195; }
 
-//MJ MLS start;
-  if( fbc[dcmnt] <= -9999.99 ) { return qc = 196; }
-  if( amc[dcmnt] <= -9999.99 ) { return qc = 200; }
-  if( mnc[dcmnt] <= -9999.99 ) { return qc = 204; }
-  if( fbn[dcmnt] <= -9999.99 ) { return qc = 208; }
-  if( amn[dcmnt] <= -9999.99 ) { return qc = 212; }
-  if( mnn[dcmnt] <= -9999.99 ) { return qc = 216; }
-  if( avlnfb[dcmnt] <= -9999.99 ) { return qc = 217; }
-  if( avlnam[dcmnt] <= -9999.99 ) { return qc = 218; }
-  if( avlnmn[dcmnt] <= -9999.99 ) { return qc = 219; }
+  if( active_c[dcmnt] <= -9999.99 ) { return qc = 196; }
+  
+  if( slow_c[dcmnt] <= -9999.99 ) { return qc = 200; }
+  
+  if( passive_c[dcmnt] <= -9999.99 ) { return qc = 204; }
+  
+  if( active_n[dcmnt] <= -9999.99 ) { return qc = 208; }
+  
+  if( slow_n[dcmnt] <= -9999.99 ) { return qc = 212; }
+  
+  if( passive_n[dcmnt] <= -9999.99 ) { return qc = 216; }
+  
+  if( avln[dcmnt] <= -9999.99 ) { return qc = 217; }
 
   return qc;
 

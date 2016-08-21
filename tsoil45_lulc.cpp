@@ -3,19 +3,6 @@
 TSOIL45_lulc.CPP - object describing general characteristics of
                 soil
 
-Modifications:
-
-20060106 - DWK created by modifying Tsoilflux2b.cpp
-20070105 - TWC changed name to tsoil45
-
-2007:  TWC/BSF
-    resetMonthlyFluxes: evap = 0
-	resetYrFluxes: yrevap = 0
-	setSWP function
-	updateHydrology: avlh2o instead of sh2o; adapt function
-	   to allow ineet = eet instead of from xeet function
-
-
 ****************************************************************
 ************************************************************* */
 
@@ -116,34 +103,34 @@ Tsoil45::Tsoil45( void ) : ProcessXML45()
   yrh2oyld = MISSING;
 
   yrorgc = MISSING;
-  yrorgcfb = MISSING;
-  yrorgcam = MISSING;
-  yrorgcmn = MISSING;
+  yrorgc_active = MISSING;
+  yrorgc_slow = MISSING;
+  yrorgc_passive = MISSING;
 
   yrorgn = MISSING;
-  yrorgnfb = MISSING;
-  yrorgnam = MISSING;
-  yrorgnmn = MISSING;
+  yrorgn_active = MISSING;
+  yrorgn_slow = MISSING;
+  yrorgn_passive = MISSING;
 
-  yrc2nfb = MISSING;
-  yrc2nam = MISSING;
-  yrc2nmn = MISSING;
+  yrc2n_active = MISSING;
+  yrc2n_slow = MISSING;
+  yrc2n_passive = MISSING;
 
 
   yravln = MISSING;
 
   ninput = MISSING;
   yrnin = MISSING;
-  yrninfb = MISSING;
-  yrninam = MISSING;
-  yrninmn = MISSING;
+  yrnin_active = MISSING;
+  yrnin_slow = MISSING;
+  yrnin_passive = MISSING;
 
 
   nlost = MISSING;
   yrnlost = MISSING;
-  yrnlostfb = MISSING;
-  yrnlostam = MISSING;
-  yrnlostmn = MISSING;
+  yrnlost_active = MISSING;
+  yrnlost_slow = MISSING;
+  yrnlost_passive = MISSING;
 
   yrlchdin = MISSING;
 
@@ -214,7 +201,9 @@ void Tsoil45::getrootz( const string& ecd )
                                                "minrootz",
                                                comtype );
 
-// added coefa, coefb, frrootc_fb, frrootc_am and frrootc_mn MJ MLS; check for feasibility within this function;
+/* added coefa, coefb, frrootc_fb, frrootc_am and frrootc_mn MJ MLS; 
+ *check for feasibility within this function;
+ */ 
 
 /*    coefa[comtype] = getXMLcmntArrayDouble( infile,
                                                "rootzECD",
@@ -225,7 +214,7 @@ void Tsoil45::getrootz( const string& ecd )
                                                "rootzECD",
                                                "coefb",
                                                comtype );
-*/
+
 
     frrootc_fb[comtype] = getXMLcmntArrayDouble( infile,
                                                "rootzECD",
@@ -243,7 +232,8 @@ void Tsoil45::getrootz( const string& ecd )
                                                "rootzECD",
                                                "frrootc_mn",
                                                comtype );
-    endXMLcommunityNode( infile );
+*/
+     endXMLcommunityNode( infile );
   }
 
   if ( dcmnt < MAXCMNT )
@@ -261,15 +251,11 @@ void Tsoil45::getrootz( const string& ecd )
 /* *************************************************************
 ************************************************************* */
 
-
-/* *************************************************************
-************************************************************* */
-
 void Tsoil45::lake( const double& tair,
                     const double& prec,
                     double& rain,
                     double& snowfall,
-       		    const double& pet,
+       		          const double& pet,
                     double& eet )
 {
 
@@ -337,9 +323,9 @@ void Tsoil45::resetMonthlyFluxes( void )
 
   ninput = ZERO;
   nlost = ZERO;
-  nlostfb = ZERO;
-  nlostam = ZERO;
-  nlostmn = ZERO;
+  nlost_active = ZERO;
+  nlost_slow = ZERO;
+  nlost_passive = ZERO;
 
 
   // Water fluxes
@@ -375,16 +361,16 @@ void Tsoil45::resetYrFluxes( void )
   // Annual carbon storage
 
   yrorgc = ZERO;
-  yrorgcfb = ZERO;
-  yrorgcam = ZERO;
-  yrorgcmn = ZERO;
+  yrorgc_active = ZERO;
+  yrorgc_slow = ZERO;
+  yrorgc_passive = ZERO;
 
   // Annual nitrogen storage
 
   yrorgn = ZERO;
-  yrorgnfb = ZERO;
-  yrorgnam = ZERO;
-  yrorgnmn = ZERO;
+  yrorgn_active = ZERO;
+  yrorgn_slow = ZERO;
+  yrorgn_passive = ZERO;
 
   yravln = ZERO;
 
@@ -402,14 +388,14 @@ void Tsoil45::resetYrFluxes( void )
   // Annual nitrogen fluxes
 
   yrnin = ZERO;
-  yrninfb = ZERO;
-  yrninam = ZERO;
-  yrninmn = ZERO;
+  yrnin_active = ZERO;
+  yrnin_slow = ZERO;
+  yrnin_passive = ZERO;
 
   yrnlost = ZERO;
-  yrnlostfb = ZERO;
-  yrnlostam = ZERO;
-  yrnlostmn = ZERO;
+  yrnlost_active = ZERO;
+  yrnlost_slow = ZERO;
+  yrnlost_passive = ZERO;
 
   yrlchdin = ZERO;
 
@@ -650,17 +636,16 @@ void Tsoil45::updateDOCLEACH( const double& doc,
 
 void Tsoil45::updateNLosses( const int& pdcmnt,
                              const double& h2oloss,
-//                             const double& availn,
-                           const double& availnfb,
-                           const double& availnam,
-                           const double& availnmn,  
+                           const double& availn,
                            const double& soilh2o )
 {
-//   nlost = (availn/(soilh2o+rrun+srun))*(rrun+srun);
+   nlost = (availn/(soilh2o+rrun+srun))*(rrun+srun);
+   /*
    nlostfb = (availnfb/(soilh2o+rrun+srun))*(rrun+srun);
    nlostam = (availnam/(soilh2o+rrun+srun))*(rrun+srun);
    nlostmn = (availnmn/(soilh2o+rrun+srun))*(rrun+srun);
-
+    */
+   
 //cout << "nlostmn1 = " << nlostmn << " " << availnmn << endl;
 /*
   if( soilh2o > ZERO )
@@ -674,9 +659,9 @@ void Tsoil45::updateNLosses( const int& pdcmnt,
   } 
   else { nlost = ZERO; } */ 
   //nlost *= nloss[pdcmnt];           
-  nlostfb *= nlossfb[pdcmnt]; 
-  nlostam *= (nlossfb[pdcmnt]/nlossfbam[pdcmnt]);
-  nlostmn *= (nlossfb[pdcmnt]/nlossfbmn[pdcmnt]);
+  nlost_active *= nloss_active[pdcmnt]; 
+  nlost_slow *= nloss_slow[pdcmnt];
+  nlost_passive *= nloss_passive[pdcmnt];
 
 //cout << "nlostmn2 = " << nlostmn << endl;
 //  nlost = nlostfb + nlostam + nlostmn;

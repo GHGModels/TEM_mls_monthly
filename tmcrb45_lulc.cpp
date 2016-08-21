@@ -76,20 +76,22 @@ Tmcrb45::Tmcrb45() : ProcessXML45()
 
   dq10 = MISSING;
 
-//  nuptake = MISSING;     //check back for why MJ MLS;
+  nuptake = MISSING;     
+  /*
   nuptakefb = MISSING;
   nuptakeam = MISSING;
   nuptakemn = MISSING;
-
+  */
+   
   netnmin = MISSING;
-  netnminfb = MISSING;     //check back for why MJ MLS;
-  netnminam = MISSING;
-  netnminmn = MISSING;
+  netnmin_active = MISSING;     
+  netnmin_slow = MISSING;
+  netnmin_passive = MISSING;
 
-//  rh = MISSING;
-  rhfb = MISSING;         //check back for should this be done this way MJ MLS;
-  rham = MISSING;
-  rhmn = MISSING;
+  rh = MISSING;
+  rh_active = MISSING;         
+  rh_slow = MISSING;
+  rh_passive = MISSING;
 
   yrnmin = MISSING;
   yrnuptake = MISSING;
@@ -101,14 +103,12 @@ Tmcrb45::Tmcrb45() : ProcessXML45()
 /* **************************************************************
 ************************************************************** */
 
+/*
 void Tmcrb45::kdfbxclm(    )
 {
-
-  /*
-  Calculate kdfb based on kdc parameter and soil temperature,
-  soil water, soil quality and soil texture information
-  at the correct horizon 
-  */
+  //Calculate kdfb based on kdc parameter and soil temperature,
+  //soil water, soil quality and soil texture information
+  //at the correct horizon 
 
   double kdfb;
   double ftemp, fwater, fquality, ftexture;
@@ -121,7 +121,7 @@ void Tmcrb45::kdfbxclm(    )
   kdfb = kdc * ftemp * fwater * fquality * ftexture;
 
 }
-
+*/
 
 /* **************************************************************
 ************************************************************** */
@@ -249,14 +249,14 @@ double Tmcrb45::nminxclm( const int& pdcmnt,
                              const double& cnsoil,
                              const double& nup )
 {
-//  double gmin;
+  double gmin;
   double immb;
   double nmin;
   double tcnsoil;
 
 //  tcnsoil = cnsoil[pdcmnt];
   tcnsoil = cnsoil;
-  nuptake = ZERO;                              //this nuptake should be based on different horizon pools, i.e. nuptakefb, nuptakeam, nuptakemn MJ MLS;
+  nuptake = ZERO;                             
   nmin = ZERO;
 
 //  if ( soilorgc > ZERO && soilorgn > ZERO )
@@ -311,10 +311,6 @@ double Tmcrb45::nminxclm( const int& pdcmnt,
 
 };
 
-/* **************************************************************
-************************************************************** :w
-*/
-
 
 /* **************************************************************
 ************************************************************** */
@@ -353,23 +349,20 @@ void Tmcrb45::resetMonthlyFluxes( void )
 
   // Carbon fluxes
 
-//  rh = ZERO;     //commented out for MJ MLS;
-  rhfb = ZERO;     
-  rham = ZERO;
-  rhmn = ZERO;
+  rh = ZERO;     
+  rh_active = ZERO;     
+  rh_slow = ZERO;
+  rh_passive = ZERO;
 
 
   // Nitrogen fluxes
 
-//  nuptake = ZERO;
-  nuptakefb = ZERO;
-  nuptakeam = ZERO;
-  nuptakemn = ZERO;
+  nuptake = ZERO;
 
   netnmin = ZERO;
-  netnminfb = ZERO;
-  netnminam = ZERO;
-  netnminmn = ZERO;
+  netnmin_active = ZERO;
+  netnmin_slow = ZERO;
+  netnmin_passive = ZERO;
 
 };
 
@@ -392,7 +385,10 @@ void Tmcrb45::resetYrFluxes( void )
 
   yrnuptake = ZERO;
   yrnmin = ZERO;
-
+  yrnmin_active = ZERO;
+  yrnmin_slow = ZERO;
+  yrnmin_passive = ZERO;
+  
 };
 
 /* **************************************************************
@@ -564,8 +560,7 @@ void Tmcrb45::showecd( const int& pdcmnt )
   printf( "     MOISTMIN = %8.6lf\n", moistmin[pdcmnt] );
   printf( "     MOISTOPT = %8.6lf\n", moistopt[pdcmnt] );
   printf( "     MOISTMAX = %8.6lf\n", moistmax[pdcmnt] );
-  printf( "       CNSOILFB = %5.2lf\n", cnsoilfb[pdcmnt] );
-//come back to check if need to add CNSOILAM and CNSOILMN MJ MLS;
+  printf( "       CNSOIL = %5.2lf\n", cnsoil[pdcmnt] );
 };
 
 /* **************************************************************
@@ -580,18 +575,16 @@ void Tmcrb45::updateDynamics( const int& pdcmnt,
                                  const double& pctwiltpt,
                                  const double& pctpor,
                                  const double& soilorgc,
-                                 const double& fbc,
-                                 const double& amc,
-                                 const double& mnc,
+                                 const double& active_c,
+                                 const double& slow_c,
+                                 const double& passive_c,
                                  const double& soilorgn,
-                                 const double& fbn,
-                                 const double& amn,
-                                 const double& mnn,
+                                 const double& active_n,
+                                 const double& slow_n,
+                                 const double& passive_n,
                                  const double& soilh2o,
                                  const double& vsm,
-                                 const double& availnfb,
-                                 const double& availnam,
-                                 const double& availnmn,
+                                 const double& availn,
                                  const int& moistlim,
                                  const int& tillflag,
                                  const double& tillfactor,
@@ -599,33 +592,30 @@ void Tmcrb45::updateDynamics( const int& pdcmnt,
                                  const double& rltrc,
                                  const int& nopen )
 {
-  double rhmoist;
-
-//where do the initial values of the following quality pools come from MJ MLS;
-  // rhmoist: effect of moisture on decomposition
+  double rhmoist; /* effect of moisture on decomposition */
 
   rhmoist = setRHMOIST( pdcmnt, pctfldcap, pctwiltpt, pctpor, vsm, moistlim );
 
-  decompfb = rhxclm( fbc, kdfb[pdcmnt], dq10, rhmoist, rltrc, pdcmnt );  
-  decompam = rhxclm( amc, kdfb[pdcmnt]/kdfbam[pdcmnt], dq10, rhmoist, rltrc, pdcmnt );
-  decompmn = rhxclm( mnc, kdfb[pdcmnt]/kdfbmn[pdcmnt], dq10, rhmoist, rltrc, pdcmnt );
+  decomp_active = rhxclm( active_c, kdc[pdcmnt], dq10, rhmoist, rltrc, pdcmnt );  
+  decomp_slow = rhxclm( slow_c, kd_slow[pdcmnt], dq10, rhmoist, rltrc, pdcmnt );
+  decomp_passive = rhxclm( passive_c, kd_passive[pdcmnt], dq10, rhmoist, rltrc, pdcmnt );
 
-  if( decompfb < ZERO ) { decompfb = ZERO; } 
-  if( decompam < ZERO ) { decompam = ZERO; }
-  if( decompmn < ZERO ) { decompmn = ZERO; }
+  if( decomp_active < ZERO ) { decomp_active = ZERO; } 
+  if( decomp_slow < ZERO ) { decomp_slow = ZERO; }
+  if( decomp_passive < ZERO ) { decomp_passive = ZERO; }
 
 //  DOC production term
-   docprodfb = docfr[pdcmnt] * decompfb;
-   docprodam = docfr[pdcmnt] * decompam;
-   docprodmn = docfr[pdcmnt] * decompmn;
+   docprod_active = docfr[pdcmnt] * decomp_active;
+   docprod_slow = docfr[pdcmnt] * decomp_slow;
+   docprod_passive = docfr[pdcmnt] * decomp_passive;
 
-   docprod = docprodfb + docprodam + docprodmn;
+   docprod = docprod_active + docprod_slow + docprod_passive;
 
-   rhfb = decompfb - docprodfb;
-   rham = decompam - docprodam;
-   rhmn = decompmn - docprodmn;
+   rh_active = decomp_active - docprod_active;
+   rh_slow = decomp_slow - docprod_slow;
+   rh_passive = decomp_passive - docprod_passive;
 
-   rh = rhfb + rham + rhmn;
+   rh = rh_active + rh_slow + rh_passive;
 
 //Adjust decomposition rate due to tillage effects
 
@@ -634,59 +624,64 @@ void Tmcrb45::updateDynamics( const int& pdcmnt,
     rh *= tillfactor;
   }
 
-   donprodfb = docprodfb * fbn/fbc;
-   donprodam = docprodam * amn/amc;
-   donprodmn = docprodmn * mnn/mnc;
+   donprod_active = docprod_active * active_n/active_c;
+   donprod_slow = docprod_slow * slow_n/slow_c;
+   donprod_passive = docprod_passive * passive_n/passive_c;
 
-   donprod = donprodfb + donprodam + donprodmn;
-
+   donprod = donprod_active + donprod_slow + donprod_passive;
 
 //  cout << "finalrh = " << tillflag << " " << rh << endl;
 
   // Determine Net N Mineralization (microbe.netnmin)
 
-  netnminfb = nminxclm( pdcmnt,
+  
+  /* currently netnmin calculated separately for each pools, 
+   * Next, try to combine them together as availn and nuptake is one value,
+   * so does not need to split
+   * MJ MLS
+   */
+  netnmin_active = nminxclm( pdcmnt,
                       soilh2o,
-                      fbc,
-                      fbn,
-                      availnfb,
+                      active_c,
+                      active_n,
+                      availn,
                       ksoil,
-                      rhfb,
+                      rh_active,
                       nopen,
-                      cnsoilfb[pdcmnt],
-                      nupfb[pdcmnt] );     
-  gminfb = gmin;                   
+                      cnsoil_active[pdcmnt],
+                      nup[pdcmnt] );     
+  gmin_active = gmin;                   
   nuptakefb = nuptake;
 
-  netnminam = nminxclm( pdcmnt,
+  netnmin_slow = nminxclm( pdcmnt,
                       soilh2o,
-                      amc,
-                      amn,
-                      availnam,
+                      slow_c,
+                      slow_n,
+                      availn,
                       ksoil,
-                      rham,
+                      rh_sow,
                       nopen,
-                      cnsoilam[pdcmnt],
-                      nupfb[pdcmnt]/nupfbam[pdcmnt] );
-  gminam = gmin;
+                      cnsoil_slow[pdcmnt],
+                      nup[pdcmnt]/nupfbam[pdcmnt] );
+  gmin_slow = gmin;
   nuptakeam = nuptake;
 
-  netnminmn = nminxclm( pdcmnt,
+  netnmin_passive = nminxclm( pdcmnt,
                       soilh2o,
-                      mnc,
-                      mnn,
-                      availnmn,
+                      passive_c,
+                      passive_n,
+                      availn,
                       ksoil,
-                      rhmn,
+                      rh_passive,
                       nopen,
-                      cnsoilmn[pdcmnt],
-                      nupfb[pdcmnt]/nupfbmn[pdcmnt] );
+                      cnsoil_passive[pdcmnt],
+                      nup[pdcmnt] );
 
-  gminmn = gmin;
+  gmin_passive = gmin;
   nuptakemn = nuptake;
 
-  netnmin = netnminfb + netnminam + netnminmn;
-  gmin = gminfb + gminam + gminmn;
+  netnmin = netnmin_active + netnmin_slow + netnmin_passive;
+  gmin = gmin_active + gmin_slow + gmin_passive;
 //  nuptake = nuptakefb + nuptakeam + nuptakemn;
 
 };

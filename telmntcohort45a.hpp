@@ -31,10 +31,12 @@ struct ElmntCohort45
   double aggrowdd;
 
   // Current value of decomposition parameter in croplands
-  double agkdfb;
+  double agkdc;
+  /*
   double agkdam;
   double agkdmn;
-
+  */
+   
   // Index to indicate whether cohort was in
   //   agriculture during the previous year
 //  int agprevstate;
@@ -97,10 +99,12 @@ struct ElmntCohort45
 
   // Current value of decomposition parameter in
   //   natural ecosystems
-  double kdfb;
+  double kdc;
+  /*
   double kdam;
   double kdmn;
-
+  */
+   
   double natprvleafmx;
   double natseedC;
   double natseedSTRN;
@@ -114,9 +118,9 @@ struct ElmntCohort45
 
   double nretent;
   double nsretent;
-  double nsretentfb;
-  double nsretentam;
-  double nsretentmn; 
+  double nsretent_active;
+  double nsretent_slow;
+  double nsretent_passive; 
  
  double nvretent;
 
@@ -182,9 +186,9 @@ struct ElmntCohort45
   double sconvert;
 
   Biomass sconvrtflx;
-  Biomass sconvrtflxfb;
-  Biomass sconvrtflxam;
-  Biomass sconvrtflxmn;
+  Biomass sconvrtflx_active;
+  Biomass sconvrtflx_slow;
+  Biomass sconvrtflx_passive;
 
   Biomass slash;
 

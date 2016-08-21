@@ -3,35 +3,6 @@
 TSOIL45_LULC.H - object describing characteristics of soil used by
 	        the Terrestrial Ecosystem Model (TEM)
 
-Modifications:
-
-20060126 - DWK created by modifying tsoil50b5.h
-20060126 - DWK changed include from temconts51.hpp to
-           temconsts43.hpp
-20060126 - DWK changed include from tprocessXML51.h to
-           tprocessXML437.h
-20060126 - DWK deleted include qsoiltemp50b5.h
-20060126 - DWK changed class Tsoil50 to class Tsoilflux
-20060126 - DWK changed inheritance from ProcessXML50 to
-           ProcessXML43
-20060126 - DWK deleted public function double
-           updateActiveLayerRootZ(), inline double
-           getACTLAYER(), inline double getDST10(), inline
-           double getNEXTDST10(), inline double getPREVDST10()
-           and inline double getTSOIL()
-20060126 - DWK deleted  public Soilthermal50 stm, int stmflg,
-           double yrdst10 and double yrtsoil
-20060126 - DWK deleted private double activeLayer, double dst10,
-           double nextdst10, double prevdst10 and double tsoil
-20060129 - DWK added public inline getVSM() and setVSM()
-20060320 - DWK added private double surfrun and double drainage
-20070105 - TWC changed name to tsoil45
-2007:  TWC/BSF
-     setSWP public function
-	 get/set: evap
-	 Public var.: yrevap
-	 Private var: evap
-
 ****************************************************************
 ************************************************************* */
 
@@ -102,9 +73,7 @@ class Tsoil45 : public ProcessXML45
 
      void updateNLosses( const int& pdcmnt,
                          const double& h2oloss,
-                         const double& availnfb,
-                         const double& availnam,
-                         const double& availnmn,
+                         const double& availn,
                          const double& soilh2o );
 
 
@@ -183,25 +152,25 @@ class Tsoil45 : public ProcessXML45
        lchdon = plchdon;
      }
 
-     inline double getLCHDONFB( void ) { return lchdonfb; }
+     inline double getLCHDON_ACTIVE( void ) { return lchdon_active; }
 
-     inline void setLCHDONFB( const double& plchdonfb )
+     inline void setLCHDON_ACTIVE( const double& plchdon_active )
      {
-       lchdonfb = plchdonfb;
+       lchdon_active = plchdon_active;
      }
 
-     inline double getLCHDONAM( void ) { return lchdonam; }
+     inline double getLCHDON_SLOW( void ) { return lchdon_slow; }
 
-     inline void setLCHDONAM( const double& plchdonam )
+     inline void setLCHDON_SLOW( const double& plchdon_slow )
      {
-       lchdonam = plchdonam;
+       lchdon_slow = plchdon_slow;
      }
 
-     inline double getLCHDONMN( void ) { return lchdonmn; }
+     inline double getLCHDON_PASSIVE( void ) { return lchdon_passive; }
 
-     inline void setLCHDONMN( const double& plchdonmn )
+     inline void setLCHDON_PASSIVE( const double& plchdon_passive )
      {
-       lchdonmn = plchdonmn;
+       lchdon_passive = plchdon_passive;
      }
 
 
@@ -213,31 +182,6 @@ class Tsoil45 : public ProcessXML45
            {
                lchdin = plchdin;
            }
-     
-
-           inline double getLCHDINFB( void ) { return lchdinfb; }
-
-           inline void setLCHDINFB( const double& plchdinfb )
-           {
-               lchdinfb = plchdinfb;
-           }
-
-
-           inline double getLCHDINAM( void ) { return lchdinam; }
-
-           inline void setLCHDINAM( const double& plchdinam )
-           {
-               lchdinam = plchdinam;
-           }
-
-
-           inline double getLCHDINMN( void ) { return lchdinmn; }
-
-           inline void setLCHDINMN( const double& plchdinmn )
-           {
-               lchdinmn = plchdinmn;
-           }
-
 
      // drainage ***********************************************
 
@@ -247,7 +191,6 @@ class Tsoil45 : public ProcessXML45
      {
        drainage = pdrainage;
      }
-
 
      // eet ****************************************************
 
@@ -284,6 +227,7 @@ class Tsoil45 : public ProcessXML45
 
 //for the following three parameters, read in from trotz45_lulc.ecd file,as they should be pft-specific
 //check if the following get set is correct or not MJ MLS;     
+/*U
      //  frrootc_fb*********************************************
 
      inline double getFRROOTC_FB( const int& pcmnt )
@@ -322,6 +266,7 @@ class Tsoil45 : public ProcessXML45
      {
        frrootc_mn[pcmnt] = pfrrootc_mn;
      }
+*/
 
      // gm ***************************************************
 
@@ -361,25 +306,25 @@ class Tsoil45 : public ProcessXML45
        lchdoc = plchdoc;
      }
 
-     inline double getLCHDOCFB( void ) { return lchdocfb; }
+     inline double getLCHDOC_ACTIVE( void ) { return lchdoc_active; }
 
-     inline void setLCHDOCFB( const double& plchdocfb )
+     inline void setLCHDOC_ACTIVE( const double& plchdoc_active )
      {
-       lchdocfb = plchdocfb;
+       lchdoc_active = plchdoc_active;
      }
 
-     inline double getLCHDOCAM( void ) { return lchdocam; }
+     inline double getLCHDOC_SLOW( void ) { return lchdoc_slow; }
 
-     inline void setLCHDOCAM( const double& plchdocam )
+     inline void setLCHDOC_SLOW( const double& plchdoc_slow )
      {
-       lchdocam = plchdocam;
+       lchdoc_slow = plchdoc_slow;
      }
 
-     inline double getLCHDOCMN( void ) { return lchdocmn; }
+     inline double getLCHDOC_PASSIVE( void ) { return lchdoc_passive; }
 
-     inline void setLCHDOCMN( const double& plchdocmn )
+     inline void setLCHDOC_PASSIVE( const double& plchdoc_passive )
      {
-       lchdocmn = plchdocmn;
+       lchdoc_passive = plchdoc_passive;
      }
 
 
@@ -431,43 +376,18 @@ class Tsoil45 : public ProcessXML45
      }
 
 
-     // nlossfb and horizon coefficients******
+     // nloss and horizon coefficients******
 
-     inline double getNLOSSFB( const int& pcmnt )
+     inline double getNLOSS_ACTIVE( const int& pcmnt )
      {
-       return nlossfb[pcmnt];
+       return nloss_active[pcmnt];
      }
 
-     inline void setNLOSSFB( const double& pnlossfb,
+     inline void setNLOSS_ACTIVE( const double& pnloss_active,
                            const int& pcmnt )
      {
-       nlossfb[pcmnt] = pnlossfb;
+       nloss_active[pcmnt] = pnloss_active;
      }
-
-     inline double getNLOSSFBAM( const int& pcmnt )
-     {
-       return nlossfbam[pcmnt];
-     }
-
-     inline void setNLOSSFBAM( const double& pnlossfbam,
-                           const int& pcmnt )
-     {
-       nlossfbam[pcmnt] = pnlossfbam;
-     }
-
-     inline double getNLOSSFBMN( const int& pcmnt )
-     {
-       return nlossfbmn[pcmnt];
-     }
-
-     inline void setNLOSSFBMN( const double& pnlossfbmn,
-                           const int& pcmnt )
-     {
-       nlossfbmn[pcmnt] = pnlossfbmn;
-     }
-
-
-
 
      // denitr **************************************************
     
@@ -485,26 +405,26 @@ class Tsoil45 : public ProcessXML45
 
     //c_den ****************************************************
 
-     inline double getC_DENFB( const int& pcmnt )
+     inline double getC_DEN_ACTIVE( const int& pcmnt )
      {
-       return c_denfb[pcmnt];
+       return c_den_active[pcmnt];
      }
 
-     inline void setC_DENFB( const double& pc_denfb,
+     inline void setC_DEN_ACTIVE( const double& pc_den_active,
                            const int& pcmnt )
      {
-       c_denfb[pcmnt] = pc_denfb;
+       c_den_active[pcmnt] = pc_den_active;
      }
 
-     inline double getC_DENAM( const int& pcmnt )
+     inline double getC_DEN_SLOW( const int& pcmnt )
      {
-       return c_denam[pcmnt];
+       return c_den_slow[pcmnt];
      }
 
-     inline void setC_DENAM( const double& pc_denam,
+     inline void setC_DEN_SLOW( const double& pc_den_slow,
                            const int& pcmnt )
      {
-       c_denam[pcmnt] = pc_denam;
+       c_den_slow[pcmnt] = pc_den_slow;
      }
 
 
@@ -517,25 +437,25 @@ class Tsoil45 : public ProcessXML45
        nlost = pnlst;
      }
 
-     inline double getNLOSTFB( void ) { return nlostfb; }
+     inline double getNLOST_ACTIVE( void ) { return nlost_active; }
 
-     inline void setNLOSTFB( const double& pnlstfb )
+     inline void setNLOST_ACTIVE( const double& pnlst_active )
      {
-       nlostfb = pnlstfb;
+       nlost_active = pnlst_active;
      }
 
-     inline double getNLOSTAM( void ) { return nlostam; }
+     inline double getNLOST_SLOW( void ) { return nlost_slow; }
 
-     inline void setNLOSTAM( const double& pnlstam )
+     inline void setNLOST_SLOW( const double& pnlst_slow )
      {
-       nlostam = pnlstam;
+       nlost_slow = pnlst_slow;
      }
 
-     inline double getNLOSTMN( void ) { return nlostmn; }
+     inline double getNLOST_PASSIVE( void ) { return nlost_passive; }
 
-     inline void setNLOSTMN( const double& pnlstmn )
+     inline void setNLOST_PASSIVE( const double& pnlst_passive )
      {
-       nlostmn = pnlstmn;
+       nlost_passive = pnlst_passive;
      }
 
 
@@ -739,26 +659,26 @@ class Tsoil45 : public ProcessXML45
        solc = psolc;
      }
 
-/*     inline double getFBC( void ) { return fbc; }
+     inline double getACTIVE_C( void ) { return active_c; }
 
-     inline void setFBC( const double& pfbc )
+     inline void setACTIVE_C( const double& pactive_c )
      {
-       fbc = pfbc;
+       active_c = pactive_c;
      }
 
-     inline double getAMC( void ) { return amc; }
+     inline double getSLOW_C( void ) { return slow_c; }
 
-     inline void setAMC( const double& pamc )
+     inline void setSLOW_C( const double& pslow_c )
      {
-       amc = pamc;
+       slow_c = pslow_c;
      }
 
-     inline double getMNC( void ) { return mnc; }
+     inline double getPASSIVE_C( void ) { return passive_c; }
 
-     inline void setMNC( const double& pmnc )
+     inline void setPASSIVE_C( const double& ppassive_c )
      {
-       mnc = pmnc;
-     } */
+       passive_c = ppassive_c;
+     } 
 
 
      // SOLN
@@ -769,26 +689,26 @@ class Tsoil45 : public ProcessXML45
        soln = psoln;
      }
 
-/*     inline double getFBN( void ) { return fbn; }
-
-     inline void setFBN( const double& pfbn )
+     inline double getACTIVE_N( void ) { return active_n; }
+     
+     inline void setACTIVE_N( const double& pactive_n )
      {
-       fbn = pfbn;
+       active_n = pactive_n;
      }
-
-     inline double getAMN( void ) { return amn; }
-
-     inline void setAMN( const double& pamn )
+     
+     inline double getSLOW_N( void ) { return slow_n; }
+     
+     inline void setSLOW_N( const double& pslow_n )
      {
-       amn = pamn;
+       slow_n = pslow_n;
      }
-
-     inline double getMNN( void ) { return mnn; }
-
-     inline void setMNN( const double& pmnn )
+     
+     inline double getPASSIVE_N( void ) { return passive_n; }
+     
+     inline void setPASSIVE_N( const double& ppassive_n )
      {
-       mnn = pmnn;
-     } */
+       passive_n = ppassive_n;
+     } 
 
 
      // sperc **************************************************
@@ -913,9 +833,9 @@ class Tsoil45 : public ProcessXML45
 
      // Ratio of soil reactive organic carbon to
      //   soil reactive organic nitrogen
-     double yrc2nfb;
-     double yrc2nam;
-     double yrc2nmn;
+     double yrc2n_active;
+     double yrc2n_slow;
+     double yrc2n_passive;
 
      // Annual estimated actual evapotranspiration (mm / year)
      double yreet;
@@ -929,29 +849,26 @@ class Tsoil45 : public ProcessXML45
 
      // Annual sum of ninput
      double yrnin;     // (g N / (sq. meter * year))
-     double yrninfb;     // (g N / (sq. meter * year))
-     double yrninam;     // (g N / (sq. meter * year))
-     double yrninmn;     // (g N / (sq. meter * year))
 
      // Annual sum of nlost
      double yrnlost;   // (g N / (sq. meter * year))
-     double yrnlostfb;   // (g N / (sq. meter * year))
-     double yrnlostam;   // (g N / (sq. meter * year))
-     double yrnlostmn;   // (g N / (sq. meter * year))
+     double yrnlost_active;   // (g N / (sq. meter * year))
+     double yrnlost_slow;   // (g N / (sq. meter * year))
+     double yrnlost_passive;   // (g N / (sq. meter * year))
 
      double yrlchdin;   // (g N / (sq. meter * year))
 
      // Annual sum of org.carbon
      double yrorgc;
-     double yrorgcfb;
-     double yrorgcam;
-     double yrorgcmn;
+     double yrorgc_active;
+     double yrorgc_slow;
+     double yrorgc_passive;
 
      // Annual sum of org.nitrogen
      double yrorgn;
-     double yrorgnfb;
-     double yrorgnam;
-     double yrorgnmn;
+     double yrorgn_active;
+     double yrorgn_slow;
+     double yrorgn_passive;
 
      // Annual sum of pctp
      double yrpctp;
@@ -1023,16 +940,13 @@ class Tsoil45 : public ProcessXML45
 
      // Dissolved Organic Nitrogen leaching
      double lchdon;
-     double lchdonfb;
-     double lchdonam;
-     double lchdonmn;
+     double lchdon_active;
+     double lchdon_slow;
+     double lchdon_passive;
 
      // Dissolved Inorganic Nitrogen leaching
      double lchdin;
-     double lchdinfb;
-     double lchdinam;
-     double lchdinmn;
-     
+
      // Monthly drainage (mm / month)
      double drainage;
 
@@ -1043,10 +957,12 @@ class Tsoil45 : public ProcessXML45
      double fldcap;
 
      // root fractions
+     /*
      double frrootc_fb[MAXCMNT];       //MJ MLS
      double frrootc_am[MAXCMNT];       //MJ MLS
      double frrootc_mn[MAXCMNT];       //MJ MLS
-
+     */
+      
      // Soil dryness function, similar in shape to soil water potential
      double gm;
 
@@ -1061,9 +977,9 @@ class Tsoil45 : public ProcessXML45
 
     // DOC leaching flux
      double lchdoc;
-     double lchdocfb;
-     double lchdocam;
-     double lchdocmn;
+     double lchdoc_active;
+     double lchdoc_slow;
+     double lchdoc_passive;
 
      // Mean annual volumetric soil moisture (%)
      double meanvsm;
@@ -1078,7 +994,7 @@ class Tsoil45 : public ProcessXML45
 
      // Total nitrogen lost from soils
      double nlost;     // (g N / (sq. meter * month))
-     double nlostfb, nlostam, nlostmn;
+     double nlost_active, nlost_slow, nlost_passive;
 
       // Reactive soil organic matter
      Biomass org;      //  (g C or g N / sq. meter)
@@ -1127,14 +1043,14 @@ class Tsoil45 : public ProcessXML45
 
      // soilc and soiln
      double solc;
-     double fbc;
-     double amc;
-     double mnc;
+     double active_c;
+     double slow_c;
+     double passive_c;
 
      double soln;
-     double fbn;
-     double amn;
-     double mnn;
+     double active_n;
+     double slow_n;
+     double passive_n;
 
 //     double avln;
 
@@ -1182,16 +1098,16 @@ class Tsoil45 : public ProcessXML45
      // Proportion of available nitrogen lost from soil
      //   (g N / (square meter))
 
-     double nlossfb[MAXCMNT];
-     double nlossfbam[MAXCMNT];
-     double nlossfbmn[MAXCMNT];
+     double nloss_active[MAXCMNT];
+     double nloss_slow[MAXCMNT];
+     double nloss_passive[MAXCMNT];
  
      double denitr[MAXCMNT];
 //
 //   c_den are in units gC/m2
 //
-     double c_denfb[MAXCMNT];
-     double c_denam[MAXCMNT];
+     double c_den_active[MAXCMNT];
+     double c_den_slow[MAXCMNT];
 
 
      // Porosity of soil (%soil volume)

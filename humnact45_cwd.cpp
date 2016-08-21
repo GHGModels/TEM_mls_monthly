@@ -140,13 +140,13 @@ void Humnact45::conversion( const int& pdcmnt,
                              const double& vstrn,
                              const double& vston,
 //                             const double& soilc,             //commented out for MJ MLS;
-                             const double& fbc,
-                             const double& amc,
-                             const double& mnc,
+                             const double& active_c,
+                             const double& slow_c,
+                             const double& passive_c,
 //                             const double& soiln,
-                             const double& fbn,
-                             const double& amn,
-                             const double& mnn )
+                             const double& active_n,
+                             const double& slow_n,
+                             const double& passive_n )
 {
   // Assume annual conversion fluxes are partitioned equally
   //   across each of 12 months - determine monthly fluxes
@@ -158,56 +158,12 @@ void Humnact45::conversion( const int& pdcmnt,
 
   vconvrtflx.carbon = (vconvert * vegc) / (double) CYCLE;
 
-  sconvrtflxfb.carbon = (sconvert * fbc)/ (double) CYCLE;       //come back for sconvert parameter for each horizon MJ MLS;
-  sconvrtflxam.carbon = (sconvert * amc)/ (double) CYCLE;
-  sconvrtflxmn.carbon = (sconvert * mnc)/ (double) CYCLE;
+  sconvrtflx_active.carbon = (sconvert * active_c)/ (double) CYCLE;       //come back for sconvert parameter for each horizon MJ MLS;
+  sconvrtflx_slow.carbon = (sconvert * slow_c)/ (double) CYCLE;
+  sconvrtflx_passive.carbon = (sconvert * passive_c)/ (double) CYCLE;
 
 
-  sconvrtflx.carbon = sconvrtflxfb.carbon + sconvrtflxam.carbon + sconvrtflxmn.carbon;      //added MJ MLS;
-
-  convrtflx.carbon = vconvrtflx.carbon + sconvrtflx.carbon;
-
-  vconvrtflx.nitrogen = ((1.0 - nvretconv[pdcmnt])
-                        * vconvert
-                        * (vstrn + vston))
-                        / (double) CYCLE;
-
-  sconvrtflxfb.nitrogen = ((1.0 - nsretconv[pdcmnt])             //check what nsretconv means MJ MLS and add sconvert parameter for each horizon MJ MLS;
-                        * sconvert * fbn)
-                        / (double) CYCLE;
-
-  sconvrtflxam.nitrogen = ((1.0 - nsretconv[pdcmnt])
-                        * sconvert * amn)
-                        / (double) CYCLE;
-
-  sconvrtflxmn.nitrogen = ((1.0 - nsretconv[pdcmnt])
-                        * sconvert * mnn)
-                        / (double) CYCLE;
-
-  sconvrtflx.nitrogen = sconvrtflxfb.nitrogen + sconvrtflxam.nitrogen + sconvrtflxmn.nitrogen;
-
-  convrtflx.nitrogen = vconvrtflx.nitrogen + sconvrtflx.nitrogen;
-
-  nvretent = (nvretconv[pdcmnt] * vconvert * (vstrn + vston))
-              / (double) CYCLE;
-
-  nsretentfb = (nsretconv[pdcmnt] * sconvert * fbn)         //come back to add sconvert parameter for each horizon MJ MLS;
-              / (double) CYCLE;
-
-  nsretentam = (nsretconv[pdcmnt] * sconvert *  amn)
-              / (double) CYCLE;
-
-  nsretentmn = (nsretconv[pdcmnt] * sconvert * mnn)
-              / (double) CYCLE;
-
-  nsretent = nsretentfb + nsretentam + nsretentmn;
-
-  nretent = nvretent + nsretent;
-};
-
-/*
-//  sconvrtflx.carbon =  (sconvert * soilc )/ (double) CYCLE;        //commented out for MJ MLS;
-  sconvrtflx.carbon =  (sconvert * (fbc + amc + mnc) )/ (double) CYCLE;
+  sconvrtflx.carbon = sconvrtflx_active.carbon + sconvrtflx_slow.carbon + sconvrtflx_passive.carbon;      //added MJ MLS;
 
   convrtflx.carbon = vconvrtflx.carbon + sconvrtflx.carbon;
 
@@ -216,29 +172,38 @@ void Humnact45::conversion( const int& pdcmnt,
                         * (vstrn + vston))
                         / (double) CYCLE;
 
-  sconvrtflx.nitrogen = ((1.0 - nsretconv[pdcmnt])
-//                        * sconvert * soiln)                    //commented out for MJ MLS;
-                        * sconvert * (fbn + amn + mnn))
+  sconvrtflx_active.nitrogen = ((1.0 - nsretconv[pdcmnt])         
+                        * sconvert * active_n)
                         / (double) CYCLE;
+
+  sconvrtflx_slow.nitrogen = ((1.0 - nsretconv[pdcmnt])
+                        * sconvert * slow_n)
+                        / (double) CYCLE;
+
+  sconvrtflx_passive.nitrogen = ((1.0 - nsretconv[pdcmnt])
+                        * sconvert * passive_n)
+                        / (double) CYCLE;
+
+  sconvrtflx.nitrogen = sconvrtflx_active.nitrogen + sconvrtflx_slow.nitrogen + sconvrtflx_passive.nitrogen;
 
   convrtflx.nitrogen = vconvrtflx.nitrogen + sconvrtflx.nitrogen;
 
   nvretent = (nvretconv[pdcmnt] * vconvert * (vstrn + vston))
               / (double) CYCLE;
 
-//  nsretent = (nsretconv[pdcmnt] * sconvert * soiln)           //commented out for MJ MLS;
-  nsretent = (nsretconv[pdcmnt] * sconvert * (fbn + amn + mnn))
+  nsretent_active = (nsretconv[pdcmnt] * sconvert * active_n)         
               / (double) CYCLE;
 
+  nsretent_slow = (nsretconv[pdcmnt] * sconvert *  slow_n)
+              / (double) CYCLE;
+
+  nsretent_passive = (nsretconv[pdcmnt] * sconvert * passive_n)
+              / (double) CYCLE;
+
+  nsretent = nsretent_active + nsretent_slow + nsretent_passive;
+
   nretent = nvretent + nsretent;
-
-//  cout << "nretent = " << nretent << " " << nvretent << " " << nsretent << " " << soiln << endl;
-
 };
-*/
-
-/* *************************************************************
-************************************************************* */
 
 
 /* *************************************************************
