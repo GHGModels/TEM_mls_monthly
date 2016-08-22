@@ -3,52 +3,6 @@
 TTEM45_ndep.H - Terrestrial Ecosystem Model Version 4.5
 ****************************************************************
 
-Modifications:
-
-20060126 - DWK created by modifying ttem50b5.h
-20060126 - DWK changed include from temconsts51.hpp to
-           temconsts43.hpp
-20060126 - DWK deleted global const int STSY
-20060126 - DWK changed include from atms50b5.h to atms437.h
-20060126 - DWK changed include from tveg50b5.h to tveg437.h
-20060126 - DWK changed include from tsoil50b5.h to tsoil437.h
-20060126 - DWK changed include from tmcrb50b5.h to tmcrb437.h
-20060126 - DWK changed include from humnact50b5.h to
-           humnact437.h
-20060126 - DWK changed class TTEM50 to class TTEM43
-20060126 - DWK added I_FOZONE and I_FINDOZNE to enum temkey
-20060126 - DWK deleted I_TSOIL, I_DST0, I_DST5, I_DST10,
-           I_DST20, I_DST50, I_DST100, I_DST200, I_FRONTD,
-           I_THAWBE, I_THAWEND, I_THAWPCT, and I_ACTLAYER
-           from enum temkey
-20060126 - DWK added GET_D40 and GET_FOZONE to enum seykey
-20060126 - DWK deleted enum sstkey
-20060126 - DWK deleted public functions
-           void displayOptionalSoilTemp(),
-           double getOptionalSoilTemp(), inline sstykey& next()
-           and inline sstykey& prev(),
-20060126 - DWK deleted ofstream& rflog1 from function call to
-           public functions int monthlyTransient() and
-           int stepmonth()
-20060126 - DWK deleted public string snowfile and
-           string slayerfile
-20060126 - DWK changed public Humanact50 ag to Humanact43 ag
-20060126 - DWK changed public Atmosphere50 to Atmosphere43
-20060126 - DWK changed public Tmicrobe50 to Tmicrobe43
-20060126 - DWK changed public Tsoil50 to Tsoil43
-20060126 - DWK changed public Tveg50 to Tveg43
-20060126 - DWK deleted public sstykey ssty[STSY]
-20060126 - DWK deleted ofstream& rflog1 from function call to
-           private function void getenviron()
-20070105 - TWC renamed to ttem45
-2007 - TWC/BSF Summary
-      temkey: VSM, PCTP, RMLEAF, RMROOT, GC, GS, TRANST, EVAP, INTER
-	  seykey: RMLEAF, RMROOT
-	  swykey: GC, GS, TRANST, EVAP, INTER
-	  Public Vars.: string gcfile
-	  Private Vars.: water, pota, pota, swp, eetnew, sm, smnew,
-	                 nirrn, eetpet
-
 ****************************************************************
 
 References:
@@ -115,10 +69,10 @@ Cheney, W., and D. Kincaid.  1985.  Numerical mathematics and
 
 // Objects describing the structure of the ecosystem
 
-#include "atms45_ndep.h"    // TTEM45 uses Atms45 class
+#include "atms45_ndep.h"     // TTEM45 uses Atms45 class
 #include "tveg45_equil.h"    // TTEM45 uses Tveg45 class
-#include "tsoil45_lulc.h"   // TTEM45 uses Tsoil45 class
-#include "tmcrb45_lulc.h"  // TTEM45 uses Tmcrb45 class
+#include "tsoil45_lulc.h"    // TTEM45 uses Tsoil45 class
+#include "tmcrb45_lulc.h"    // TTEM45 uses Tmcrb45 class
 #include "penmon45_equil.h"
 #include "ticdat.h"
 #include "tbcdat.h"
@@ -141,58 +95,52 @@ class Ttem45
      {
        I_LEAFC,    I_SAPWOODC, I_HEARTWOODC, I_ROOTC,
        I_SEEDC,    I_LABILEC,  
-       I_FBC,      I_AMC,        I_MNC,
+       I_ACTIVE_C,      I_SLOW_C,        I_PASSIVE_C,
 
        I_LEAFN,    I_SAPWOODN, I_HEARTWOODN, I_ROOTN,
        I_SEEDN,    I_LABILEN,  
-       I_FBN,      I_AMN,        I_MNN,
-       I_AVLNFB,   I_AVLNAM,     I_AVLNMN,
+       I_ACTIVE_N,      I_SLOW_N,        I_PASSIVE_N,
+       I_AVLN,  
 
-       I_FOZONE,   I_DOC,        I_DOCFB,    I_DOCAM,   I_DOCMN,
-       I_DON,      I_DONFB,      I_DONAM,    I_DONMN,
-// 30 C&N Pools (MAXESTAT)
-
+       I_FOZONE,   I_DOC,          I_DOC_ACTIVE,      I_DOC_SLOW,   I_DOC_PASSIVE,
+       I_DON,      I_DON_ACTIVE,   I_DON_SLOW,        I_DON_PASSIVE,
+                 /* 28 C&N Pools (MAXESTAT)  */
+                 /*##########################*/
+ 
        I_SM,       I_VSM,      I_PCTP,     I_RGRW,      I_SGRW,
-// 5 Water Pools (MAXWSTAT)
+                  /* 5 Water Pools (MAXWSTAT) */
+                  /*##########################*/
 
-       I_FPC,
+       I_FPC,        I_ALLOCLC,    I_ALLOCSC,    I_ALLOCHC,    I_ALLOCRC,  
+       I_ALLOCSEEDC, I_ALLOCILC,   I_ALLOCISC,   I_ALLOCIHC,   I_ALLOCIRC, 
+       I_ALLOCISEEDC,I_INGPP,      I_GPP,        I_INNPP,      I_NPP,      
+       I_GPR,        I_RVMNT,      I_RMLEAF,     I_RMSAPWOOD,  I_RMROOT,   
+       I_RMSEED,     I_RMLABILE,   I_RVGRW,      I_LTRLC,      I_LTRSC,    
+       I_LTRHC,      I_LTRRC,      I_LTRSEEDC,   I_RH,         I_RH_ACTIVE,    
+       I_RH_SLOW,    I_RH_PASSIVE,
 
-       I_ALLOCLC,  I_ALLOCSC,  I_ALLOCHC,  I_ALLOCRC,  I_ALLOCSEEDC,
-       I_ALLOCILC, I_ALLOCISC, I_ALLOCIHC, I_ALLOCIRC, I_ALLOCISEEDC,
-
-       I_INGPP,    I_GPP,      I_INNPP,
-       I_NPP,      I_GPR,      I_RVMNT,    I_RMLEAF,
-       I_RMSAPWOOD,I_RMROOT,   I_RMSEED,   I_RMLABILE,
-       I_RVGRW,    I_LTRLC,    I_LTRSC,    I_LTRHC,    I_LTRRC,
-       I_LTRSEEDC, I_RH,       I_RHFB,     I_RHAM,     I_RHMN,
-
-       I_ALLOCLN,  I_ALLOCSN,  I_ALLOCHN,  I_ALLOCRN,  I_ALLOCSEEDN,
-       I_ALLOCILN, I_ALLOCISN, I_ALLOCIHN, I_ALLOCIRN, I_ALLOCISEEDN,
-       I_NINP,     I_AGFRTN,   I_INNUP,    
-       I_VNUP,     I_VNUPFB,   I_VNUPAM,   I_VNUPMN,
-       I_NRESORBL, I_NRESORBS, I_NRESORBR, I_NRESORBSEED,
-       I_LTRLN,    I_LTRSN,    I_LTRHN,    I_LTRRN,    I_LTRSEEDN,
-       I_MNUP,     I_MNUPFB,   I_MNUPAM,   I_MNUPMN,
-       I_NMIN,     I_NMINFB,   I_NMINAM,   I_NMINMN,
-       I_NLST,     I_NLSTFB,   I_NLSTAM,   I_NLSTMN,
-
-       I_DOCPROD,  I_DOCPRODFB,I_DOCPRODAM,I_DOCPRODMN,
-       I_LCHDOC,   I_LCHDOCFB, I_LCHDOCAM, I_LCHDOCMN,
-       I_DONPROD,  I_DONPRODFB,I_DONPRODAM,I_DONPRODMN,
-
-       I_LCHDON,   I_LCHDONFB, I_LCHDONAM, I_LCHDONMN,
-       I_NFIXS,    I_NFIXN,    I_FRDL,
-       I_FCO2,     I_FH2O,     I_TEMP,     I_FO3,      
-       I_LCHDIN,   I_LCHDINFB, I_LCHDINAM, I_LCHDINMN,
-// 97 C&N Fluxes (NUMEEQ-MAXESTAT)
+       I_ALLOCLN,         I_ALLOCSN,        I_ALLOCHN,        I_ALLOCRN,       I_ALLOCSEEDN,
+       I_ALLOCILN,        I_ALLOCISN,       I_ALLOCIHN,       I_ALLOCIRN,      I_ALLOCISEEDN,
+       I_NINP,            I_AGFRTN,         I_INNUP,          I_VNUP,          I_NRESORBL, 
+       I_NRESORBS,        I_NRESORBR,       I_NRESORBSEED,    I_LTRLN,         I_LTRSN,    
+       I_LTRHN,           I_LTRRN,          I_LTRSEEDN,       I_MNUP,          I_NMIN,   
+       I_NMIN_ACTIVE,     I_NMIN_SLOW,      I_NMIN_PASSIVE,   I_NLST,          I_DOCPROD,  
+       I_DOCPROD_ACTIVE,  I_DOCPROD_SLOW,   I_DOCPROD_PASSIVE,I_LCHDOC,        I_LCHDOC_ACTIVE,
+       I_LCHDOC_SLOW,     I_LCHDOC_PASSIVE, I_DONPROD,        I_DONPROD_ACTIVE,I_DONPROD_SLOW,
+       I_DONPROD_PASSIVE, I_LCHDON,         I_LCHDON_ACTIVE,  I_LCHDON_SLOW,   I_LCHDON_PASSIVE,
+       I_NFIXS,           I_NFIXN,          I_FRDL,           I_FCO2,          I_FH2O,   
+       I_TEMP,            I_FO3,            I_LCHDIN,   
+                  /* 85 C&N Fluxes (NUMEEQ-MAXESTAT) */
+                  /*#################################*/
 
        I_AGIRRIG,  I_INEET,    I_EET,      I_RPERC,     I_SPERC,
        I_RRUN,     I_SRUN,
 
        I_GC,       I_GS,       I_PECAN,    I_PESOIL, 
-// 11 Water Fluxes (NUMWEQ-MAXWSTAT)
+                  /* 11 Water Fluxes (NUMWEQ-MAXWSTAT) */
+                  /*###################################*/
 
-// 30+5+97+11 = 143 = NUMEQ; no variables below this point should appear in
+// 28+5+85+11 = 129 = NUMEQ; no variables below this point should appear in
 //   the tem.y[NUMEQ] variable
 
        I_TOTEC,    I_TOTC,     I_VEGN,
@@ -214,11 +162,10 @@ class Ttem45
        I_CNVRTC,   I_VCNVRTC,  I_SCNVRTC,  I_SLASHC,    I_CFLX,
 
        I_CNVRTN,   I_VCNVRTN,  I_SCNVRTN,  I_SLASHN,    I_NRETNT,
-       I_NVRTNT,   I_NSRTNT,   I_NSRTNTFB, I_NSRTNTAM,  I_NSRTNTMN,
+       I_NVRTNT,   I_NSRTNT,   I_NSRTNT_ACTIVE, I_NSRTNT_SLOW,  I_NSRTNT_PASSIVE,
        I_SOLC,     I_SOLN,   
-       I_AVLN,
 
-  //ok to here 41 
+  //ok to here 40 
        I_AGFPRDC,  I_AGFPRDN,  I_FRESIDC,  I_FRESIDN,   I_AGPRDFC,
        I_AGPRDFN,  I_RESIDFC,  I_RESIDFN,
 
@@ -239,7 +186,7 @@ class Ttem45
        I_AGINNUP,  I_NATINNUP, I_AGVNUP,   I_NATVNUP,
        I_AGVNMBL,  I_NATVNMBL,
        I_AGVNRSRB, I_NVNRSRB,  I_AGLTRN,   I_NATLTRN,   I_CLIPPINGS
-//  100 extra variables
+//  99 extra variables
      };
 
      #ifdef CALIBRATE_TEM
@@ -519,7 +466,7 @@ class Ttem45
      void yearSummaryExtrapolate( void );
 
      // "Get" and "Set" private variables and parameters
-/*
+
 
      // avlnb **************************************************
 
@@ -532,8 +479,9 @@ class Ttem45
                            const int& pcmnt )
      {
        avlnb[pcmnt] = pavlnb;
-     } */
+     } 
 
+     /*
      // avlnfb **************************************************    //MJ MLS;
 
      inline double getAVLNFB( const int& pcmnt )
@@ -572,7 +520,7 @@ class Ttem45
      {
        avlnmn[pcmnt] = pavlnmn;
      }
-
+     */
 
      // nce ****************************************************
 
@@ -623,7 +571,7 @@ class Ttem45
      } */
 
 //commented out for now ML MLS;
-/*
+
      inline double getSOLC( void ) { return solc; }
      inline double getSOLN( void ) { return soln; }
      inline double getDOC( void ) { return doc; }
@@ -634,47 +582,47 @@ class Ttem45
      inline double getLCHDON( void ) { return lchdon; }
 
 //The following get set functions are replaced with y[I_FBC] instead MJ MLS; 
-    // fbc **************************************************
+    // active_c **************************************************
     
-      inline double getFBC( const int& pcmnt )
+      inline double getACTIVE_C( const int& pcmnt )
      {
-       return fbc[pcmnt];
+       return active_c[pcmnt];
      }
 
-     inline void setFBC( const double& pfbc,
+     inline void setACTIVE_C( const double& pactive_c,
                            const int& pcmnt )
      {
-       fbc[pcmnt] = pfbc;
+       active_c[pcmnt] = pactive_c;
      }
 
 
-     //amc **************************************************
+     //slow_c **************************************************
 
-      inline double getAMC( const int& pcmnt )
+      inline double getSLOW_C( const int& pcmnt )
      {
-       return amc[pcmnt];
+       return slow_c[pcmnt];
      }
 
-     inline void setAMC( const double& pamc,
+     inline void setSLOW_C( const double& pslow_c,
                            const int& pcmnt )
      {
-       amc[pcmnt] = pamc;
+       slow_c[pcmnt] = pslow_c;
      }
 
-     //mnc **************************************************
+     //passive_c **************************************************
 
-      inline double getMNC( const int& pcmnt )
+      inline double getPASSIVE_C( const int& pcmnt )
      {
-       return mnc[pcmnt];
+       return passive_c[pcmnt];
      }
 
-     inline void setMNC( const double& pmnc,
+     inline void setPASSIVE_C( const double& ppassive_c,
                            const int& pcmnt )
      {
-       mnc[pcmnt] = pmnc;
+       passive_c[pcmnt] = ppassive_c;
      }
 
-*/
+
 //    Vegetation Nitrogen Initial Pools
 
 
@@ -1213,8 +1161,8 @@ class Ttem45
 
      //bkeu variables
 
-//     double upd;    //soil temperature day time
-     double downd;    //soil temperature day time
+//     double upd;     //soil temperature day time
+     double downd;     //soil temperature day time
 //     double upn;     //soil temperautre night time
      double downn;     //soil temperautre night time
 
@@ -1260,25 +1208,19 @@ class Ttem45
 
 //     double solnb[MAXCMNT];
 
-//     double avlnb[MAXCMNT];
+     double avlnb[MAXCMNT];
 
-     double fbc[MAXCMNT];
+     double active_c[MAXCMNT];
 
-     double amc[MAXCMNT];
+     double slow_c[MAXCMNT];
 
-     double mnc[MAXCMNT];
+     double passive_c[MAXCMNT];
 
-     double fbn[MAXCMNT];
+     double active_n[MAXCMNT];
 
-     double amn[MAXCMNT];
+     double slow_n[MAXCMNT];
 
-     double mnn[MAXCMNT];
-
-     double avlnfb[MAXCMNT];
-
-     double avlnam[MAXCMNT];
-
-     double avlnmn[MAXCMNT];
+     double passive_n[MAXCMNT];
 
 
  };
