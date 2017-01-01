@@ -39,6 +39,27 @@ Parameter files (ecd files)
 6.	Microbe
 7.	Agriculture
 8.	Calibrated biome files
+
+Calibration Procedures
+
+1.	Increase nmax to remove N-limitation and saturate with nitrogen.  Saturation is happening when INGPP=GPP and INNPP=NPP
+
+2.	Adjust cmax to get the target NPPsat value
+
+3.	Adjust nmax to get the target NPP value
+
+4.	Adjust kra to get the target GPP value
+
+5.	Recheck that NPPmax is still correct, by increasing nmax to saturate the Nitrogen, and readjust cmax if necessary, and then nmax to the correct value for the target NPP
+
+6.	Adjust tauheartwood to get the target VegC value
+
+7.	Adjust kdc to get the target SoilC value
+
+8.	Adjust mnup to get the target availn value
+
+9.	For reduced-form open N version, need to wait until YRNIN and YRNLOST balance each other out.  Need to adjust nmax, mnup, and nloss factors simultaneously to get correct target values.
+
  
 # Key References:
 
