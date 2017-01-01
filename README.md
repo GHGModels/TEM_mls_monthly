@@ -2,7 +2,8 @@
 The Terrestrial Ecosystem Model multi-layer soil (TEM-mls) monthly version
 Version built based on TEM-Hydro (developed and maintained by Prof. Benjamin Felzer @ Lehigh). 
 
-TEM history review
+# TEM history review
+
 TEM was originally developed by the Marine Biological Lab. It is a process-based biogeochemical model, which involves the carbon (short-term cycle), nitrogen (more complex in terms of organic – inorganic, open – close) and hydrology cycle. It calculates GPP and NPP at the canopy level by using parameters obtained for photosynthesis and respiration at individual plants. 
 The soil pool in TEM is very limited in terms of soil layer and physical quality, as the soil layer is a single layer. TEM4.5 is the newest version of TEM. In 2005, Kicklighter added an open N cycle into TEM.
 
@@ -40,7 +41,7 @@ Parameter files (ecd files)
 7.	Agriculture
 8.	Calibrated biome files
 
-Calibration Procedures
+# Calibration Procedures
 
 1.	Increase nmax to remove N-limitation and saturate with nitrogen.  Saturation is happening when INGPP=GPP and INNPP=NPP
 
