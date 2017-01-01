@@ -2,6 +2,43 @@
 The Terrestrial Ecosystem Model multi-layer soil (TEM-mls) monthly version
 Version built based on TEM-Hydro (developed and maintained by Prof. Benjamin Felzer @ Lehigh). 
 
+TEM Input:
+•	Transient datasets (site level or grid level):
+1.	Cloud or radiation
+2.	Temperature
+3.	Precipitation
+4.	Ozone (AOT40 – in order to convert to daily, change to CUO index [Pleijel et al. 2004, cumulative stomatal uptake of ozone])
+5.	CO2 (a single value for the globe)
+6.	Vapor pressure
+7.	Vegetation cohorts
+•	Static datasets
+1.	Soil texture (sand/silt/clay)
+2.	Elevation
+3.	Wind speed at surface (to determine aerodynamic)
+•	Parameter files (ecd files)
+1.	Soil
+2.	Rooting depth
+3.	Vegetation
+4.	Vegetation mosaic
+5.	Leaf
+6.	Microbe
+7.	Agriculture
+8.	Calibrated biome files
+ 
+File structure
+➢	Code files (cpp files define function to include header files):
+o	.hpp; .cpp; .h; .cxx
+➢	Object files (binary files – not able to open the file and look at them):
+o	.o; .obj
+➢	Information files:
+o	Xml
+➢	Output files:
+o	Log. Files
+➢	Header files (declare functions [correspond with the definition in .cpp files], variables, can be done as public or private)
+o	.h 
+
+
+
 Key References:
 
 VERSION 4.1
