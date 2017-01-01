@@ -3,22 +3,16 @@ The Terrestrial Ecosystem Model multi-layer soil (TEM-mls) monthly version
 Version built based on TEM-Hydro (developed and maintained by Prof. Benjamin Felzer @ Lehigh). 
 
 TEM history review
-TEM was originally developed 20~30 years ago by the Marine Biological Lab. It is a process-based biogeochemical model with equation supported (not an empirical or statistical model). Prof. B. Felzer contributed towards the construction of the mid-latitude ozone in TEM. TEM has a spatial resolution of 0.5˚ × 0.5˚ in grid cell, and site level (eddy covariance site) is the smallest unit for TEM to operate.
-TEM involves the carbon (short-term cycle), nitrogen (more complex in terms of organic – inorganic, open – close) and hydrology cycle. It calculates GPP and NPP cat canopy level by using parameters obtained for photosynthesis and respiration at individual plants. 
+TEM was originally developed by the Marine Biological Lab. It is a process-based biogeochemical model, which involves the carbon (short-term cycle), nitrogen (more complex in terms of organic – inorganic, open – close) and hydrology cycle. It calculates GPP and NPP at the canopy level by using parameters obtained for photosynthesis and respiration at individual plants. 
 The soil pool in TEM is very limited in terms of soil layer and physical quality, as the soil layer is a single layer. TEM4.5 is the newest version of TEM. In 2005, Kicklighter added an open N cycle into TEM.
 
 The TEM-Hydro version involves leafs, hardwoods, roots, sapwoods, seeds, labile pool, and shuttleworth Wallace water pools in the model. 
-LULC types incorporated into TEM are separately summarized in excel files.
-TEM is typically run in the GCM computer which is operated in LINUX language. GCM is a computer with 9 modes, each consists of 8 cores therefore making GCM a 72 core system. It has 56 hard drives and 7 raid controller. Raid controller 1, 2, 3 are grouped together with 24 hard drives allocated to them, raid controllers 4, and 5 are grouped together for 16 hard drives and 6 and 7 are grouped together for the rest 16 hard drives. 
-There are in total 7 partitions in the shared folder in GCM. Partition 2 in GCM is used for storage of input files, and Partition 3 is used for storage of output files. 
-In TEM, the so-called CTEM is the calibration mode, and the XTEM is the extrapolation mode. XTEM is able to run from a PC once isolated to small grids or in calibration run.
-Potential vegetation in TEM is a cohort-based approach. That means any disturbances in the current date will create cohort for the upcoming year. Currently, on-going project is looking for methods to reduce number of cohorts created to reduce computing time.
-Pools of stock:
-➢	Vegetation carbon involves carbon on leaves, stems (sapwood and hardwood), roots, labile and seeds.
-➢	Vegetation nitrogen
-➢	Soil C
-➢	Soil N
-➢	Inorganic N
+
+In TEM, CTEM is the calibration mode, and the XTEM is the extrapolation mode. 
+
+Potential vegetation in TEM is a cohort-based approach. That means any disturbances in the current date will create cohort for the upcoming year.
+
+The TEM-mls version added multi-layer soil C and N pools, and allow temperature and moisture to vary according to depth in the soil. 
 
 # TEM Input:
 
