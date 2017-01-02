@@ -65,6 +65,7 @@ class Tmcrb45: public ProcessXML45
                           const double& passive_n,
                           const double& soilh2o,
                           const double& vsm,
+                          const double& availn,
                           const double& availn_active,
                           const double& availn_slow,
                           const double& availn_passive,
@@ -139,7 +140,7 @@ class Tmcrb45: public ProcessXML45
           inline double getGMIN_SLOW( void ) { return gmin_slow; }
           inline double getGMIN_PASSIVE( void ) { return gmin_passive; } 
 
-     // kd *****************************************************     //what to do with KD? MJ MLS;
+     // kd *****************************************************     
      
      inline double getKD( void ) { return kd; }
 
@@ -168,6 +169,8 @@ class Tmcrb45: public ProcessXML45
 
 
      // kdb ****************************************************
+     
+     // all kd are not done correctly at the moment, check back when updating calibration
 
      inline double getKDB( const int& pcmnt )
      {
@@ -182,15 +185,42 @@ class Tmcrb45: public ProcessXML45
 
       // kd_active ****************************************************
       
-     inline double getKD_ACTIVE( void ) { return kd_active; }
-
+      inline double getKD_ACTIVE( const int& pcmnt )
+      {
+        return kd_active[pcmnt];
+      }
+     
+     inline void setKD_ACTIVE( const double& pkd_active,
+                         const int& pcmnt )
+     {
+       kd_active[pcmnt] = pkd_active;
+     }
+     
      // kd_slow ****************************************************
 
-     inline double getKD_SLOW( void ) { return kd_slow; }
+     inline double getKD_SLOW( const int& pcmnt )
+     {
+       return kd_slow[pcmnt];
+     }
+     
+     inline void setKD_SLOW( const double& pkd_slow,
+                               const int& pcmnt )
+     {
+       kd_slow[pcmnt] = pkd_slow;
+     }
 
      //kd_passive ****************************************************
 
-     inline double getKD_PASSIVE( void ) { return kd_passive; }
+     inline double getKD_PASSIVE( const int& pcmnt )
+     {
+       return kd_passive[pcmnt];
+     }
+     
+     inline void setKD_PASSIVE( const double& pkd_passive,
+                             const int& pcmnt )
+     {
+       kd_passive[pcmnt] = pkd_passive;
+     }
 
      // kdc ****************************************************
 
@@ -528,7 +558,7 @@ class Tmcrb45: public ProcessXML45
 
      double kd;
      double kdb[MAXCMNT];
-     // double kd_active[MAXCMNT];
+     double kd_active[MAXCMNT];
      double kd_slow[MAXCMNT];
      double kd_passive[MAXCMNT];
 

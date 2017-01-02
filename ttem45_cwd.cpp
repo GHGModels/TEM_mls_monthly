@@ -1587,9 +1587,9 @@ nopen = 0;
   soil.setLCHDIN_SLOW(soil.getNLOST_SLOW());
   soil.setLCHDIN_PASSIVE(soil.getNLOST_PASSIVE());
 
-  soil.setNLOSTFB( soil.getNLOSTFB() +  soil.getDENITR(veg.cmnt) * (0.01*microbe.getGMINFB() + veg.getDENITR()) );
-  soil.setNLOSTAM( soil.getNLOSTAM() +  soil.getDENITR(veg.cmnt) * (0.01*microbe.getGMINAM() + veg.getDENITR()) );
-  soil.setNLOSTMN( soil.getNLOSTMN() +  soil.getDENITR(veg.cmnt) * (0.01*microbe.getGMINMN() + veg.getDENITR()) );
+  soil.setNLOST_ACTIVE( soil.getNLOST_ACTIVE() +  soil.getDENITR(veg.cmnt) * (0.01*microbe.getGMIN_ACTIVE() + veg.getDENITR()) );
+  soil.setNLOST_SLOW( soil.getNLOST_SLOW() +  soil.getDENITR(veg.cmnt) * (0.01*microbe.getGMIN_SLOW() + veg.getDENITR()) );
+  soil.setNLOST_PASSIVE( soil.getNLOST_PASSIVE() +  soil.getDENITR(veg.cmnt) * (0.01*microbe.getGMIN_PASSIVE() + veg.getDENITR()) );
 
 #endif
 //  soil.setNLOST(soil.getNLOST() + soil.getLCHDON() + ag.getCONVRTFLXN() + ag.getCROPRESIDUEFLXN());
@@ -1658,7 +1658,7 @@ void Ttem45::delta( const int& pdm,
     refresh();
   #endif
   
-   double excessfb, excessam;
+   double excess_active, excess_slow, excess_passive;
 //  ++delta_count;
 //  if( delta_count > 1000000 ) { exit(-1); }
   if( 0 == ag.state )
@@ -1898,22 +1898,6 @@ void Ttem45::delta( const int& pdm,
 #endif 
 
 ag.setSLASHN(0.0);
-/*
-  pdstate[I_AVLNFB] = soil.getNINPUT()
-                    + microbe.getNETNMINFB()
-                    - veg.getNUPTAKEFB()
-                    - soil.getNLOSTFB();
-
-
-  pdstate[I_AVLNAM] = microbe.getNETNMINAM()
-                    - veg.getNUPTAKEAM()
-                    - soil.getNLOSTAM();
-
-  pdstate[I_AVLNMN] = microbe.getNETNMINMN()
-                    - veg.getNUPTAKEMN()
-                    - soil.getNLOSTMN();
-
-*/
 
 if (microbe.getNETNMIN() + soil.getNINPUT() > ZERO)
  {
@@ -1929,19 +1913,7 @@ if (microbe.getNETNMIN() + soil.getNINPUT() > ZERO)
  veg.setNUPTAKE(0.0);
  soil.setNLOST(0.0);
   
- pdstate[I_AVLNFB] = soil.getNINPUT()
-                   + microbe.getNETNMIN_ACTIVE()
-                   + microbe.getNETNMIN_SLOW()
-                   + microbe.getNETNMIN_PASSIVE()
-                    - veg.getNUPTAKE()
-                    - soil.getNLOST();
  }
-
-//cout << "NINPUT = " << soil.getNINPUT() << endl;
-//cout << "diag FB in delta = " << microbe.getNETNMINFB() << " " << veg.getNUPTAKEFB() << " " <<  soil.getNLOSTFB() << " " << pdstate[I_AVLNFB] << endl;
-//cout << "diag AM in delta = " << microbe.getNETNMINAM() << " " << veg.getNUPTAKEAM() << " " <<  soil.getNLOSTAM() << " " << pdstate[I_AVLNAM] << endl;
-//cout << "diag MN in delta = " << microbe.getNETNMINMN() << " " << veg.getNUPTAKEMN() << " " <<  soil.getNLOSTMN() << " " << pdstate[I_AVLNMN] << endl;
-
 
   // Water pools
 
@@ -3034,23 +3006,7 @@ void Ttem45::getsitecd( const int& dv, const string&  ecd )
                                                "siteECD",
                                                "avln",
                                                veg.cmnt );
-  /*
-  avlnfb[veg.cmnt] = veg.getXMLcmntArrayDouble( fecd[dv],
-                                               "siteECD",
-                                               "avlnfb",
-                                               veg.cmnt );
 
-  avlnam[veg.cmnt] = veg.getXMLcmntArrayDouble( fecd[dv],
-                                               "siteECD",
-                                               "avlnam",
-                                               veg.cmnt );
-
-  avlnmn[veg.cmnt] = veg.getXMLcmntArrayDouble( fecd[dv],
-                                               "siteECD",
-                                               "avlnmn",
-                                               veg.cmnt );
-  */
-  
   veg.setCMAX1B( veg.getXMLcmntArrayDouble( fecd[dv],
                                             "siteECD",
                                             "vegcmax1b",
@@ -3106,15 +3062,15 @@ void Ttem45::getsitecd( const int& dv, const string&  ecd )
                                              veg.cmnt ),
                   veg.cmnt );
 
-  microbe.setKDFB_SLOW( veg.getXMLcmntArrayDouble( fecd[dv],
+  microbe.setKD_SLOW( veg.getXMLcmntArrayDouble( fecd[dv],
                                              "siteECD",
-                                             "microbekdfb_slow",
+                                             "microbekd_slow",
                                              veg.cmnt ),
                   veg.cmnt );
 
-  microbe.setKDFB_PASSIVE( veg.getXMLcmntArrayDouble( fecd[dv],
+  microbe.setKD_PASSIVE( veg.getXMLcmntArrayDouble( fecd[dv],
                                              "siteECD",
-                                             "microbekdfb_passive",
+                                             "microbekd_passive",
                                              veg.cmnt ),
                   veg.cmnt );
 
@@ -3643,14 +3599,14 @@ if( y[I_RGRW] < ZERO ) { y[I_RGRW] = ZERO; }
 
   if( y[I_PASSIVE_N] - prevy[I_PASSIVE_N] != y[I_LTRRN]
                                + soil.getSONINP()
-                               - y[I_DONPRODMN]
+                               - y[I_DONPROD_PASSIVE]
                                - ag.getSCONVRTFLXN_PASSIVE()
                                - ag.getNSRETENT_PASSIVE()
                                - microbe.getNETNMIN_PASSIVE() )
   {
     y[I_NMIN_PASSIVE] = y[I_LTRRN]
                 + soil.getSONINP()
-                - y[I_DONPRODMN]
+                - y[I_DONPROD_PASSIVE]
                 - ag.getSCONVRTFLXN_PASSIVE()
                 - ag.getNSRETENT_PASSIVE()
                 - y[I_PASSIVE_N]
@@ -4024,17 +3980,18 @@ nopen = 0;
                           soil.getPCTFLDCAP(),
                           soil.getPCTWILTPT(),
                           soil.getPCTPOR(),
-                          pstate[I_ACTIVE_C]+pstate[I_SLOW_C]+pstate[I_PASSIVE_C],
                           pstate[I_ACTIVE_C],
                           pstate[I_SLOW_C],
                           pstate[I_PASSIVE_C],
-                          pstate[I_ACTIVE_N]+pstate[I_SLOW_N]+pstate[I_PASSIVE_N],
                           pstate[I_ACTIVE_N],
                           pstate[I_SLOW_N],
                           pstate[I_PASSIVE_N],                          
                           pstate[I_SM],
                           pstate[I_VSM],
                           pstate[I_AVLN],
+                          pstate[I_AVLN_ACTIVE],
+                          pstate[I_AVLN_SLOW],
+                          pstate[I_AVLN_PASSIVE],
                           moistlim,
                           tillflag,
                           ag.getTILLFACTOR( veg.cmnt ),
@@ -4043,7 +4000,6 @@ nopen = 0;
                           nopen);
 
                  
-
 //----------------------------------------------//
 //  determine ingpp and innup; calculations for gpp are used in allocate
   #ifdef DEBUG_CTEM
@@ -4060,7 +4016,7 @@ nopen = 0;
 
   veg.nupxclm( veg.cmnt,
                pstate[I_SM],
-               pstate[I_AVLN],
+               pstate[I_AVLN_ACTIVE] + pstate[I_AVLN_SLOW] + pstate[I_AVLN_PASSIVE],
                veg.getRMT(),
                soil.getKH2O(),
                veg.getFOZONE(),

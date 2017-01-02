@@ -60,12 +60,12 @@ class Ttem45
 
        I_LEAFN,    I_SAPWOODN, I_HEARTWOODN, I_ROOTN,
        I_SEEDN,    I_LABILEN,  
-       I_ACTIVE_N,      I_SLOW_N,        I_PASSIVE_N,
-       I_AVLN,  
+       I_ACTIVE_N, I_SLOW_N,        I_PASSIVE_N,
+       I_AVLN,     I_AVLN_ACTIVE,   I_AVLN_SLOW,      I_AVLN_PASSIVE,
 
        I_FOZONE,   I_DOC,          I_DOC_ACTIVE,      I_DOC_SLOW,   I_DOC_PASSIVE,
        I_DON,      I_DON_ACTIVE,   I_DON_SLOW,        I_DON_PASSIVE,
-                 /* 28 C&N Pools (MAXESTAT)  */
+                 /* 31 C&N Pools (MAXESTAT)  */
                  /*##########################*/
  
        I_SM,       I_VSM,      I_PCTP,     I_RGRW,      I_SGRW,
@@ -101,7 +101,7 @@ class Ttem45
                   /* 11 Water Fluxes (NUMWEQ-MAXWSTAT) */
                   /*###################################*/
 
-// 28+5+85+11 = 129 = NUMEQ; no variables below this point should appear in
+// 31+5+85+11 = 132 = NUMEQ; no variables below this point should appear in
 //   the tem.y[NUMEQ] variable
 
        I_TOTEC,    I_TOTC,     I_VEGN,
@@ -429,17 +429,17 @@ class Ttem45
      // "Get" and "Set" private variables and parameters
 
 
-     // avlnb **************************************************
+     // avln **************************************************
 
-     inline double getAVLNB( const int& pcmnt )
+     inline double getAVLN( const int& pcmnt )
      {
-       return avlnb[pcmnt];
+       return avln[pcmnt];
      }
 
-     inline void setAVLNB( const double& pavlnb,
+     inline void setAVLN( const double& pavln,
                            const int& pcmnt )
      {
-       avlnb[pcmnt] = pavlnb;
+       avln[pcmnt] = pavln;
      } 
 
      /*
@@ -502,37 +502,33 @@ class Ttem45
        prevy[i] = pprevy;
      }
 
+     // solc **************************************************
 
-/*     // solcb **************************************************
-
-     inline double getSOLCB( const int& pcmnt )
+     inline double getSOLC( const int& pcmnt )
      {
-       return solcb[pcmnt];
+       return solc[pcmnt];
      }
 
-     inline void setSOLCB( const double& psolcb,
+     inline void setSOLC( const double& psolc,
                            const int& pcmnt )
      {
-       solcb[pcmnt] = psolcb;
+       solc[pcmnt] = psolc;
      }
 
+     // soln **************************************************
 
-
-     // solnb **************************************************
-
-     inline double getSOLNB( const int& pcmnt )
+     inline double getSOLN( const int& pcmnt )
      {
-       return solnb[pcmnt];
+       return soln[pcmnt];
      }
 
-     inline void setSOLNB( const double& psolnb,
+     inline void setSOLN( const double& psoln,
                            const int& pcmnt )
      {
-       solnb[pcmnt] = psolnb;
-     } */
+       soln[pcmnt] = psoln;
+     } 
 
-//commented out for now ML MLS;
-
+/*   comment out because solc etc are not the sum of active,slow,passive pools yet, check back
      inline double getSOLC( void ) { return solc; }
      inline double getSOLN( void ) { return soln; }
      inline double getDOC( void ) { return doc; }
@@ -541,6 +537,33 @@ class Ttem45
      inline double getDONPROD( void ) { return donprod; }
      inline double getLCHDOC( void ) { return lchdoc; }
      inline double getLCHDON( void ) { return lchdon; }
+ */
+
+     // doc **************************************************
+
+      inline double getDOC( const int& pcmnt )
+      {
+       return doc[pcmnt];
+      }
+     
+     inline void setDOC( const double& pdoc,
+                          const int& pcmnt )
+     {
+       doc[pcmnt] = pdoc;
+     } 
+     
+     // don **************************************************
+     
+     inline double getDON( const int& pcmnt )
+     {
+       return don[pcmnt];
+     }
+     
+     inline void setDON( const double& pdon,
+                         const int& pcmnt )
+     {
+       don[pcmnt] = pdon;
+     } 
 
 //The following get set functions are replaced with y[I_FBC] instead MJ MLS; 
     // active_c **************************************************
@@ -1169,7 +1192,7 @@ class Ttem45
 
 //     double solnb[MAXCMNT];
 
-     double avlnb[MAXCMNT];
+     double avln[MAXCMNT];
 
      double active_c[MAXCMNT];
 
@@ -1182,8 +1205,15 @@ class Ttem45
      double slow_n[MAXCMNT];
 
      double passive_n[MAXCMNT];
-
-
+     
+     double solc[MAXCMNT];
+     double soln[MAXCMNT];
+     double doc[MAXCMNT];
+     double don[MAXCMNT];
+     double docprod[MAXCMNT];
+     double donprod[MAXCMNT];
+     double lchdoc[MAXCMNT];
+     double lchdon[MAXCMNT];
  };
 
 #endif

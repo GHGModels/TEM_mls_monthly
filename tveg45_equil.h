@@ -35,7 +35,7 @@ class Tveg45 : public ProcessXML45
      void aerodynamics(const int& pdcmnt,
 		               const double& windspeed); 
 	 
-	 void allocate( const int& pdcmnt,
+	   void allocate( const int& pdcmnt,
                     const int& pndays,
                     const int& nfeed,
                     const int& pdm,
@@ -63,32 +63,14 @@ class Tveg45 : public ProcessXML45
      void litterresp( const int& pdcmnt,
                       const int& pndays );
 
-     void nupxclmfb( const int& pdcmnt,
+     void nupxclm( const int& pdcmnt,
                      const double& soilh2o,
                      const double& availn,
                      const double& rofT,
                      const double& ksoil,
                      const double& foliage,
                      const double& rootmass );
-
-     void nupxclmam( const int& pdcmnt,
-                     const double& soilh2o,
-                     const double& availn,
-                     const double& rofT,
-                     const double& ksoil,
-                     const double& foliage,
-                     const double& rootmass );
-
-     void nupxclmmn( const int& pdcmnt,
-                     const double& soilh2o,
-                     const double& availn,
-                     const double& rofT,
-                     const double& ksoil,
-                     const double& foliage,
-                     const double& rootmass );
-
-
-
+     
      void petsw  ( const int& pdcmnt,
                         const int& pdm,
                         const int& pndays,

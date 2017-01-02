@@ -398,6 +398,17 @@ class Tsoil45 : public ProcessXML45
 
 
      // nloss ******
+     
+     inline double getNLOSS( const int& pcmnt )
+     {
+       return nloss[pcmnt];
+     }
+     
+     inline void setNLOSS( const double& pnloss,
+                                  const int& pcmnt )
+     {
+       nloss[pcmnt] = pnloss;
+     }
 
      inline double getNLOSS_ACTIVE( const int& pcmnt )
      {
@@ -448,6 +459,17 @@ class Tsoil45 : public ProcessXML45
        c_den_slow[pcmnt] = pc_den_slow;
      }
 
+     inline double getC_DEN_PASSIVE( const int& pcmnt )
+     {
+       return c_den_passive[pcmnt];
+     }
+     
+     inline void setC_DEN_PASSIVE( const double& pc_den_passive,
+                                const int& pcmnt )
+     {
+       c_den_passive[pcmnt] = pc_den_passive;
+     }
+     
 
      // nlost **************************************************
 
@@ -967,6 +989,9 @@ class Tsoil45 : public ProcessXML45
 
      // Dissolved Inorganic Nitrogen leaching
      double lchdin;
+     double lchdin_active;
+     double lchdin_slow;
+     double lchdin_passive;
 
      // Monthly drainage (mm / month)
      double drainage;
@@ -1119,6 +1144,7 @@ class Tsoil45 : public ProcessXML45
      // Proportion of available nitrogen lost from soil
      //   (g N / (square meter))
 
+     double nloss[MAXCMNT];
      double nloss_active[MAXCMNT];
      double nloss_slow[MAXCMNT];
      double nloss_passive[MAXCMNT];
@@ -1129,7 +1155,8 @@ class Tsoil45 : public ProcessXML45
 //
      double c_den_active[MAXCMNT];
      double c_den_slow[MAXCMNT];
-
+     double c_den_passive[MAXCMNT];
+     
 
      // Porosity of soil (%soil volume)
 
