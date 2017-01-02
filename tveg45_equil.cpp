@@ -152,14 +152,14 @@ Tveg45::Tveg45() : ProcessXML45()
 
 
   inuptake = MISSING;
-  inuptakefb = MISSING;
-  inuptakeam = MISSING;
-  inuptakemn = MISSING;
+  inuptake_active = MISSING;
+  inuptake_slow = MISSING;
+  inuptake_passive = MISSING;
 
   nuptake = MISSING;
-  nuptakefb = MISSING;
-  nuptakeam = MISSING;
-  nuptakemn = MISSING;
+  nuptake_active = MISSING;
+  nuptake_slow = MISSING;
+  nuptake_passive = MISSING;
 
 
   ingpp = MISSING;
@@ -196,14 +196,14 @@ Tveg45::Tveg45() : ProcessXML45()
   yrstoren = MISSING;
 
   yrltrc = MISSING;
-  yrltrcfb = MISSING;
-  yrltrcam = MISSING;
-  yrltrcmn = MISSING;
+  yrltrc_active = MISSING;
+  yrltrc_slow = MISSING;
+  yrltrc_passive = MISSING;
 
   yrltrn = MISSING;
-  yrltrnfb = MISSING;
-  yrltrnam = MISSING;
-  yrltrnmn = MISSING;
+  yrltrn_active = MISSING;
+  yrltrn_slow = MISSING;
+  yrltrn_passive = MISSING;
 
   yringpp = MISSING;
   yrgpp = MISSING;
@@ -1971,9 +1971,9 @@ void Tveg45::resetYrFluxes( void )
   yrrgrowth = ZERO;
 
   yrltrc = ZERO;
-  yrltrcfb = ZERO;
-  yrltrcam = ZERO;
-  yrltrcmn = ZERO;
+  yrltrc_active = ZERO;
+  yrltrc_slow = ZERO;
+  yrltrc_passive = ZERO;
 
 
   // Nitrogen fluxes
@@ -1982,9 +1982,9 @@ void Tveg45::resetYrFluxes( void )
   yrnup = ZERO;
   yrnrsorb = ZERO;
   yrltrn = ZERO;
-  yrltrnfb = ZERO;
-  yrltrnam = ZERO;
-  yrltrnmn = ZERO;
+  yrltrn_active = ZERO;
+  yrltrn_slow = ZERO;
+  yrltrn_passive = ZERO;
 
   // Penman fluxes
 

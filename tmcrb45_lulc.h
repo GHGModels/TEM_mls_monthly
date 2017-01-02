@@ -59,17 +59,17 @@ class Tmcrb45: public ProcessXML45
                           const double& pctfldcap,
                           const double& pctwiltpt,
                           const double& pctpor,
-                          const double& solc,
                           const double& active_c,
                           const double& slow_c,
                           const double& passive_c,
-                          const double& soln,
                           const double& active_n,
                           const double& slow_n,
                           const double& passive_n,
                           const double& soilh2o,
                           const double& vsm,
-                          const double& availn,
+                          const double& availn_active,
+                          const double& availn_slow,
+                          const double& availn_passive,
                           const int& moistlim,
                           const int& tillflag,
                           const double& tillfactor,
@@ -315,29 +315,41 @@ class Tmcrb45: public ProcessXML45
        nup[pcmnt] = pnup;
      }
 
-     /*
-     inline double getNUPFBAM( const int& pcmnt )
+     // active
+     inline double getNUP_ACTIVE( const int& pcmnt )
      {
-       return nupfbam[pcmnt];
+       return nup_active[pcmnt];
      }
 
-     inline void setNUPFBAM( const double& pnupfbam,
+     inline void setNUP_ACTIVE( const double& pnup_active,
                           const int& pcmnt )
      {
-       nupfbam[pcmnt] = pnupfbam;
+       nup_active[pcmnt] = pnup_active;
      }
 
-     inline double getNUPFBMN( const int& pcmnt )
+     // slow
+     inline double getNUP_SLOW( const int& pcmnt )
      {
-       return nupfbmn[pcmnt];
+       return nup_slow[pcmnt];
      }
-
-     inline void setNUPFBMN( const double& pnupfbmn,
-                          const int& pcmnt )
+     
+     inline void setNUP_SLOW( const double& pnup_slow,
+                                const int& pcmnt )
      {
-       nupfbmn[pcmnt] = pnupfbmn;
+       nup_slow[pcmnt] = pnup_slow;
      }
-     */
+     
+     // passive
+     inline double getNUP_PASSIVE( const int& pcmnt )
+     {
+       return nup_passive[pcmnt];
+     }
+     
+     inline void setNUP_PASSIVE( const double& pnup_passive,
+                                const int& pcmnt )
+     {
+       nup_passive[pcmnt] = pnup_passive;
+     }
 
      // nuptake ************************************************
 
@@ -348,13 +360,13 @@ class Tmcrb45: public ProcessXML45
        nuptake = pnuptake;
      }
 
-     /*
-     inline double getNUPTAKEFB( void ) { return nuptakefb; }
+     
+     inline double getNUPTAKE_ACTIVE( void ) { return nuptake_active; }
 
-     inline double getNUPTAKEAM( void ) { return nuptakeam; }
+     inline double getNUPTAKE_SLOW( void ) { return nuptake_slow; }
 
-     inline double getNUPTAKEMN( void ) { return nuptakemn; }
-     */
+     inline double getNUPTAKE_PASSIVE( void ) { return nuptake_passive; }
+     
       
      // propftos ***********************************************
 
@@ -473,11 +485,10 @@ class Tmcrb45: public ProcessXML45
 
      // Total nitrogen uptake or "immobilzation" by microbes
      double nuptake;    // (g N / (sq. meter * month))
-     /*    
-     double nuptakefb;  // (g N / (sq. meter * month))
-     double nuptakeam;  // (g N / (sq. meter * month))
-     double nuptakemn;  // (g N / (sq. meter * month))
-     */
+     double nuptake_active;  // (g N / (sq. meter * month))
+     double nuptake_slow;  // (g N / (sq. meter * month))
+     double nuptake_passive;  // (g N / (sq. meter * month))
+     
 
      // Heterotrophic respiration
      double rh;            // (g C / (sq. meter * month))
@@ -519,9 +530,9 @@ class Tmcrb45: public ProcessXML45
 
      double kd;
      double kdb[MAXCMNT];
-//     double kdfb[MAXCMNT];
-//     double kdam[MAXCMNT];
-//     double kdmn[MAXCMNT];
+     // double kd_active[MAXCMNT];
+     double kd_slow[MAXCMNT];
+     double kd_passive[MAXCMNT];
 
      double kdc;
 
@@ -548,10 +559,10 @@ class Tmcrb45: public ProcessXML45
 
 
      double nup[MAXCMNT];
-     /*
-     double nupfbam[MAXCMNT];
-     double nupfbmn[MAXCMNT];
-     */
+     double nup_active[MAXCMNT];
+     double nup_slow[MAXCMNT];
+     double nup_passive[MAXCMNT];
+     
      double propftos[MAXCMNT];
 
      double rhq10[MAXCMNT];
