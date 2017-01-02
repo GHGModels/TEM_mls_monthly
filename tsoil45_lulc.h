@@ -176,12 +176,33 @@ class Tsoil45 : public ProcessXML45
 
      // lchdin ************************************************
      
-           inline double getLCHDIN( void ) { return lchdin; }
+      inline double getLCHDIN( void ) { return lchdin; }
      
-           inline void setLCHDIN( const double& plchdin )
-           {
-               lchdin = plchdin;
-           }
+      inline void setLCHDIN( const double& plchdin )
+      {
+          lchdin = plchdin;
+      }
+     
+     inline double getLCHDIN_ACTIVE( void ) { return lchdin_active; }
+     
+     inline void setLCHDIN_ACTIVE( const double& plchdin_active )
+     {
+       lchdin_active = plchdin_active;
+     }
+     
+     inline double getLCHDIN_SLOW( void ) { return lchdin_slow; }
+     
+     inline void setLCHDIN_SLOW( const double& plchdin_slow )
+     {
+       lchdin_slow = plchdin_slow;
+     }
+     
+     inline double getLCHDIN_PASSIVE( void ) { return lchdin_passive; }
+     
+     inline void setLCHDIN_PASSIVE( const double& plchdin_passive )
+     {
+       lchdin_passive = plchdin_passive;
+     }
 
      // drainage ***********************************************
 
@@ -227,7 +248,7 @@ class Tsoil45 : public ProcessXML45
 
 //for the following three parameters, read in from trotz45_lulc.ecd file,as they should be pft-specific
 //check if the following get set is correct or not MJ MLS;     
-/*U
+/*
      //  frrootc_fb*********************************************
 
      inline double getFRROOTC_FB( const int& pcmnt )
@@ -376,7 +397,7 @@ class Tsoil45 : public ProcessXML45
      }
 
 
-     // nloss and horizon coefficients******
+     // nloss ******
 
      inline double getNLOSS_ACTIVE( const int& pcmnt )
      {

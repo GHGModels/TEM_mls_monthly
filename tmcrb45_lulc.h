@@ -27,8 +27,6 @@ class Tmcrb45: public ProcessXML45
 		 Public Functions
 ************************************************************** */
 
-     //void kdxclm(                    );
-
      void getvegecd( const string& ecd );
 
      void resetEcds( const int& pcmnt, const double& psiplusc );

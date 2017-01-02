@@ -79,10 +79,10 @@ Tsoil45::Tsoil45( void ) : ProcessXML45()
   srun = MISSING;
   h2oyld = MISSING;
 
-  org.carbon = MISSING;
-  org.nitrogen = MISSING;
+  org.carbon = MISSING;     // need different pools or not? MJ MLS
+  org.nitrogen = MISSING;   // need different pools or not? MJ MLS
 
-  availn = MISSING;
+  availn = MISSING;         // need different pools or not? MJ MLS
 
   yrsnowpack = MISSING;
 
@@ -116,8 +116,7 @@ Tsoil45::Tsoil45( void ) : ProcessXML45()
   yrc2n_slow = MISSING;
   yrc2n_passive = MISSING;
 
-
-  yravln = MISSING;
+  yravln = MISSING;   // need different pools or not? MJ MLS
 
   ninput = MISSING;
   yrnin = MISSING;
@@ -158,13 +157,13 @@ Tsoil45::Tsoil45( void ) : ProcessXML45()
 
 /* *************************************************************
 ************************************************************* */
-
+// Getting rooting depth, important for MLS
+// currently non-dynamic, check if there's way to make rooting depth dynamic?
 void Tsoil45::getrootz( const string& ecd )
 {
   ifstream infile;
   int dcmnt;
   int comtype;
-
 
   infile.open( ecd.c_str(), ios::in );
 

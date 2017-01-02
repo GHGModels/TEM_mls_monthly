@@ -247,7 +247,7 @@ double Tmcrb45::nminxclm( const int& pdcmnt,
     immb  = (availn * ksoil) / soilh2o;
     immb /= (kn2[pdcmnt] + immb);
 
-    nuptake = nup * immb * decay * rh;
+    nuptake = nup * immb * decay * rh;    // nup must be soil pool specific, do we have parameters to constrain this? check?
 
 //    if (nuptake > availn)
 //    {

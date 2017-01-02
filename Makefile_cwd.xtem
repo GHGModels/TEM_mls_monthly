@@ -1,5 +1,5 @@
-CXX = /opt/pgi/osx86-64/16.10/bin/pgCC
-CFLAGS = -O2 -Mscalarsse -mcmodel=medium
+CXX = gcc
+CFLAGS = -I.
 
 CLMOBJ = tclm45_ndep.o  
 
