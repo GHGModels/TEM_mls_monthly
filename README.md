@@ -127,6 +127,16 @@ Cheney, W., and D. Kincaid.  1985.  Numerical mathematics and
 3. Felzer, 2012. Carbon, nitrogen, and water response to climate and land use changes in Pennsylvania during the 20th and 21st centuries. Ecological modeling. 
 4. Jiang et al., 2015. Improved understanding of Climate Change Impact to Pennsylvania Dairy Pasture. Crop Science. 
 
+Version TEM-MLS
+1. Yi et al., 2010. A dynamic organic soil biogeochemical model for simulating the effects of wildfire on soil environmental conditions and carbon dynamics of black spruce forests. JGR.
+2. Yuan et al., 2012. Assessment of boreal forest historical C dynamics in Yukon River Basin: relative roles of warming and fire regime change. Ecological Applications.
+3. Arora and Boer, 2003. A representation of variable root distribution in dynamic vegetation models. Earth Interactions. 
+4. Clapp and Hornberger, 1978. Empirical equations for some soil hydraulic properties. Water Resour. Res. 
+5. Oleson et al., 2010. Technical description of version 4.0 of the Community Land Model (CLM).
+6. Zeng, 2001. Global vegetation root distribution for land modeling. J. Hydrometeorol.
+
+
+
 
 # Contact:
 Mingkai Jiang (m.jiang@westernsydney.edu.au)
