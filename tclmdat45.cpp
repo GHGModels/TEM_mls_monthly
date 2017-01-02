@@ -3,18 +3,6 @@ TCLMDAT45.CPP - object to read and write the structure of the
                   climate data from files used by the
                   Terrestrial Ecosystem Model (TEM)
 
-Modifications:
-
-20060114 - DWK created by modifying tclmdat425.cpp
-20060114 - DWK changed long year to int year in
-           out(), outdel(), pctout() and pctoutdel()
-20060114 - DWK changed char varname[9] to string varname in
-           out(), outdel(), pctout() and pctoutdel()
-20060114 - DWK changed char contnent[9] to string contnent in
-           out(), outdel(), pctout() and pctoutdel()
-20060114 - DWK changed Clmdata:: to Clmdata43::
-20060114 - DWK added include tclmdat437.h and standard includes
-20070105 - TWC changed name to tclmdat45
 
 ****************************************************************
 ************************************************************* */

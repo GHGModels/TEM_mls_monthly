@@ -4,15 +4,6 @@
 ATMS45.CPP - object describes physical characteristics of the
 	         atmosphere
 
-Modifications:
-
-20060126 - DWK created by modifying atms50b5.cpp
-20060126 - DWK changed include from atms50b5.h to atms437.h
-20060126 - DWK changed Atmosphere50:: to class Atmsflux::
-20070105 - TWC changed Atmsflux:: to class Atms45
-2007 - TWC/BSF: Summary
-  using std:sin
-  Add three new function: daylength
 
 ****************************************************************
 ************************************************************* */

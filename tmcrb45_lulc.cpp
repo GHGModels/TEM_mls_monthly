@@ -4,24 +4,6 @@ TMCRB45_lulc.CPP - object describing characteristics of soil
                  microbes used in the Terrestrial Ecosystem Model
                  (TEM)
 
-Modifications:
-
-20060126 - DWK created by modifying tmcrb50b5.cpp
-20060126 - DWK changed include from tmcrb50b5.h to tmcrb437.h
-20060126 - DWK changed Tmicrobe50:: to Tmicrobeflux::
-20060126 - DWK changed inheritance from ProcessXML50 to
-           ProcessXML43 in Tmicrobeflux()
-20060126 - DWK deleted double tsoil and int tsoilflg from
-           setDQ10()
-20070105 - TWC changed name to tmcrb45
-2007 - TWC/BSF
-     getvegecd: add rhq10, rhalpha, rhbeta, rhgamma,
-	      rhqref, rhtref (instead of tref, qref, alpha,
-		  beta, gamma)
-     nminxclm: add condt: if(nmin+availn < 0) nmin = -availn
-	 rhxclm: replace dq10 with pdq10
-	 setDQ10LaRS (setNew DQ10 in TEM44): new LARS function
-
 *****************************************************************
 ************************************************************** */
 

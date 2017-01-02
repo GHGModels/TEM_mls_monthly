@@ -4,14 +4,6 @@ TBIOME45.CPP - object describing general characteristics of
                    vegetation mosaic used in the Terrestrial
 	           Ecosystem Model (TEM)
 
-Modifications:
-
-20060126 - DWK created by modifying tbiome50b5.cpp
-20060126 - DWK changed include tbiome50b5.h to tbiome437.h
-20060126 - DWK changed Biome50:: to Biome43::
-20060126 - DWK changed inheritance from ProcessXML50 to
-           ProcessXML43 in Biome43()
-20070105 - TWC changed name to tbiome45
 
 ****************************************************************
 ************************************************************* */

@@ -3,28 +3,6 @@
 TELM45_cwd.H - Determines the interface among CLM, LCLUC and TEM
              modules
 
-Modifications:
-
-20060127 - DWK created by modifying telm50b5.h
-20060127 - DWK changed include from tclm50b5.h to tclm437.h
-20060127 - DWK changed include from telmntcohort50b5.hpp to
-           telmntcohort437.hpp
-20060127 - DWK changed include from tlcluc50b5.h to tlcluc437.h
-20060127 - DWK changed include from ttem50b5.h to ttem437.h
-20060127 - DWK changed include from tclmdat50b5.h to tclmdat437.h
-20060127 - DWK changed include from tsoldat50b5.h to tsoldat437.h
-20060127 - DWK changed include from telvdat50b5.h to telvdat437.h
-20060127 - DWK changed include from ttemdat50b5.h to ttemdat437.h
-20060127 - DWK changed Class TEMelmnt50 to Class TEMelmnt43
-20060127 - DWK changed public TEMclm50 clm to TEMclm43 clm
-20060127 - DWK changed public ElmntCohort50 cohort[MAXCHRTS] to
-           ElmntCohort43
-20060127 - DWK changed public TEMlcluc50 lcluc to
-           TEMlcluc43 lcluc
-20060127 - DWK changed public TTEM50 tem to TTEM43 tem
-20060127 - DWK added const double& aot40 to private function
-            int temgisqc()
-20070105 - TWC modified name to telm45
 
 *****************************************************************
 ************************************************************** */

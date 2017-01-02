@@ -4,17 +4,6 @@ TBIOME45.H - object describing general characteristics of
                  vegetation mosaic used in the Terrestrial
                  Ecosystem Model (TEM)
 
-Modifications:
-
-20060114 - DWK created by modifying tbiome50b5.h
-20060114 - DWK changed include from temconsts51.hpp to
-           temconsts43.hpp
-20060114 - DWK changed include from tprocessXML50b5.h to
-           tprocessXML437.h
-20060114 - DWK changed inheritance from ProcessXML50 to
-           ProcessXML43
-20070105 - TWC changed name to tbiome45
-
 ****************************************************************
 ************************************************************* */
 

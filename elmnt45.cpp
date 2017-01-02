@@ -1,13 +1,6 @@
 /* *************************************************************
 ELMNT45.CPP - Contains functions to manage elements used in GIS
 
-Modifications:
-
-20060113 - DWK created by modifying elmnt50b5.cpp
-20060113 - DWK changed include from elmnt50b5.h to elmnt437.h
-20060113 - DWK changed Elmnt50:: to Elmnt43
-20070105 - TWC changed name to Elmnt45
-
 ************************************************************** */
 
 //#define BORLAND_CPP

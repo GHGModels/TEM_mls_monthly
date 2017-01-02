@@ -2,21 +2,6 @@
 ****************************************************************
 TCLM45.CPP - describes climate module used by TEM
 
-20060126 - DWK created by modifying tclm50b5.cpp
-20060126 - DWK changed include from tclm50b5.h to tclm437.h
-20060126 - DWK changed TEMclm50:: to TEMclmflux::
-20060126 - DWK changed inheritance from Atmosphere50 to
-           Atmosphere43 in TEMclmflux()
-20060126 - DWK added I_AOT to TEMclmflux()
-20060126 - DWK added void initO3(), double mkd40() and
-           void setO3Flags()
-20070105 - TWC changed name to tclm45
-2007 - TWC/BSF summary
-  predstr array: add VPD, TRANGE
-  inito3: add basline ozone file
-  initTrange
-  initVPD
-
 ****************************************************************
 ************************************************************* */
 

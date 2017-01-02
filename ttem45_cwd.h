@@ -1,46 +1,7 @@
 /* *************************************************************
 ****************************************************************
-TTEM45_ndep.H - Terrestrial Ecosystem Model Version 4.5
+TTEM45_ndep.H - Terrestrial Ecosystem Model Version TEM-MLS
 ****************************************************************
-
-****************************************************************
-
-References:
-
-VERSION 4.1
-
-Tian, H., J.M. Melillo, D.W. Kicklighter, A.D. McGuire and J.
-  Helfrich.  1999. The sensitvity of terrestrial carbon storage to
-  historical climate variability and atmospheric CO2 in the United
-  States.  Tellus 51B: 414-452.
-
-VERSION 4.2
-
-McGuire, A.D., S. Sitch, J.S. Clein, R. Dargaville, G. Esser, J. Foley,
-  M. Heimann, F. Joos, J. Kaplan, D.W. Kicklighter, R.A. Meier, J.M.
-  Melillo, B. Moore III, I.C. Prentice, N. Ramankutty, T. Reichenau,
-  A. Schloss, H. Tian, L.J. Williams and U. Wittenberg (2001) Carbon
-  balance of the terrestrial biosphere in the twentieth century:
-  analyses of CO2, climate and land use effects with four process-
-  based ecosystem models.  Global Biogeochemical Cycles 15: 183-206.
-
-Tian, H., J.M. Melillo, D.W. Kicklighter, S. Pan, J. Liu, A.D. McGuire
-  and B. Moore III (2003) Regional carbon dynamics in monsoon Asia
-  and its implications for the global carbon cycle. Global and
-  Planetary Change 37: 201-217.
-
-VERSION 4.3
-
-Felzer, B., D. Kicklighter, J. Melillo, C. Wang, Q. Zhuang, and
-  R. Prinn (2004) Effects of ozone on net primary production and
-  carbon sequestration in the conterminous United States using a
-  biogeochemistry model. Tellus 56B: 230-248.
-
-Runge - Kutta - Fehlberg (RKF) adaptive integrator:
-
-Cheney, W., and D. Kincaid.  1985.  Numerical mathematics and
-  computing.  Second edition.  Brooks/ Col Publishing Co.  Monterey,
-  CA.  pp. 325-328.
 
 ****************************************************************
 ************************************************************** */

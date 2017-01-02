@@ -2,27 +2,6 @@
 ****************************************************************
 TCLM45.H - describes climate module used by TEM
 
-20060126 - DWK created by modifying tclm50b5.h
-20060126 - DWK changed include from temconsts51.hpp to
-           temconsts43.hpp
-20060126 - DWK changed include from atms50b5.h to atms437.h
-20060126 - DWK changed class TEMclm50 to class TEMclm43
-20060126 - DWK changed inheritance from Atmosphere50 to
-           Atmosphere43
-20060126 - DWK added I_AOT40 to TEMclm43()
-20060126 - DWK added public functions void initO3(),
-           double mkd40() and void setO3Flags()
-20060126 - DWK added public string io3end, string io3fname and
-           int to3flag
-2007 - TWC/BSF summary
-    clmkey: add VPD, TRANGE, DAYL, AOT40B, 
-	Public Functions: initVPD, initTRANGE, setTrangeFlags,
-	   setVPDFlags
-	Public Variables: io3bname, ivprend, ivprfname,
-	   itrangeend, itrangefname, ttrangeflag, tvprflag
-
-2008 - TWC added WS10, TAIRD, TAIRN, VPDD, VPDN -- 
-    windspeed at 10 m, day/night temperature and vpd
 ****************************************************************
 ************************************************************* */
 

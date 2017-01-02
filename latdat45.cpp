@@ -2,15 +2,6 @@
 LATDAT45.CPP - object to read and write the structure of
                    latitude and longitude data from/to files
 
-Modifications:
-
-20060113 - DWK created by modifying latdat425.cpp
-20060113 - DWK added include latdat437.h and standard includes
-20060113 - DWK changed Latdata:: to Latdata43::
-20060113 - DWK changed char varname[9] to string varname
-20060113 - DWK changed char contnent[9] to string contnent
-20070105 - TWC changed name to latdat45
-
 ************************************************************** */
 
 #include<cstdio>

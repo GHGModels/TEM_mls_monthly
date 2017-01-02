@@ -1,4 +1,4 @@
-/** **************************************************************
+/* **************************************************************
 *****************************************************************
 TVEG45_equil.H -  Vegetation characteristics used in the Terrestrial
                 Ecosystem Model (TEM)
@@ -9,7 +9,7 @@ TVEG45_equil.H -  Vegetation characteristics used in the Terrestrial
 #ifndef TVEG45_equil_H
 #define TVEG45_equil_H
 
-/**
+/*
     tveg45: uses constants declared in temconsts.hpp, uses biomass structure
     established by bioms.hpp, inherits xml reading methods from tprocessxml, and
     declares an object of the penmon class, which is used for the calculation of

@@ -3,23 +3,6 @@
 ATMS45.H - object describes physical characteristics of the
 	       atmosphere
 
-Modifications:
-
-20060126 - DWK created by modifying atms50b5.h
-20060126 - DWK changed temconsts51.hpp to temconsts43.hpp
-20060126 - DWK changed class Atmosphere50 to class Atmsflux
-20060126 - DWK added public inline double getAOT40()
-20060126 - DWK added private double aot40
-20070105 - TWC changed class Atmsflux to class Atms45
-2007 - TWC/BSF Summary:
-   Public Functions: daylength
-     get/set: DAYL,
-	          PREVPAR, PRVPME, TRANGE, VPD
-   Private Variables: aot40b, dayl, inter, prevpar,
-                      prvpme, trange, vpd
-
-
-
 *****************************************************************
 ************************************************************** */
 

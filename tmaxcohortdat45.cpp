@@ -4,15 +4,6 @@ TMAXCOHORTDAT45.CPP - object to read and write the structure
                           data from/to files used by the
                           Terrestrial Ecosystem Model
 
-Modifications:
-
-20060114 - DWK created by modifying tcohortdat433.cpp
-20060114 - DWK changed Cohortdata43:: to MaxCohortdata43::
-20060114 - DWK added int year to functions
-20060114 - DWK added int natchrts to functions
-20060114 - DWK addedin include tmaxcohortdat437.h and standard
-           includes
-20070105 - TWC changed name to tmaxcohortdat45
 
 ****************************************************************
 ************************************************************* */

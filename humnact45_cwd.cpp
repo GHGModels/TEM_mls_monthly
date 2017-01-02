@@ -3,23 +3,6 @@
 HUMNACT45_equil.CPP - describes human disturbances to natural
                      ecosystems
 
-Modifications:
-
-20060126 - DWK created by modifying humnact50b5.cpp
-20060126 - DWK changed include from humnact50b5.h to
-           humnact437.h
-20060126 - DWK changed Humanact50:: to Humanact::
-20060126 - DWK changed inheritance of ProcessXML50 to
-           ProcessXML43 in Humanactflux()
-20070105 - TWC changed Humanactflux:: to Humnact45::
-2007 - TWC/BSF summary
-     getecd: add GDDMIN, GDDSEED, GDDHARVST, tkill,
-	         isPerennial
-	 harvest: account for no N loss if not fertilized
-	          and perennial crops
-	 setAgricFlags: irrgflag and fertflag are new
-	 updateCropResidueFluxes: special provisions if no harvest
-
 ****************************************************************
 ************************************************************* */
 

@@ -2,25 +2,6 @@
 ****************************************************************
 HUMNACT45_equil.H - describes human disturbances to natural ecosystems
 
-20060126 - DWK created by modifying humnact50b5.h
-20060126 - DWK changed include temconst51.hpp to temconst43.hpp
-20060126 - DWK changed include from tprocessXML51.h to
-           tprocessXML437.h
-20060126 - DWK changed include from tveg50b5.h to tveg437.h
-20060126 - DWK changed class Humanact50 to class Humanact43
-20060126 - DWK changed inheritance of ProcessXML50 to
-           ProcessXML43
-20070105 - TWC changed class Humanactflux to class Humnact45
-2007 - TWC/BSF summary
-   GDDMIN, GDDSEED, GDDHARVST, ISPERENNIAL, tkill: add to public
-     functions get/set (ISPREENNIAL only get) and declarations
-	 in private variables
-   Remove up-front declarations of GDDMIN, GDDSEED, GDDHARVST,
-     MAXFRI
-   Add distflag and fert1950flag to public vars.
-   Remove firendep from private vars. and add to private parameters,
-      also add RAP to private parameters
-
 ****************************************************************
 ************************************************************* */
 

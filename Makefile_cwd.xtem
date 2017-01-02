@@ -1,4 +1,4 @@
-CXX = /zhome/Apps/pgi/linux86-64/15.1/bin/pgCC
+CXX = /opt/pgi/osx86-64/16.10/bin/pgCC
 CFLAGS = -O2 -Mscalarsse -mcmodel=medium
 
 CLMOBJ = tclm45_ndep.o  

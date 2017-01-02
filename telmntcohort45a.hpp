@@ -1,18 +1,6 @@
 /* *************************************************************
 TELMNTCOHORT45.HPP - Container class to hold land cover cohort
                       characteristics
-
-20060126 - Created by DWK by modifying tlmntcohort50b5.hpp
-20060126 - DWK changed include from temconsts51.hpp to
-           temconsts43.hpp
-20060126 - DWK changed struct ElmntCohort50 to ElmntCohort43
-20060126 - DWK deleted  double dst10[CYCLE], double prevdst10,
-           double STMdx9[MAXNODES], int STMis9, int STMsmass9,
-           double STMt9[MAXNODES], double STMwater9[MAXNODES],
-           double STMweight9[MAXSNODES], double STMx9[MAXNODES],
-           double STMxfa9[MAXNODES], double STMxfb9[MAXNODES]
-20070105 - TWC changed name to telmntcohort45
-
 ************************************************************* */
 
 #ifndef ELMNTCOHORT45_H

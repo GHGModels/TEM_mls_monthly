@@ -3,46 +3,6 @@ XTEM45_cwd.CPP - Extrapolation version of the Terrestrial Ecosystem
                Model Version 4.5
 ****************************************************************
 
-
-Modifications:
-
-20060127 - DWK created by modifying xtem50b5.cpp
-20060127 - DWK changed include from temconsts51.hpp to
-           temconsts43.hpp
-20060127 - DWK changed include from tclmdat50b5.h to
-           tclmdat437.h
-20060127 - DWK changed include from tco2dat50b5.h to
-           tco2dat437.h
-20060127 - DWK changed include from elmnt50b5.h to elmnt437.h
-20060127 - DWK changed include from latdat50b5.h to latdat437.h
-20060127 - DWK changed include from telm50b5.h to telm437.h
-20060127 - DWK changed global Elmnt50 elmnt to Elmnt43 elmnt
-20060127 - DWK changed global TEMelmnt50 telmnt[MAXGRID] to
-           TEMelmnt43 telmnt[MAXGRID]
-20060127 - DWK changed global Clmdata50 girrdat[MAXRTIME] to
-           Clmdata43 girrdat[MAXRTIME]
-20060127 - DWK changed global Clmdata50 cldsdat[MAXRTIME] to
-           Clmdata43 cldsdat[MAXRTIME]
-20060127 - DWK changed global Clmdata50 nirrdat[MAXRTIME] to
-           Clmdata43 nirrdat[MAXRTIME]
-20060127 - DWK changed global Clmdata50 pardat[MAXRTIME] to
-           Clmdata43 pardat[MAXRTIME]
-20060127 - DWK changed global Clmdata50 tairdat[MAXRTIME] to
-           Clmdata43 tairdat[MAXRTIME]
-20060127 - DWK changed global Clmdata50 precdat[MAXRTIME] to
-           Clmdata43 precdat[MAXRTIME]
-20060127 - DWK changed global CO2data50 co2dat[MAXRTIME+1] to
-           CO2data43 co2dat[MAXRTIME+1]
-20060127 - DWK changed global
-           MaxCohortdata50 mxcohrtdat[MAXRTIME] to
-           MaxCohortdata43 mxcohrtdat[MAXRTIME]
-20060127 - DWK changed global
-           Lulcdata50 lulcdat[MAXRTIME][MAXCHRTS] to
-           Lulcdata43 lulcdat[MAXRTIME][MAXCHRTS]
-20060127 - DWK added global Clmdata43 o3dat[MAXRTIME]
-20060127 - DWK added global FILE* ifo3
-20070105 - TWC changed name to xtem45
-
 *****************************************************************
 ************************************************************** */
 

@@ -3,43 +3,6 @@
 CTEM45_cwd.CPP - Calibration version of the Terrestrial Ecosystem
 	          Model Version 4.5
 
-Modifications:
-
-20060127 - DWK created by modifying ctem50b5.cpp
-20060127 - DWK changed include from temconsts51.hpp to
-           temconsts43.hpp
-20060127 - DWK changed include from tclm50b5.h to tclm437.h
-20060127 - DWK changed include from ttem50b5.h to ttem437.h
-20060127 - DWK added C_O3FLAG to enum ecalkey
-20060127 - DWK deleted enum stcalkey and associated functions
-20060127 - DWK deleted void pcdisplayYrSTM(), void stcalibrate()
-           and void updateSoilTempPar()
-20060127 - DWK deleted global double dst10[CYCLE]
-20060127 - DWK changed global TEMclm50 clm to TEMclm43 clm
-20060127 - DWK changed global TTEM50 tem to TTEM43 tem
-20060127 - DWK changed global double climate[NUMATMS][CYCLE+1]
-           to double climate[NUMATMS][CYCLE]
-20060127 - DWK deleted global stcalkey stvar;
-2007  - TWC/BSF summary
-  MAXCAL = 26, MAXWCAL = 13, wcalver[MAXWCAL]
-  GDDMIN, GDDSEED, GDDHARVST, TKILL: add to ecalkey,
-    displayECalibPar, setECalVar, updateECalibPar
-  canevk, pmiss, maxint, soilbare, WLEAF, CDLEAF, krad,
-    kvpd, lsc, minlwp: add to wcalkey, displayWCalibPar,
-	updateWCalibPar
-  main: set fert1950flag, irrgflag, state, prvstate to 0
-    pass monthly climate info. to TEM: VPD, TRANGE, DAYL
-  calclmin: add yrpar, sumPME
-    read in climate data: add VPD, TRANGE
-	add tem.hemisphere
-	call function daylength
-  pcdisplayClm: add VPD, TRANGE
-  resetInitState: comment out tem.ag.state = 0 and
-    tem.ag.prvstate = 0
-	add previous month's vars: PRVLAI, PRVLEAFADD, PRVLEAFDROP,
-	 PRVLEAFEFCY, PREVPAR, PRVPME
-  updateECalibPar: also add KRA, KRB, remove RMAX
-
 *****************************************************************
 ************************************************************** */
 

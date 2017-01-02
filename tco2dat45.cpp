@@ -3,13 +3,6 @@ TCO2DAT45.CPP - object to read and write the structure of
                    transient atmospheric CO2 data from/to files
                    used by the Terrestrial Ecosystem Model (TEM)
 
-Modifications:
-
-20060118 - DWK created by modifying tco2dat425.cpp
-20060118 - DWK added include tco2dat437.h and standard includes
-20060118 - DWK changed CO2data:: to CO2data43::
-20070105 - TWC renamed to tco2dat45
-
 ****************************************************************
 ************************************************************* */
 

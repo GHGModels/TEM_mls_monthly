@@ -2,36 +2,6 @@
 *****************************************************************
 TELM45A.CPP - Runs TEM for a single grid cell
 
-Modifications:
-
-20060127 - DWK created by modifying telm50b5.cpp
-20060127 - DWK changed include from telm50b5.h to tel,437.h
-20060127 - DWK changed TEMelmnt50:: to TEMelmntflux::
-20060127 - DWK added double aot40 to atmswritepred()
-20060127 - DWK deleted tem.soil.stm.updateyrCDM(),
-           tem.soil.setPREVDST10(), tem.soil.stm.setNEXTTAIR(),
-           tem.soil.stm.setNEXTSNOWFALL(),
-           tem.soil.setNEXTDST10() and tem.soil.getDST10()
-           from equilibrateTEM() and updateTEMmonth()
-20060127 - DWK added tem.atms.setAOT40() to equilibrateTEM(),
-           setTEMequilState() and updateTEMmonth()
-20060127 - DWK deleted double dst10[CYCLE], double prevdst10,
-           double STMdx9[MAXNODES], int STMis9, int STMsmass9,
-           double STMt9[MAXNODES], double STMwater9[MAXNODES],
-           double STMweight9[MAXSNODES], double STMx9[MAXNODES],
-           double STMxfa9[MAXNODES], double STMxfb9[MAXNODES]
-           to getTEMCohortState(), initializeCohortTEMState(),
-           readCohortState(), saveTEMCohortState(),
-           setCohortTEMState() and writeCohortState()
-20060127 - DWK added I_FOZONE and I_FINDOZONE to
-           outputTEMmonth() and temwritepred()
-20060127 - DWK deleted Soil thermal model variables from
-           outputTEMmonth() and temwritepred()
-20070105 - TWC changed name to telm45, versions _allfert,
-           _nofert, and _fert provide different fertilization
-           scenarios for agriculture
-
-
 ****************************************************************
 ************************************************************* */
 

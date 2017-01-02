@@ -2,12 +2,6 @@
 ELMNT45.H - Contains functions to manage elements used in GIS
              (Note: Elements are usually grid cells)
 
-Modifications:
-
-20060113 - DWK created by modifying elmnt50b5.h
-20060113 - DWK change class Elmnt50 to class Elmnt43
-20070105 - TWC changed name to elmnt45
-
 ************************************************************** */
 
 #ifndef ELMNT45_H

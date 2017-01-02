@@ -3,13 +3,6 @@ TICDAT.CPP - object to read and write the structure of
                   elevation data from/to files used by the Water
                   Balance Model
 
-Modifications:
-
-20060114 - DWK created by modifying telvdat425.cpp
-20060114 - DWK added include telvdat437.h and standard includes
-20060114 - DWK changed Elevdata:: to Elevdata43::
-20070105 - TWC changed name to telvdat45
-
 ****************************************************************
 ************************************************************* */
 
