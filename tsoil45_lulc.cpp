@@ -639,11 +639,6 @@ void Tsoil45::updateNLosses( const int& pdcmnt,
                            const double& soilh2o )
 {
    nlost = (availn/(soilh2o+rrun+srun))*(rrun+srun);
-   /*
-   nlostfb = (availnfb/(soilh2o+rrun+srun))*(rrun+srun);
-   nlostam = (availnam/(soilh2o+rrun+srun))*(rrun+srun);
-   nlostmn = (availnmn/(soilh2o+rrun+srun))*(rrun+srun);
-    */
    
 //cout << "nlostmn1 = " << nlostmn << " " << availnmn << endl;
 /*
@@ -662,8 +657,7 @@ void Tsoil45::updateNLosses( const int& pdcmnt,
   nlost_slow *= nloss_slow[pdcmnt];
   nlost_passive *= nloss_passive[pdcmnt];
 
-//cout << "nlostmn2 = " << nlostmn << endl;
-//  nlost = nlostfb + nlostam + nlostmn;
+//  nlost = nlost_active + nlost_slow + nlost_passive;
 
 };
 

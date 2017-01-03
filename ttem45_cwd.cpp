@@ -6245,31 +6245,30 @@ if( 2 == ag.state ) // pasture
 */
 //the following calculations might need to be replaced by individual horizon calculations, sample codes are provided immediately afterwards MJ MLS; come back point;
 /*
-      if( (soil.yrorgc/((microbe.getCNSOILFB( veg.cmnt )+ microbe.getCNSOILAM( veg.cmnt ) + microbe.getCNSOILMN( veg.cmnt ))/3.0) > soil.yrorgn)
-          &&  (soil.getSOLC()/((microbe.getCNSOILFB( veg.cmnt ) + microbe.getCNSOILAM( veg.cmnt ) + microbe.getCNSOILMN( veg.cmnt ))/3.0)> soil.getSOLN()) )
+      if( (soil.yrorgc/((microbe.getCNSOIL_ACTIVE( veg.cmnt )+ microbe.getCNSOIL_SLOW( veg.cmnt ) + microbe.getCNSOIL_PASSIVE( veg.cmnt ))/3.0) > soil.yrorgn)
+          &&  (soil.getSOLC()/((microbe.getCNSOIL_ACTIVE( veg.cmnt ) + microbe.getCNSOIL_SLOW( veg.cmnt ) + microbe.getCNSOIL_PASSIVE( veg.cmnt ))/3.0)> soil.getSOLN()) )
       {
-        soil.yrnin = (soil.yrorgc / ((microbe.getCNSOILFB( veg.cmnt ) + microbe.getCNSOILAM( veg.cmnt ) + microbe.getCNSOILMN( veg.cmnt ) )/3.0)) - soil.yrorgn;
-        soil.yrnin += (soil.getSOLC()/((microbe.getCNSOILFB( veg.cmnt ) +  microbe.getCNSOILAM( veg.cmnt ) + microbe.getCNSOILMN( veg.cmnt ))/3.0) ) - soil.getSOLN();
+        soil.yrnin = (soil.yrorgc / ((microbe.getCNSOIL_ACTIVE( veg.cmnt ) + microbe.getCNSOIL_SLOW( veg.cmnt ) + microbe.getCNSOIL_PASSIVE( veg.cmnt ) )/3.0)) - soil.yrorgn;
+        soil.yrnin += (soil.getSOLC()/((microbe.getCNSOIL_ACTIVE( veg.cmnt ) +  microbe.getCNSOIL_SLOW( veg.cmnt ) + microbe.getCNSOIL_PASSIVE( veg.cmnt ))/3.0) ) - soil.getSOLN();
         soil.yrnin /= 2.0;
       }
-      else if( (soil.yrorgc/((microbe.getCNSOILFB( veg.cmnt ) +  microbe.getCNSOILAM( veg.cmnt ) + microbe.getCNSOILMN( veg.cmnt ))/3.0) < soil.yrorgn)
-               &&  (soil.getSOLC()/((microbe.getCNSOILFB( veg.cmnt ) + microbe.getCNSOILAM( veg.cmnt ) + microbe.getCNSOILMN( veg.cmnt ))/3.0) < soil.getSOLN()) )
+      else if( (soil.yrorgc/((microbe.getCNSOIL_ACTIVE( veg.cmnt ) +  microbe.getCNSOIL_SLOW( veg.cmnt ) + microbe.getCNSOIL_PASSIVE( veg.cmnt ))/3.0) < soil.yrorgn)
+               &&  (soil.getSOLC()/((microbe.getCNSOIL_ACTIVE( veg.cmnt ) + microbe.getCNSOIL_SLOW( veg.cmnt ) + microbe.getCNSOIL_PASSIVE( veg.cmnt ))/3.0) < soil.getSOLN()) )
       {
-        soil.yrnlost = soil.yrorgn - (soil.yrorgc / ((microbe.getCNSOILFB( veg.cmnt ) + microbe.getCNSOILAM( veg.cmnt ) + microbe.getCNSOILMN( veg.cmnt ) )/3.0));
-        soil.yrnlost += soil.getSOLN() - (soil.getSOLC()/((microbe.getCNSOILFB( veg.cmnt ) +microbe.getCNSOILAM( veg.cmnt ) + microbe.getCNSOILMN( veg.cmnt ) )/3.0));
+        soil.yrnlost = soil.yrorgn - (soil.yrorgc / ((microbe.getCNSOIL_ACTIVE( veg.cmnt ) + microbe.getCNSOIL_SLOW( veg.cmnt ) + microbe.getCNSOIL_PASSIVE( veg.cmnt ) )/3.0));
+        soil.yrnlost += soil.getSOLN() - (soil.getSOLC()/((microbe.getCNSOIL_ACTIVE( veg.cmnt ) +microbe.getCNSOIL_SLOW( veg.cmnt ) + microbe.getCNSOIL_PASSIVE( veg.cmnt ) )/3.0));
 
 
         soil.yrnlost /= 2.0;
       }
 */
-//sample individual horizon calculations MJ MLS;
 
       if( (soil.yrorgc_active/microbe.getCNSOIL_ACTIVE( veg.cmnt ) > soil.yrorgn_active)
           &&  ( y[I_ACTIVE_C]/microbe.getCNSOIL_ACTIVE( veg.cmnt ) > y[I_ACTIVE_N]) )
       {
         soil.yrnin_active = (soil.yrorgc_active / microbe.getCNSOIL_ACTIVE( veg.cmnt )) - soil.yrorgn_active;
         soil.yrnin_active += ( y[I_ACTIVE_C]/microbe.getCNSOIL_ACTIVE( veg.cmnt )) -  y[I_ACTIVE_N];
-        soil.yrninf_active /= 2.0;
+        soil.yrnin_active /= 2.0;
       }
       else if( (soil.yrorgc_active/microbe.getCNSOIL_ACTIVE( veg.cmnt ) < soil.yrorgn_active)
                &&  ( y[I_ACTIVE_C]/microbe.getCNSOIL_ACTIVE( veg.cmnt ) <  y[I_ACTIVE_N]) )
@@ -6285,7 +6284,7 @@ if( 2 == ag.state ) // pasture
       {
         soil.yrnin_slow = (soil.yrorgc_slow / microbe.getCNSOIL_SLOW( veg.cmnt )) - soil.yrorgn_slow;
         soil.yrnin_slow += ( y[I_SLOW_C]/microbe.getCNSOIL_SLOW( veg.cmnt )) -  y[I_SLOW_N];
-        soil.yrninf_slow /= 2.0;
+        soil.yrnin_slow /= 2.0;
       }
       else if( (soil.yrorgc_slow/microbe.getCNSOIL_SLOW( veg.cmnt ) < soil.yrorgn_slow)
                  &&  ( y[I_SLOW_C]/microbe.getCNSOIL_SLOW( veg.cmnt ) <  y[I_SLOW_N]) )
@@ -6301,7 +6300,7 @@ if( 2 == ag.state ) // pasture
       {
         soil.yrnin_passive = (soil.yrorgc_passive / microbe.getCNSOIL_PASSIVE( veg.cmnt )) - soil.yrorgn_passive;
         soil.yrnin_passive += ( y[I_PASSIVE_C]/microbe.getCNSOIL_PASSIVE( veg.cmnt )) -  y[I_PASSIVE_N];
-        soil.yrninf_passive /= 2.0;
+        soil.yrnin_passive /= 2.0;
       }
       else if( (soil.yrorgc_passive/microbe.getCNSOIL_PASSIVE( veg.cmnt ) < soil.yrorgn_passive)
                  &&  ( y[I_PASSIVE_C]/microbe.getCNSOIL_PASSIVE( veg.cmnt ) <  y[I_PASSIVE_N]) )
@@ -6314,10 +6313,10 @@ if( 2 == ag.state ) // pasture
       
 
     y[I_ACTIVE_N] = y[I_ACTIVE_N] + soil.yrnin_active - soil.yrnlost_active;
-    y[I_SLOW_N] = y[I_SLOW_N] + soil.yrnin_slow - soil.yrnlost_slow
+    y[I_SLOW_N] = y[I_SLOW_N] + soil.yrnin_slow - soil.yrnlost_slow;
     y[I_PASSIVE_N] = y[I_PASSIVE_N] + soil.yrnin_passive - soil.yrnlost_passive; 
 
-//    y[I_SOLN] = (y[I_FBN] + y[I_AMN] + y[I_MNN]) + soil.yrninfb + soil.yrninam + soil.yrninmn - (soil.yrnlostfb + soil.yrnlostam + soil.yrnlostmn);    //come back to uncomment this line MJ MLS;
+//    y[I_SOLN] = (y[I_ACTIVE_N] + y[I_SLOW_N] + y[I_PASSIVE_N]) + soil.yrnin_active + soil.yrnin_slow + soil.yrnin_passive - (soil.yrnlost_active + soil.yrnlost_slow + soil.yrnlost_passive);    //come back to uncomment this line MJ MLS;
      }
 
 //

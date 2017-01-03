@@ -526,7 +526,10 @@ void Tmcrb45::showecd( const int& pdcmnt )
   printf( "     MOISTMIN = %8.6lf\n", moistmin[pdcmnt] );
   printf( "     MOISTOPT = %8.6lf\n", moistopt[pdcmnt] );
   printf( "     MOISTMAX = %8.6lf\n", moistmax[pdcmnt] );
-  printf( "       CNSOIL = %5.2lf\n", cnsoil[pdcmnt] );
+  //printf( "       CNSOIL = %5.2lf\n", cnsoil[pdcmnt] );
+  printf( "       CNSOIL_ACTIVE = %5.2lf\n", cnsoil_active[pdcmnt] );
+  printf( "       CNSOIL_SLOW = %5.2lf\n", cnsoil_slow[pdcmnt] );
+  printf( "       CNSOIL_PASSIVE = %5.2lf\n", cnsoil_passive[pdcmnt] );
 };
 
 /* **************************************************************
@@ -564,7 +567,7 @@ void Tmcrb45::updateDynamics( const int& pdcmnt,
   rhmoist = setRHMOIST( pdcmnt, pctfldcap, pctwiltpt, pctpor, vsm, moistlim );
 
   decomp_active = rhxclm( active_c, 
-                          kdc[pdcmnt], 
+                          kd_active[pdcmnt], 
                           dq10, 
                           rhmoist, 
                           rltrc,       // check back, soil pool specific? MJ MLS
@@ -636,7 +639,7 @@ void Tmcrb45::updateDynamics( const int& pdcmnt,
                       slow_n,
                       availn_slow,
                       ksoil,
-                      rh_sow,
+                      rh_slow,
                       nopen,
                       cnsoil_slow[pdcmnt],
                       nup_slow[pdcmnt] );

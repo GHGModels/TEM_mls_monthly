@@ -508,21 +508,21 @@ class Tveg45 : public ProcessXML45
      }
 
 
-     inline double getINUPTAKEFB( void )
+     inline double getINUPTAKE_ACTIVE( void )
      {
-       return inuptakefb;
+       return inuptake_active;
      };
 
 
-     inline double getINUPTAKEAM( void )
+     inline double getINUPTAKE_SLOW( void )
      {
-       return inuptakeam;
+       return inuptake_slow;
      };
 
 
-     inline double getINUPTAKEMN( void )
+     inline double getINUPTAKE_PASSIVE( void )
      {
-       return inuptakemn;
+       return inuptake_passive;
      };
 
 
@@ -739,27 +739,27 @@ class Tveg45 : public ProcessXML45
      }
 
 
-     inline double getNUPTAKEFB( void ) { return nuptakefb; };
+     inline double getNUPTAKE_ACTIVE( void ) { return nuptake_active; };
 
-     inline void setNUPTAKEFB( const double& pnuptakefb )
+     inline void setNUPTAKE_ACTIVE( const double& pnuptake_active )
      {
-       nuptakefb = pnuptakefb;
+       nuptake_active = pnuptake_active;
      }
 
 
-     inline double getNUPTAKEAM( void ) { return nuptakeam; };
+     inline double getNUPTAKE_SLOW( void ) { return nuptake_slow; };
 
-     inline void setNUPTAKEAM( const double& pnuptakeam )
+     inline void setNUPTAKE_SLOW( const double& pnuptake_slow )
      {
-       nuptakeam = pnuptakeam;
+       nuptake_slow = pnuptake_slow;
      }
 
 
-     inline double getNUPTAKEMN( void ) { return nuptakemn; };
+     inline double getNUPTAKE_PASSIVE( void ) { return nuptake_passive; };
 
-     inline void setNUPTAKEMN( const double& pnuptakemn )
+     inline void setNUPTAKE_PASSIVE( const double& pnuptake_passive )
      {
-       nuptakemn = pnuptakemn;
+       nuptake_passive = pnuptake_passive;
      }
 
 
@@ -1286,15 +1286,15 @@ class Tveg45 : public ProcessXML45
 
      /// double yrltrc: annual sum of plant.ltrc
      double yrltrc;
-     double yrltrcfb;
-     double yrltrcam;
-     double yrltrcmn;
+     double yrltrc_active;
+     double yrltrc_slow;
+     double yrltrc_passive;
 
      /// double yrltrn: annual sum of plant.ltrn
      double yrltrn;
-     double yrltrnfb;
-     double yrltrnam;
-     double yrltrnmn;
+     double yrltrn_active;
+     double yrltrn_slow;
+     double yrltrn_passive;
 
      /// double yrnitrogen: annual sum of plant.nitrogen
      double yrnitrogen;
@@ -1421,9 +1421,9 @@ class Tveg45 : public ProcessXML45
 
      // Initial N uptake by plants
      double inuptake;
-     double inuptakefb;
-     double inuptakeam;
-     double inuptakemn;
+     double inuptake_active;
+     double inuptake_slow;
+     double inuptake_passive;
 
 	 // Maintenance Respiration half saturation
 	 double krx;
@@ -1446,9 +1446,9 @@ class Tveg45 : public ProcessXML45
      // Monthly N uptake by plants
      double nuptake;
 
-     double nuptakefb;
-     double nuptakeam;
-     double nuptakemn;
+     double nuptake_active;
+     double nuptake_slow;
+     double nuptake_passive;
 
      // soil evaporation, transpiration, and sensible heat flux in W m^-2
      double pesoilw;
@@ -1457,13 +1457,13 @@ class Tveg45 : public ProcessXML45
      double shfluxw;
 
      // PET
-	 double pet;
+	   double pet;
 
      // Phenology term
-         double phi;
+     double phi;
 
      // number of months since budburst
-        double phicnt;
+     double phicnt;
 
      // Index for potential vegetation biome type
      int potveg;

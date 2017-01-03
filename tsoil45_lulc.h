@@ -887,17 +887,20 @@ class Tsoil45 : public ProcessXML45
      double yrh2oyld;
 
      // Annual initial estimated actual evapotranspiration
-     //   (mm / year)
-     double yrineet;
+     double yrineet;           //   (mm / year)
 
      // Annual sum of ninput
-     double yrnin;     // (g N / (sq. meter * year))
+     double yrnin;             // (g N / (sq. meter * year))
+     double yrnin_active;      // (g N / (sq. meter * year))
+     double yrnin_slow;        // (g N / (sq. meter * year))
+     double yrnin_passive;     // (g N / (sq. meter * year))
+     
 
      // Annual sum of nlost
-     double yrnlost;   // (g N / (sq. meter * year))
+     double yrnlost;          // (g N / (sq. meter * year))
      double yrnlost_active;   // (g N / (sq. meter * year))
-     double yrnlost_slow;   // (g N / (sq. meter * year))
-     double yrnlost_passive;   // (g N / (sq. meter * year))
+     double yrnlost_slow;     // (g N / (sq. meter * year))
+     double yrnlost_passive;  // (g N / (sq. meter * year))
 
      double yrlchdin;   // (g N / (sq. meter * year))
 

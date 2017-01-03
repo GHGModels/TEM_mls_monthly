@@ -426,12 +426,11 @@ int Telm45::equilibrateTEM( const double& ptol,
 
 
     vegceq[(dyr%de_nyears)] = tem.veg.getVEGC();
-//    soilceq[(dyr%de_nyears)] = tem.getY(tem.I_FBC)+tem.getY(tem.I_AMC)+tem.getY(tem.I_MNC);                
+//    soilceq[(dyr%de_nyears)] = tem.getY(tem.I_ACTIVE_C)+tem.getY(tem.I_SLOW_C)+tem.getY(tem.I_PASSIVE_C);                
     soilceq[(dyr%de_nyears)] = tem.soil.getSOLC();                                                           //replacing the above line MJ MLS;
     vegneq[(dyr%de_nyears)] = tem.veg.getVEGN();
-//    soilneq[(dyr%de_nyears)] = tem.getY(tem.I_FBN)+tem.getY(tem.I_AMN)+tem.getY(tem.I_MNN);
+//    soilneq[(dyr%de_nyears)] = tem.getY(tem.I_ACTIVE_N)+tem.getY(tem.I_SLOW_N)+tem.getY(tem.I_PASSIVE_N);
     soilneq[(dyr%de_nyears)] = tem.soil.getSOLN();
-//    cout << "vegequil = " << vegceq[(dyr%de_nyears)] << " " << vegceq[((dyr%de_nyears)+1)] << " " << soilceq[(dyr%de_nyears)] << " " << soilceq[((dyr%de_nyears))+1] << " " << vegneq[(dyr%de_nyears)] << " " << vegneq[((dyr%de_nyears))+1] << " " << soilneq[(dyr%de_nyears)] << " " << soilneq[((dyr%de_nyears))+1] << " " << dyr << endl;
 
     ++dyr;
     ++tem.totyr;
@@ -503,11 +502,11 @@ void Telm45::getTEMCohortState( const int& pichrt )
 
 //cout << "growdd before setkd in getTEMCohortState = " << tem.ag.getGROWDD() << endl;
 
-//  tem.ag.setKDFB( cohort[pichrt].agkdfb );
-//  tem.ag.setKDAM( cohort[pichrt].agkdam );
-//  tem.ag.setKDMN( cohort[pichrt].agkdmn );
+//  tem.ag.setKD_ACTIVE( cohort[pichrt].agkd_active );
+//  tem.ag.setKD_SLOW( cohort[pichrt].agkd_slow );
+//  tem.ag.setKD_PASSIVE( cohort[pichrt].agkd_passive );
 
-//  cout << "kdfbin getcohortstate = " << tem.ag.getKDFB() << " " << cohort[pichrt].agkdfb << " " << pichrt << endl;
+//  cout << "kd in getcohortstate = " << tem.ag.getKD_ACTIVE() << " " << cohort[pichrt].agkd_active << " " << pichrt << endl;
 
   tem.ag.prvstate = cohort[pichrt].agprvstate;
 
@@ -568,9 +567,9 @@ void Telm45::getTEMCohortState( const int& pichrt )
 
   tem.ag.irrgflag = cohort[pichrt].irrgflag;
 
-//  tem.microbe.setKDFB( cohort[pichrt].kdfb, tem.veg.cmnt );   
-//  tem.microbe.setKDAM( cohort[pichrt].kdam, tem.veg.cmnt );    
-//  tem.microbe.setKDMN( cohort[pichrt].kdmn, tem.veg.cmnt );    
+//  tem.microbe.setKD_ACTIVE( cohort[pichrt].kd_active, tem.veg.cmnt );   
+//  tem.microbe.setKD_SLOW( cohort[pichrt].kd_slow, tem.veg.cmnt );    
+//  tem.microbe.setKD_PASSIVE( cohort[pichrt].kd_passive, tem.veg.cmnt );    
 
   tem.ag.setNATSEEDC( cohort[pichrt].natseedC );
 
@@ -588,7 +587,7 @@ void Telm45::getTEMCohortState( const int& pichrt )
 
 //  tem.ag.setNSRETENT( cohort[pichrt].nsretent );
 //added for MJ MLS check back;
-  tem.ag.setNSRETENT( cohort[pichrt].nsretentfb + cohort[pichrt].nsretentam + cohort[pichrt].nsretentmn );
+  tem.ag.setNSRETENT( cohort[pichrt].nsretent_active + cohort[pichrt].nsretent_slow + cohort[pichrt].nsretent_passive );
 
   tem.ag.setNVRETENT( cohort[pichrt].nvretent );
 
@@ -658,8 +657,8 @@ void Telm45::getTEMCohortState( const int& pichrt )
   tem.ag.setSCONVRTFLXC( cohort[pichrt].sconvrtflx.carbon );
   tem.ag.setSCONVRTFLXN( cohort[pichrt].sconvrtflx.nitrogen );
 */
-  tem.ag.setSCONVRTFLXC( cohort[pichrt].sconvrtflxfb.carbon + cohort[pichrt].sconvrtflxam.carbon + cohort[pichrt].sconvrtflxmn.carbon );
-  tem.ag.setSCONVRTFLXN( cohort[pichrt].sconvrtflxfb.nitrogen + cohort[pichrt].sconvrtflxam.nitrogen + cohort[pichrt].sconvrtflxmn.nitrogen);
+  tem.ag.setSCONVRTFLXC( cohort[pichrt].sconvrtflx_active.carbon + cohort[pichrt].sconvrtflx_slow.carbon + cohort[pichrt].sconvrtflx_passive.carbon );
+  tem.ag.setSCONVRTFLXN( cohort[pichrt].sconvrtflx_active.nitrogen + cohort[pichrt].sconvrtflx_slow.nitrogen + cohort[pichrt].sconvrtflx_passive.nitrogen);
 
   tem.ag.setSLASHC( cohort[pichrt].slash.carbon );
   tem.ag.setSLASHN( cohort[pichrt].slash.nitrogen );
@@ -695,7 +694,6 @@ void Telm45::getTEMCohortState( const int& pichrt )
   tem.veg.yrrmleaf = cohort[pichrt].yrrmleaf;
   tem.veg.yrrmsapwood = cohort[pichrt].yrrmsapwood;
   tem.veg.yrrmroot = cohort[pichrt].yrrmroot;
-//  cout << "pichrt at end kdfb = " << pichrt << endl;
 
 };
 
@@ -719,9 +717,9 @@ void Telm45::initializeCohortTEMState( const int& pichrt )
 
   cohort[pichrt].aggrowdd = MISSING;
 
-//  cohort[pichrt].agkdfb = MISSING;
-//  cohort[pichrt].agkdam = MISSING;
-//  cohort[pichrt].agkdmn = MISSING;
+//  cohort[pichrt].agkd_active = MISSING;
+//  cohort[pichrt].agkd_slow = MISSING;
+//  cohort[pichrt].agkd_passive = MISSING;
 
   cohort[pichrt].avlh2o = MISSING;
 
@@ -769,9 +767,9 @@ void Telm45::initializeCohortTEMState( const int& pichrt )
     cohort[pichrt].initPROD100[i].nitrogen = MISSING;
   }
 
-//  cohort[pichrt].kdfb = MISSING;
-//  cohort[pichrt].kdam = MISSING;
-//  cohort[pichrt].kdmn = MISSING;
+//  cohort[pichrt].kd_active = MISSING;
+//  cohort[pichrt].kd_slow = MISSING;
+//  cohort[pichrt].kd_passive = MISSING;
 
   cohort[pichrt].natseedC = MISSING;
 
@@ -905,9 +903,9 @@ void Telm45::outputTEMmonth( const int& pdm )
 
   output[tem.I_LABILEC][pdm] = tem.getY( tem.I_LABILEC );
 
-  output[tem.I_FBC][pdm] = tem.getY( tem.I_FBC );
-  output[tem.I_AMC][pdm] = tem.getY( tem.I_AMC );
-  output[tem.I_MNC][pdm] = tem.getY( tem.I_MNC );
+  output[tem.I_ACTIVE_C][pdm] = tem.getY( tem.I_ACTIVE_C );
+  output[tem.I_SLOW_C][pdm] = tem.getY( tem.I_SLOW_C );
+  output[tem.I_PASSIVE_C][pdm] = tem.getY( tem.I_PASSIVE_C );
 
   // Ecosystem nitrogen pools determined in integrator
 
@@ -923,13 +921,13 @@ void Telm45::outputTEMmonth( const int& pdm )
 
   output[tem.I_LABILEN][pdm] = tem.getY( tem.I_LABILEN );
 
-  output[tem.I_FBN][pdm] = tem.getY( tem.I_FBN );
-  output[tem.I_AMN][pdm] = tem.getY( tem.I_AMN );
-  output[tem.I_MNN][pdm] = tem.getY( tem.I_MNN );
+  output[tem.I_ACTIVE_N][pdm] = tem.getY( tem.I_ACTIVE_N );
+  output[tem.I_SLOW_N][pdm] = tem.getY( tem.I_SLOW_N );
+  output[tem.I_PASSIVE_N][pdm] = tem.getY( tem.I_PASSIVE_N );
 
-  output[tem.I_AVLNFB][pdm] = tem.getY( tem.I_AVLNFB );
-  output[tem.I_AVLNAM][pdm] = tem.getY( tem.I_AVLNAM );
-  output[tem.I_AVLNMN][pdm] = tem.getY( tem.I_AVLNMN );
+  output[tem.I_AVLN_ACTIVE][pdm] = tem.getY( tem.I_AVLN_ACTIVE );
+  output[tem.I_AVLN_SLOW][pdm] = tem.getY( tem.I_AVLN_SLOW );
+  output[tem.I_AVLN_PASSIVE][pdm] = tem.getY( tem.I_AVLN_PASSIVE );
 
 
   // Ecosystem water pools determined in integrator
@@ -1122,7 +1120,7 @@ void Telm45::outputTEMmonth( const int& pdm )
 
 //  output[tem.I_AVLN][pdm] = tem.soil.getAVLN();  //either this line or next line MJ MLS;
 
-  output[tem.I_AVLN][pdm] = tem.getY (tem.I_AVLNFB) + tem.getY (tem.I_AVLNAM) + tem.getY(tem.I_AVLNMN);
+  output[tem.I_AVLN][pdm] = tem.getY (tem.I_AVLN_ACTIVE) + tem.getY (tem.I_AVLN_SLOW) + tem.getY(tem.I_AVLN_PASSIVE);
 
   // Other ecosystem water pools
 
@@ -1404,11 +1402,10 @@ void Telm45::readCohortState( ifstream& ifstate,
 
   ifstate >> cohort[pichrt].aggrowdd;
 
-//  ifstate >> cohort[pichrt].agkdfb;
-//  ifstate >> cohort[pichrt].agkdam;
-//  ifstate >> cohort[pichrt].agkdmn;
+//  ifstate >> cohort[pichrt].agkd_active;
+//  ifstate >> cohort[pichrt].agkd_slow;
+//  ifstate >> cohort[pichrt].agkd_passive;
 
-//cout << "agkdfb = " << cohort[pichrt].agkdfb << endl;
 
   ifstate >> cohort[pichrt].agprvstate;
 
@@ -1466,9 +1463,9 @@ void Telm45::readCohortState( ifstream& ifstate,
 
   ifstate >> cohort[pichrt].irrgflag;
 
-//  ifstate >> cohort[pichrt].kdfb;
-//  ifstate >> cohort[pichrt].kdam;
-//  ifstate >> cohort[pichrt].kdmn;
+//  ifstate >> cohort[pichrt].kd_active;
+//  ifstate >> cohort[pichrt].kd_slow;
+//  ifstate >> cohort[pichrt].kd_passive;
 
   ifstate >> cohort[pichrt].natseedC;
 
@@ -1627,10 +1624,10 @@ void Telm45::saveTEMCohortState( const int& pichrt )
 
   cohort[pichrt].aggrowdd = tem.ag.getGROWDD();
 
-//  cohort[pichrt].agkdfb = tem.ag.getKDFB();
-//  cout << "setting agkdfb = " << tem.ag.getKDFB() << endl;
-//  cohort[pichrt].agkdam = tem.ag.getKDAM();
-//  cohort[pichrt].agkdmn = tem.ag.getKDMN();
+//  cohort[pichrt].agkd_active = tem.ag.getKD_ACTIVE();
+//  cout << "setting agkd_active = " << tem.ag.getKD_ACTIVE() << endl;
+//  cohort[pichrt].agkd_slow = tem.ag.getKD_SLOW();
+//  cohort[pichrt].agkd_passive = tem.ag.getKD_PASSIVE();
 
   cohort[pichrt].agprvstate = tem.ag.prvstate;
 
@@ -1688,9 +1685,9 @@ void Telm45::saveTEMCohortState( const int& pichrt )
 
   cohort[pichrt].irrgflag = tem.ag.irrgflag;
 
-//  cohort[pichrt].kdfb = tem.microbe.getKDFB( cohort[pichrt].cmnt );
-//  cohort[pichrt].kdam = tem.microbe.getKDAM( cohort[pichrt].cmnt );
-//  cohort[pichrt].kdmn = tem.microbe.getKDMN( cohort[pichrt].cmnt );
+//  cohort[pichrt].kd_active = tem.microbe.getKD_ACTIVE( cohort[pichrt].cmnt );
+//  cohort[pichrt].kd_slow = tem.microbe.getKD_SLOW( cohort[pichrt].cmnt );
+//  cohort[pichrt].kd_passive = tem.microbe.getKD_PASSIVE( cohort[pichrt].cmnt );
 
   cohort[pichrt].natseedC = tem.ag.getNATSEEDC();
 
@@ -1834,9 +1831,9 @@ void Telm45::setCohortTEMState( const ElmntCohort45& firstchrt,
 
   targetchrt.aggrowdd = firstchrt.aggrowdd;
 
-//  targetchrt.agkdfb = firstchrt.agkdfb;
-//  targetchrt.agkdam = firstchrt.agkdam;
-//  targetchrt.agkdmn = firstchrt.agkdmn;
+//  targetchrt.agkd_active = firstchrt.agkd_active;
+//  targetchrt.agkd_slow = firstchrt.agkd_slow;
+//  targetchrt.agkd_passive = firstchrt.agkd_passive;
 
   targetchrt.avlh2o = firstchrt.avlh2o;
 
@@ -1882,9 +1879,9 @@ void Telm45::setCohortTEMState( const ElmntCohort45& firstchrt,
     targetchrt.initPROD100[i].nitrogen = firstchrt.initPROD100[i].nitrogen;
   }
 
-//  targetchrt.kdfb = firstchrt.kdfb;
-//  targetchrt.kdam = firstchrt.kdam;
-//  targetchrt.kdmn = firstchrt.kdmn;
+//  targetchrt.kd_active = firstchrt.kd_active;
+//  targetchrt.kd_slow = firstchrt.kd_slow;
+//  targetchrt.kd_passive = firstchrt.kd_passive;
 
   targetchrt.natseedC = firstchrt.natseedC;
 
@@ -2611,31 +2608,31 @@ void Telm45::temwritepred( ofstream fout[NUMTEM],
     {
       for( dm = 0; dm < CYCLE; ++dm )
       {
-        tempred.mon[dm] = output[tem.I_FBC][dm]+output[tem.I_AMC][dm]+output[tem.I_MNC][dm];
+        tempred.mon[dm] = output[tem.I_ACTIVE_C][dm]+output[tem.I_SLOW_C][dm]+output[tem.I_PASSIVE_C][dm];
       }
     }
 */
-    else if( predname.at( i ) == tem.predstr.at( tem.I_FBC ) )
+    else if( predname.at( i ) == tem.predstr.at( tem.I_ACTIVE_C ) )
     {
       for( dm = 0; dm < CYCLE; ++dm )
       {
-        tempred.mon[dm] = output[tem.I_FBC][dm];
+        tempred.mon[dm] = output[tem.I_ACTIVE_C][dm];
       }
     }
 
-    else if( predname.at( i ) == tem.predstr.at( tem.I_AMC ) )
+    else if( predname.at( i ) == tem.predstr.at( tem.I_SLOW_C ) )
     {
       for( dm = 0; dm < CYCLE; ++dm )
       {
-        tempred.mon[dm] = output[tem.I_AMC][dm];
+        tempred.mon[dm] = output[tem.I_SLOW_C][dm];
       }
     }
 
-    else if( predname.at( i ) == tem.predstr.at( tem.I_MNC ) )
+    else if( predname.at( i ) == tem.predstr.at( tem.I_PASSIVE_C ) )
     {
       for( dm = 0; dm < CYCLE; ++dm )
       {
-        tempred.mon[dm] = output[tem.I_MNC][dm];
+        tempred.mon[dm] = output[tem.I_PASSIVE_C][dm];
       }
     }
 
@@ -2720,7 +2717,7 @@ void Telm45::temwritepred( ofstream fout[NUMTEM],
     {
       for( dm = 0; dm < CYCLE; ++dm )
       {
-        tempred.mon[dm] = output[tem.I_FBN][dm]+output[tem.I_AMN][dm]+output[tem.I_MNN][dm];
+        tempred.mon[dm] = output[tem.I_ACTIVE_N][dm]+output[tem.I_SLOW_N][dm]+output[tem.I_PASSIVE_N][dm];
       }
     }
 
@@ -2728,32 +2725,32 @@ void Telm45::temwritepred( ofstream fout[NUMTEM],
     {
       for( dm = 0; dm < CYCLE; ++dm )
       {
-        tempred.mon[dm] = (output[tem.I_AVLNFB][dm]+output[tem.I_AVLNAM][dm]+output[tem.I_AVLNMN][dm]) * GRAMS2MG;
+        tempred.mon[dm] = (output[tem.I_AVLN_ACTIVE][dm]+output[tem.I_AVLN_SLOW][dm]+output[tem.I_AVLN_PASSIVE][dm]) * GRAMS2MG;
       }
     }
 */
 
-    else if( predname.at( i ) == tem.predstr.at( tem.I_FBN ) )
+    else if( predname.at( i ) == tem.predstr.at( tem.I_ACTIVE_N ) )
     {
       for( dm = 0; dm < CYCLE; ++dm )
       {
-        tempred.mon[dm] = output[tem.I_FBN][dm];
+        tempred.mon[dm] = output[tem.I_ACTIVE_N][dm];
       }
     }
 
-    else if( predname.at( i ) == tem.predstr.at( tem.I_AMN ) )
+    else if( predname.at( i ) == tem.predstr.at( tem.I_SLOW_N ) )
     {
       for( dm = 0; dm < CYCLE; ++dm )
       {
-        tempred.mon[dm] = output[tem.I_AMN][dm];
+        tempred.mon[dm] = output[tem.I_SLOW_N][dm];
       }
     }
 
-    else if( predname.at( i ) == tem.predstr.at( tem.I_MNN ) )
+    else if( predname.at( i ) == tem.predstr.at( tem.I_PASSIVE_N ) )
     {
       for( dm = 0; dm < CYCLE; ++dm )
       {
-        tempred.mon[dm] = output[tem.I_MNN][dm];
+        tempred.mon[dm] = output[tem.I_PASSIVE_N][dm];
       }
     }
 
@@ -2765,27 +2762,27 @@ void Telm45::temwritepred( ofstream fout[NUMTEM],
       }
     }
 
-    else if( predname.at( i ) == tem.predstr.at( tem.I_AVLNFB ) )
+    else if( predname.at( i ) == tem.predstr.at( tem.I_AVLN_ACTIVE ) )
     {
       for( dm = 0; dm < CYCLE; ++dm )
       {
-        tempred.mon[dm] = output[tem.I_AVLNFB][dm];
+        tempred.mon[dm] = output[tem.I_AVLN_ACTIVE][dm];
       }
     }
 
-    else if( predname.at( i ) == tem.predstr.at( tem.I_AVLNAM ) )
+    else if( predname.at( i ) == tem.predstr.at( tem.I_AVLN_SLOW ) )
     {
       for( dm = 0; dm < CYCLE; ++dm )
       {
-        tempred.mon[dm] = output[tem.I_AVLNAM][dm];
+        tempred.mon[dm] = output[tem.I_AVLN_SLOW][dm];
       }
     }
 
-    else if( predname.at( i ) == tem.predstr.at( tem.I_AVLNMN ) )
+    else if( predname.at( i ) == tem.predstr.at( tem.I_AVLN_PASSIVE ) )
     {
       for( dm = 0; dm < CYCLE; ++dm )
       {
-        tempred.mon[dm] = output[tem.I_AVLNMN][dm];
+        tempred.mon[dm] = output[tem.I_AVLN_PASSIVE][dm];
       }
     }
 
@@ -4492,9 +4489,9 @@ void Telm45::writeCohortState( ofstream& ofstate,
 
   ofstate << cohort[pichrt].aggrowdd << " ";
 
-//  ofstate << cohort[pichrt].agkdfb << " ";
-//  ofstate << cohort[pichrt].agkdam << " ";
-//  ofstate << cohort[pichrt].agkdmn << " ";
+//  ofstate << cohort[pichrt].agkd_active << " ";
+//  ofstate << cohort[pichrt].agkd_slow << " ";
+//  ofstate << cohort[pichrt].agkd_passive << " ";
 
   ofstate << cohort[pichrt].agprvstate << " ";
 
@@ -4552,9 +4549,9 @@ void Telm45::writeCohortState( ofstream& ofstate,
 
   ofstate << cohort[pichrt].irrgflag << " ";
 
-//  ofstate << cohort[pichrt].kdfb << " ";
-//  ofstate << cohort[pichrt].kdam << " ";
-//  ofstate << cohort[pichrt].kdmn << " ";
+//  ofstate << cohort[pichrt].kd_active << " ";
+//  ofstate << cohort[pichrt].kd_slow << " ";
+//  ofstate << cohort[pichrt].kd_passive << " ";
 
   ofstate << cohort[pichrt].natseedC << " ";
 

@@ -1443,7 +1443,8 @@ void Tveg45::nupxclm( const int& pdcmnt,
 */
 
 //*********************************************************************************
-void Tveg45::nupxclmfb( const int& pdcmnt,
+// calculate vegetation n uptake from all soil layers
+void Tveg45::nupxclm( const int& pdcmnt,
                         const double& soilh2o,
                         const double& availn,
                         const double& rofT,
@@ -1452,89 +1453,25 @@ void Tveg45::nupxclmfb( const int& pdcmnt,
                         const double& rootmass )
 {
 
-  double vegnupfb;
+  double vegnup;
 
-  vegnupfb  = (availn * ksoil) / soilh2o;
-  vegnupfb *= nmax / (kn1[pdcmnt] + vegnupfb);
-  vegnupfb *= rofT;
-  vegnupfb *= fozone;
-  vegnupfb *= rootmass / (krnup[pdcmnt] + rootmass);
+  vegnup  = (availn * ksoil) / soilh2o;
+  vegnup *= nmax / (kn1[pdcmnt] + vegnup);
+  vegnup *= rofT;
+  vegnup *= fozone;
+  vegnup *= rootmass / (krnup[pdcmnt] + rootmass);
 
-  if( vegnupfb < ZERO ) { vegnupfb = ZERO; }
-
-  if (rootmass > 0.01)
-  {
-    dvnupdrootc = vegnupfb * krnup[pdcmnt]/(rootmass * (rootmass + krnup[pdcmnt]));
-  }
-  else { dvnupdrootc = vegnupfb * krnup[pdcmnt]/(0.01 * (0.01 + krnup[pdcmnt])); }
-
-  inuptakefb = vegnupfb;
-  nuptakefb = inuptakefb;
-
-};
-
-
-//*******************************************************************************
-void Tveg45::nupxclmam( const int& pdcmnt,
-                        const double& soilh2o,
-                        const double& availn,
-                        const double& rofT,
-                        const double& ksoil,
-                        const double& fozone,
-                        const double& rootmass )
-{
-
-  double vegnupam;
-
-  vegnupam  = (availn * ksoil) / soilh2o;
-  vegnupam *= nmax / (kn1[pdcmnt] + vegnupam);
-  vegnupam *= rofT;
-  vegnupam *= fozone;
-  vegnupam *= rootmass / (krnup[pdcmnt] + rootmass);
-
-  if( vegnupam < ZERO ) { vegnupam = ZERO; }
+  if( vegnup < ZERO ) { vegnup = ZERO; }
 
   if (rootmass > 0.01)
   {
-    dvnupdrootc = vegnupam * krnup[pdcmnt]/(rootmass * (rootmass + krnup[pdcmnt]));
+    dvnupdrootc = vegnup * krnup[pdcmnt]/(rootmass * (rootmass + krnup[pdcmnt]));
   }
-  else { dvnupdrootc = vegnupam * krnup[pdcmnt]/(0.01 * (0.01 + krnup[pdcmnt])); }
+  else { dvnupdrootc = vegnup * krnup[pdcmnt]/(0.01 * (0.01 + krnup[pdcmnt])); }
 
-  inuptakeam = vegnupam;
-  nuptakeam = inuptakeam;
-
-
-};
-
-//*********************************************************************************
-void Tveg45::nupxclmmn( const int& pdcmnt,
-                        const double& soilh2o,
-                        const double& availn,
-                        const double& rofT,
-                        const double& ksoil,
-                        const double& fozone,
-                        const double& rootmass )
-{
-
-  double vegnupmn;
-
-  vegnupmn  = (availn * ksoil) / soilh2o;
-  vegnupmn *= nmax / (kn1[pdcmnt] + vegnupmn);
-  vegnupmn *= rofT;
-  vegnupmn *= fozone;
-  vegnupmn *= rootmass / (krnup[pdcmnt] + rootmass);
-
-  if( vegnupmn < ZERO ) { vegnupmn = ZERO; }
-
-  if (rootmass > 0.01)
-  {
-    dvnupdrootc = vegnupmn * krnup[pdcmnt]/(rootmass * (rootmass + krnup[pdcmnt]));
-  }
-  else { dvnupdrootc = vegnupmn * krnup[pdcmnt]/(0.01 * (0.01 + krnup[pdcmnt])); }
-
-  inuptakemn = vegnupmn;
-  nuptakemn = inuptakemn;
-
+  // the following lines need to check back, to pass vegnup to inuptake_active, etc.
+  inuptake = vegnup;
+  nuptake = inuptake;
 
 };
 
@@ -1788,14 +1725,14 @@ void Tveg45::resetMonthlyFluxes( void )
   rg = ZERO;
 
   inuptake = ZERO;
-  inuptakefb = ZERO;
-  inuptakeam = ZERO;
-  inuptakemn = ZERO;
+  inuptake_active = ZERO;
+  inuptake_slow = ZERO;
+  inuptake_passive = ZERO;
 
   nuptake = ZERO;
-  nuptakefb = ZERO;
-  nuptakeam = ZERO;
-  nuptakemn = ZERO;
+  nuptake_active = ZERO;
+  nuptake_slow = ZERO;
+  nuptake_passive = ZERO;
  
   pet = ZERO;
   
@@ -2218,11 +2155,11 @@ void Tveg45::updateDynamics( const int& pdcmnt,
       }
     }
     gpp = ingpp*fgppdownreg;
+    
 //    nuptake = inuptake*fnupdownreg;   //MJ MLS commented out for the following three lines;
-
-    nuptakefb = inuptakefb*fnupdownreg;
-    nuptakeam = inuptakeam*fnupdownreg;
-    nuptakemn = inuptakemn*fnupdownreg;
+    nuptake_active = inuptake_active*fnupdownreg;   //check back, need to see if fnupdownreg variable or not?
+    nuptake_slow = inuptake_slow*fnupdownreg;
+    nuptake_passive = inuptake_passive*fnupdownreg;
 
            
 //    cout << "gpp = " << gpp << " " << ingpp << endl;

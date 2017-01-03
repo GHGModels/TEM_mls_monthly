@@ -443,43 +443,43 @@ class Ttem45
      } 
 
      /*
-     // avlnfb **************************************************    //MJ MLS;
+     // avln_active **************************************************    //MJ MLS;
 
-     inline double getAVLNFB( const int& pcmnt )
+     inline double getAVLN_ACTIVE( const int& pcmnt )
      {
-       return avlnfb[pcmnt];
+       return avln_active[pcmnt];
      }
 
-     inline void setAVLNFB( const double& pavlnfb,
+     inline void setAVLN_ACTIVE( const double& pavln_active,
                            const int& pcmnt )
      {
-       avlnfb[pcmnt] = pavlnfb;
+       avln_active[pcmnt] = pavln_active;
      }
 
-     // avlnam **************************************************
+     // avln_slow **************************************************
 
-     inline double getAVLNAM( const int& pcmnt )
+     inline double getAVLN_SLOW( const int& pcmnt )
      {
-       return avlnam[pcmnt];
+       return avln_slow[pcmnt];
      }
 
-     inline void setAVLNAM( const double& pavlnam,
+     inline void setAVLN_SLOW( const double& pavln_slow,
                            const int& pcmnt )
      {
-       avlnam[pcmnt] = pavlnam;
+       avln_slow[pcmnt] = pavln_slow;
      }
 
-     // avlnmn **************************************************
+     // avln_passive **************************************************
 
-     inline double getAVLNMN( const int& pcmnt )
+     inline double getAVLN_PASSIVE( const int& pcmnt )
      {
-       return avlnmn[pcmnt];
+       return avln_passive[pcmnt];
      }
 
-     inline void setAVLNMN( const double& pavlnmn,
+     inline void setAVLN_PASSIVE( const double& pavln_passive,
                            const int& pcmnt )
      {
-       avlnmn[pcmnt] = pavlnmn;
+       avln_passive[pcmnt] = pavln_passive;
      }
      */
 
@@ -565,7 +565,6 @@ class Ttem45
        don[pcmnt] = pdon;
      } 
 
-//The following get set functions are replaced with y[I_FBC] instead MJ MLS; 
     // active_c **************************************************
     
       inline double getACTIVE_C( const int& pcmnt )

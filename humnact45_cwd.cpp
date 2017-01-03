@@ -11,7 +11,8 @@ HUMNACT45_equil.CPP - describes human disturbances to natural
   using std::printf;
 
 #include<iostream>
-
+  
+  using std::cin;
   using std::cout;
   using std::ios;
   using std::cerr;
