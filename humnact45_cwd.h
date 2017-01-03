@@ -706,31 +706,21 @@ class Humnact45 : public ProcessXML45
      }
 
      // kd *****************************************************
-     /* Assume KDC is for active soilc only */
-     inline double getKDC( void ) { return kdc; }
+     //inline double getKDC( void ) { return kdc; }
 
-     inline void setKDC( const double& pkdc ) { kdc = pkdc; }
+     //inline void setKDC( const double& pkdc ) { kdc = pkdc; }
 
-     /* 
-     inline double getKDAM( void ) { return kdam; }
+     inline double getKD_ACTIVE( void ) { return kd_active; }
 
-     inline void setKDAM( const double& pkdam ) { kdam = pkdam; }
+     inline void setKD_ACTIVE( const double& pkd_active ) { kd_active = pkd_active; }
 
-     inline double getKDMN( void ) { return kdmn; }
+     inline double getKD_SLOW( void ) { return kd_slow; }
 
-     inline void setKDMN( const double& pkdmn ) { kdmn = pkdmn; }
-     */
+     inline void setKD_SLOW( const double& pkd_slow ) { kd_slow = pkd_slow; }
 
-     // kdfbam and kdfbmn coefficients ****************************
-     /*
-     inline double getKDFBAM( void ) { return kdfbam; }
-
-     inline void setKDFBAM( const double& pkdfbam ) { kdfbam = pkdfbam; }
-
-     inline double getKDFBMN( void ) { return kdfbmn; }
-
-     inline void setKDFBMN( const double& pkdfbmn ) { kdfbmn = pkdfbmn; }
-     */
+     inline double getKD_PASSIVE( void ) { return kd_passive; }
+     
+     inline void setKD_PASSIVE( const double& pkd_passive ) { kd_passive = pkd_passive; }
 
 
      // natseedC ***********************************************
@@ -1689,13 +1679,11 @@ class Humnact45 : public ProcessXML45
     int isPerennial[MAXCMNT];
 
      // Intrinsic decomposition rate
-    double kdc;
-    /*
-    double kdam;
-    double kdmn;
-    double kdfbam;
-    double kdfbmn;
-    */
+    //double kdc;
+    
+    double kd_active;
+    double kd_slow;
+    double kd_passive;
     
     // Monthly manure inputs
     Biomass manure;

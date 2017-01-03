@@ -4345,7 +4345,7 @@ if (rfrac*wevap < 0.0) {cout << "diag is negative " << endl;}
    else
    {
    soil.setNLOST( soil.getNLOST() +  soil.getDENITR(veg.cmnt) * (0.01*microbe.getGMIN() + veg.getDENITR()) );
-]   }
+   }
 //   else {
 // cout << "uhoh = " << soil.getNLOST() << " " <<  soil.getLCHDON() << " " << soil.getNINPUT() << " " << soil.getSONINP() << " " <<  veg.getVEGNINP() << endl;
 //    }
