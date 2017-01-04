@@ -18,8 +18,8 @@ TTEM45_ndep.H - Terrestrial Ecosystem Model Version TEM-MLS
 
   const int WSY = 8;
   const int ESY = 10;
-  const int NEKEY = 127; // number of choices for output as "optional E fluxes"
-  const int NWKEY = 41; // number of choices for output as "optional W fluxes"
+  const int NEKEY = 134; // number of choices for output as "optional E fluxes"
+  const int NWKEY = 41;  // number of choices for output as "optional W fluxes"
 #endif
 
 
@@ -78,7 +78,7 @@ class Ttem45
        I_GPR,        I_RVMNT,      I_RMLEAF,     I_RMSAPWOOD,  I_RMROOT,   
        I_RMSEED,     I_RMLABILE,   I_RVGRW,      I_LTRLC,      I_LTRSC,    
        I_LTRHC,      I_LTRRC,      I_LTRSEEDC,   I_RH,         I_RH_ACTIVE,    
-       I_RH_SLOW,    I_RH_PASSIVE,
+       I_RH_SLOW,    I_RH_PASSIVE,                                             // 32
 
        I_ALLOCLN,         I_ALLOCSN,        I_ALLOCHN,        I_ALLOCRN,       I_ALLOCSEEDN,
        I_ALLOCILN,        I_ALLOCISN,       I_ALLOCIHN,       I_ALLOCIRN,      I_ALLOCISEEDN,
@@ -90,7 +90,7 @@ class Ttem45
        I_LCHDOC_SLOW,     I_LCHDOC_PASSIVE, I_DONPROD,        I_DONPROD_ACTIVE,I_DONPROD_SLOW,
        I_DONPROD_PASSIVE, I_LCHDON,         I_LCHDON_ACTIVE,  I_LCHDON_SLOW,   I_LCHDON_PASSIVE,
        I_NFIXS,           I_NFIXN,          I_FRDL,           I_FCO2,          I_FH2O,   
-       I_TEMP,            I_FO3,            I_LCHDIN,   
+       I_TEMP,            I_FO3,            I_LCHDIN,                          // 53
                   /* 85 C&N Fluxes (NUMEEQ-MAXESTAT) */
                   /*#################################*/
 
@@ -101,53 +101,49 @@ class Ttem45
                   /* 11 Water Fluxes (NUMWEQ-MAXWSTAT) */
                   /*###################################*/
 
-// 31+5+85+11 = 132 = NUMEQ; no variables below this point should appear in
+// 33+5+85+11 = 134 = NUMEQ; no variables below this point should appear in
 //   the tem.y[NUMEQ] variable
 
-       I_TOTEC,    I_TOTC,     I_VEGN,
+       I_TOTEC,       I_TOTC,          I_VEGN,          I_SNWPCK,          I_AVLW,
 
-       I_SNWPCK,   I_AVLW,
+       I_NEP,         I_NCE,           I_LAI,           I_PET,             I_SNWINF, 
+      
+       I_WYLD,        I_AGPRDC,        I_PROD10C,       I_PROD100C,        I_TOTPRDC,
 
-       I_NEP,      I_NCE,      I_LAI,
+       I_RESIDC,      I_AGSTUBC,       I_AGPRDN,        I_PROD10N,         I_PROD100N, 
+        
+       I_TOTPRDN,     I_RESIDN,        I_AGSTUBN,       I_CNVRTC,          I_VCNVRTC,  
+        
+       I_SCNVRTC,     I_SLASHC,        I_CFLX,          I_CNVRTN,          I_VCNVRTN,  
+       
+       I_SCNVRTN,     I_SLASHN,        I_NRETNT,        I_NVRTNT,          I_NSRTNT,   
+       
+       I_NSRTNT_ACTIVE, I_NSRTNT_SLOW, I_NSRTNT_PASSIVE,
 
-       I_PET,      I_SNWINF,   I_WYLD,
-
-       I_AGPRDC,   I_PROD10C,  I_PROD100C, I_TOTPRDC,
-
-       I_RESIDC,   I_AGSTUBC,
-
-       I_AGPRDN,   I_PROD10N,  I_PROD100N, I_TOTPRDN,
-
-       I_RESIDN,   I_AGSTUBN,
-
-       I_CNVRTC,   I_VCNVRTC,  I_SCNVRTC,  I_SLASHC,    I_CFLX,
-
-       I_CNVRTN,   I_VCNVRTN,  I_SCNVRTN,  I_SLASHN,    I_NRETNT,
-       I_NVRTNT,   I_NSRTNT,   I_NSRTNT_ACTIVE, I_NSRTNT_SLOW,  I_NSRTNT_PASSIVE,
-       I_SOLC,     I_SOLN,   
-
-  //ok to here 40 
+  //ok to here 38
+  
        I_AGFPRDC,  I_AGFPRDN,  I_FRESIDC,  I_FRESIDN,   I_AGPRDFC,
        I_AGPRDFN,  I_RESIDFC,  I_RESIDFN,
 
        I_PRDF10C,  I_PRDF10N,  I_PRD10FC,  I_PRD10FN,   I_PRDF100C,
        I_PRDF100N, I_PRD100FC, I_PRD100FN, I_TOTFPRDC,  I_TOTFPRDN,
-       I_TOTPRDFC, I_TOTPRDFN,
+       I_TOTPRDFC, I_TOTPRDFN,  // 20
 
        I_CROPC,    I_NATVEGC,  I_CROPN,    I_NATVEGN,   I_CSTRN,
-       I_NATSTRN,  I_CSTON,    I_NATSTON,
+       I_NATSTRN,  I_CSTON,    I_NATSTON,  // 8
 
-       I_CROPLAI,  I_NATLAI,   I_CROPFPC,  I_NATFPC,
+       I_CROPLAI,  I_NATLAI,   I_CROPFPC,  I_NATFPC,   // 4
 
        I_AGINGPP,  I_NATINGPP, I_AGGPP,    I_NATGPP,    I_AGINNPP,
        I_NATINNPP, I_AGNPP,    I_NATNPP,   I_AGGPR,     I_NATGPR,
        I_AGRVMNT,  I_NATRVMNT, I_AGRVGRW,  I_NATRVGRW,  I_AGLTRC,
-       I_NATLTRC,
+       I_NATLTRC,              // 16
 
        I_AGINNUP,  I_NATINNUP, I_AGVNUP,   I_NATVNUP,
        I_AGVNMBL,  I_NATVNMBL,
-       I_AGVNRSRB, I_NVNRSRB,  I_AGLTRN,   I_NATLTRN,   I_CLIPPINGS
-//  99 extra variables
+       I_AGVNRSRB, I_NVNRSRB,  I_AGLTRN,   I_NATLTRN,   I_CLIPPINGS  // 11
+
+       //  38 + 20 + 8 + 4 + 16 + 11 =  97 extra variables
      };
 
      #ifdef CALIBRATE_TEM

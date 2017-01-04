@@ -477,9 +477,13 @@ class Tmcrb45: public ProcessXML45
      // Running mean of rh
      double rrh;       // (g C / (sq. meter * year))
 
+     /*
      // docproc
      double docproc;
-
+     double docproc_active;
+     double docproc_slow;
+     double docproc_passive;
+     */
 
    private:
 

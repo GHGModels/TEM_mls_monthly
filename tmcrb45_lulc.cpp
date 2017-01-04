@@ -357,7 +357,6 @@ void Tmcrb45::resetYrFluxes( void )
   yrrh_slow = ZERO;
   yrrh_passive = ZERO;
   
-
   // Nitrogen fluxes
 
   yrnuptake = ZERO;
@@ -567,7 +566,7 @@ void Tmcrb45::updateDynamics( const int& pdcmnt,
                                  const int& tillflag,
                                  const double& tillfactor,
                                  const double& ksoil,
-                                 const double& rltrc,   // Nothing there in tveg, check back
+                                 const double& rltrc,   // Nothing there, check back
                                  const int& nopen )
 {
   double rhmoist; /* effect of moisture on decomposition */

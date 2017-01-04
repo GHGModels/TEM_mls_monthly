@@ -873,6 +873,9 @@ class Tsoil45 : public ProcessXML45
 
      // Annual sum of availn
      double yravln;
+     double yravln_active;
+     double yravln_slow;
+     double yravln_passive;
 
      // Ratio of soil reactive organic carbon to
      //   soil reactive organic nitrogen
@@ -903,6 +906,10 @@ class Tsoil45 : public ProcessXML45
      double yrnlost_passive;  // (g N / (sq. meter * year))
 
      double yrlchdin;   // (g N / (sq. meter * year))
+     double yrlchdin_active;   // (g N / (sq. meter * year))
+     double yrlchdin_slow;   // (g N / (sq. meter * year))
+     double yrlchdin_passive;   // (g N / (sq. meter * year))
+     
 
      // Annual sum of org.carbon
      double yrorgc;

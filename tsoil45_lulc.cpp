@@ -372,6 +372,9 @@ void Tsoil45::resetYrFluxes( void )
   yrorgn_passive = ZERO;
 
   yravln = ZERO;
+  yravln_active = ZERO;
+  yravln_slow = ZERO;
+  yravln_passive = ZERO;
 
   // Annual water storage
 
@@ -397,6 +400,9 @@ void Tsoil45::resetYrFluxes( void )
   yrnlost_passive = ZERO;
 
   yrlchdin = ZERO;
+  yrlchdin_active = ZERO;
+  yrlchdin_slow = ZERO;
+  yrlchdin_passive = ZERO;
 
   // Annual water fluxes
 
