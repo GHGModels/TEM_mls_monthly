@@ -1,6 +1,0 @@
-Note on Z(depth in m), coefa and coefb defined in trotz45_ms.ecd file:
-
-The original data is derived from equation Y = 1-1/2[exp(-a*d) + exp(-b*d)] based on BATS land cover classification. Many types are not consistent with TEM classification.
- 
-Importantly, depth z now refers to the maximum depth that the vegetation can
-reach to. We need to adjust codes accordingly.
