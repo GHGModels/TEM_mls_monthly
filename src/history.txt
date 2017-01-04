@@ -1,0 +1,35 @@
+tprocessXML45.cpp:159:20: warning: comparison of constant 18446744073709551615 with expression of type 'unsigned int' is always false [-Wtautological-constant-out-of-range-compare]
+  if ( startString == string::npos ) { return MISSING; }
+       ~~~~~~~~~~~ ^  ~~~~~~~~~~~~
+tprocessXML45.cpp:200:20: warning: comparison of constant 18446744073709551615 with expression of type 'unsigned int' is always false [-Wtautological-constant-out-of-range-compare]
+  if ( startString == string::npos ) { return -99; }
+       ~~~~~~~~~~~ ^  ~~~~~~~~~~~~
+tprocessXML45.cpp:241:20: warning: comparison of constant 18446744073709551615 with expression of type 'unsigned int' is always false [-Wtautological-constant-out-of-range-compare]
+  if ( startString == string::npos ) { return -99; }
+       ~~~~~~~~~~~ ^  ~~~~~~~~~~~~
+tprocessXML45.cpp:281:20: warning: comparison of constant 18446744073709551615 with expression of type 'unsigned int' is always false [-Wtautological-constant-out-of-range-compare]
+  if ( startString == string::npos ) { return MISSING; }
+       ~~~~~~~~~~~ ^  ~~~~~~~~~~~~
+tprocessXML45.cpp:321:20: warning: comparison of constant 18446744073709551615 with expression of type 'unsigned int' is always false [-Wtautological-constant-out-of-range-compare]
+  if ( startString == string::npos ) { return -99; }
+       ~~~~~~~~~~~ ^  ~~~~~~~~~~~~
+tprocessXML45.cpp:361:20: warning: comparison of constant 18446744073709551615 with expression of type 'unsigned int' is always false [-Wtautological-constant-out-of-range-compare]
+  if ( startString == string::npos ) { return -99; }
+       ~~~~~~~~~~~ ^  ~~~~~~~~~~~~
+tprocessXML45.cpp:584:20: warning: comparison of constant 18446744073709551615 with expression of type 'unsigned int' is always false [-Wtautological-constant-out-of-range-compare]
+  if ( startString == string::npos ) { return varnode + " is missing"; }
+       ~~~~~~~~~~~ ^  ~~~~~~~~~~~~
+tprocessXML45.cpp:670:20: warning: comparison of constant 18446744073709551615 with expression of type 'unsigned int' is always false [-Wtautological-constant-out-of-range-compare]
+  if ( startString == string::npos ) { return MISSING; }
+       ~~~~~~~~~~~ ^  ~~~~~~~~~~~~
+tprocessXML45.cpp:711:20: warning: comparison of constant 18446744073709551615 with expression of type 'unsigned int' is always false [-Wtautological-constant-out-of-range-compare]
+  if ( startString == string::npos ) { return (int) MISSING; }
+       ~~~~~~~~~~~ ^  ~~~~~~~~~~~~
+9 warnings generated.
+xtem45_cwd.cpp:2768:11: warning: '&&' within '||' [-Wlogical-op-parentheses]
+          && 0 == (telmnt[0].wrtyr%telmnt[0].tem.diffyr) )
+          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+xtem45_cwd.cpp:2768:11: note: place parentheses around the '&&' expression to silence this warning
+          && 0 == (telmnt[0].wrtyr%telmnt[0].tem.diffyr) )
+          ^
+1 warning generated.

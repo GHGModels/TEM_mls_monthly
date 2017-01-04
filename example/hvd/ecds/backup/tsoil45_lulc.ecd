@@ -1,0 +1,15 @@
+<?xml version = "1.0"?>
+
+<soilECD version = "4.5"
+  developedBy = "T. Cronin"
+  updated = "20080905">
+  <pctpora>28.0000</pctpora>
+  <pctporb>33.0000</pctporb>
+  <fldcapa>24.7500</fldcapa>
+  <fldcapb>16.0250</fldcapb>
+  <wiltpta>24.7500</wiltpta>
+  <wiltptb>3.0250</wiltptb>
+  <rssmin>400.0</rssmin>
+  <rssslope>40.0</rssslope>
+</soilECD>
+

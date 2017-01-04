@@ -1,0 +1,56 @@
+using bnz_ndep.xml for information on this run 
+ starting year for climate datasets is 1901
+ initialize model using dynamic equilibration
+ startyear for dynamic equilibration: 1980
+ number of years for dynamic equilibration loop: 20
+ there are 111 years of climate data in the transient datasets 
+ the TEMclm model will be run for solar radiation variables 
+transient cloudiness data will be used
+ filename for cloudiness data input: /share/partition7/mij212/temhydro_clean/climate_forcing/bnz/cru32clds1901_2011.bnz
+ transient tair dataset: /share/partition7/mij212/temhydro_clean/climate_forcing/bnz/cru32tair1901_2011.bnz
+ transient prec dataset: /share/partition7/mij212/temhydro_clean/climate_forcing/bnz/cru32prec1901_2011.bnz
+ transient trange dataset: /share/partition7/mij212/temhydro_clean/climate_forcing/bnz/cru32dtr1901_2011.bnz
+ transient vpr dataset: /share/partition7/mij212/temhydro_clean/climate_forcing/bnz/cru32vpr1901_2011.bnz
+ initial co2 concentration (ppmv) : 356
+ final equilibrium co2 concentration (ppmv) : 356
+ transient o3 dataset: /share/partition7/mij212/temhydro_clean/climate_forcing/bnz/ioo3baucru1901_2011.bnz
+ transient ndep dataset: /share/partition7/mij212/temhydro_clean/climate_forcing/bnz/ndep_1901_2011.bnz
+ long-term average ws10 dataset: /share/partition7/mij212/temhydro_clean/climate_forcing/bnz/wind.bnz
+ allowing available N to fluctuate 
+ running TEM with N feedback on GPP 
+ not solving for baseline soil nitrogen
+ moisture limitation is on
+ ozone damage to gpp is on
+ model will not stop when equilibrated 
+ averaging time for equilibration: 500 years 
+ factor for changing relative c:n per change in co2 concentration: 0
+ proportional tolerance of the integrator: 0.01
+ maximum number of tolerance-reductions in a month: 20
+ maximum number of iterations in a month: 200
+ root zone parameters found in /share/partition7/mij212/temhydro_mls/temhydro_mls_monthly/ecds/trotz45_lulc.ecd
+ vegetation parameters found in /share/partition7/mij212/temhydro_mls/temhydro_mls_monthly/ecds/tveg45_lulc.ecd
+ hydraulic and conductance-related parameters found in /share/partition7/mij212/temhydro_mls/temhydro_mls_monthly/ecds/tconduct45_lulc.ecd
+ microbial parameters found in /share/partition7/mij212/temhydro_mls/temhydro_mls_monthly/ecds/tmcrv45_lulc.ecd
+ agricultural parameters found in /share/partition7/mij212/temhydro_mls/temhydro_mls_monthly/ecds/ag45_lulc.ecd
+ datfile /share/partition7/mij212/temhydro_mls/temhydro_mls_monthly/datfile/bnz45_ndep.dat opened for input of vegetation cmnt 0
+ datfile /share/partition7/mij212/temhydro_mls/temhydro_mls_monthly/datfile/bnz45_ndep.dat opened for input of vegetation cmnt 1
+ datfile /share/partition7/mij212/temhydro_mls/temhydro_mls_monthly/datfile/bnz45_ndep.dat opened for input of vegetation cmnt 2
+ datfile /share/partition7/mij212/temhydro_mls/temhydro_mls_monthly/datfile/bnz45_ndep.dat opened for input of vegetation cmnt 3
+ datfile /share/partition7/mij212/temhydro_mls/temhydro_mls_monthly/datfile/bnz45_ndep.dat opened for input of vegetation cmnt 4
+ datfile /share/partition7/mij212/temhydro_mls/temhydro_mls_monthly/datfile/bnz45_ndep.dat opened for input of vegetation cmnt 5
+ datfile /share/partition7/mij212/temhydro_mls/temhydro_mls_monthly/datfile/bnz45_ndep.dat opened for input of vegetation cmnt 6
+ datfile /share/partition7/mij212/temhydro_mls/temhydro_mls_monthly/datfile/bnz45_ndep.dat opened for input of vegetation cmnt 7
+ datfile /share/partition7/mij212/temhydro_mls/temhydro_mls_monthly/datfile/bnz45_ndep.dat opened for input of vegetation cmnt 8
+ datfile /share/partition7/mij212/temhydro_mls/temhydro_mls_monthly/datfile/bnz45_ndep.dat opened for input of vegetation cmnt 9
+ datfile /share/partition7/mij212/temhydro_mls/temhydro_mls_monthly/datfile/bnz45_ndep.dat opened for input of vegetation cmnt 10
+ datfile /share/partition7/mij212/temhydro_mls/temhydro_mls_monthly/datfile/bnz45_ndep.dat opened for input of vegetation cmnt 11
+ datfile /share/partition7/mij212/temhydro_mls/temhydro_mls_monthly/datfile/bnz45_ndep.dat opened for input of vegetation cmnt 12
+ datfile /share/partition7/mij212/temhydro_mls/temhydro_mls_monthly/datfile/bnz45_ndep.dat opened for input of vegetation cmnt 13
+ datfile /share/partition7/mij212/temhydro_mls/temhydro_mls_monthly/datfile/bnz45_ndep.dat opened for input of vegetation cmnt 14
+ datfile /share/partition7/mij212/temhydro_mls/temhydro_mls_monthly/datfile/bnz45_ndep.dat opened for input of vegetation cmnt 15
+ datfile /share/partition7/mij212/temhydro_mls/temhydro_mls_monthly/datfile/bnz45_ndep.dat opened for input of vegetation cmnt 16
+ datfile /share/partition7/mij212/temhydro_mls/temhydro_mls_monthly/datfile/bnz45_ndep.dat opened for input of vegetation cmnt 17
+ datfile /share/partition7/mij212/temhydro_mls/temhydro_mls_monthly/datfile/bnz45_ndep.dat opened for input of vegetation cmnt 18
+/share/partition7/mij212/temhydro_clean/climate_forcing/bnz/cruigbpstxt.bnz opened for soil texture input 
+/share/partition7/mij212/temhydro_clean/climate_forcing/bnz/crutbaselv.bnz opened for elevation input 
+calibrating for vegetation type 4

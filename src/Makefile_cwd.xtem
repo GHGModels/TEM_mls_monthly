@@ -1,4 +1,4 @@
-CXX = gcc
+CXX = g++
 CFLAGS = -I.
 
 CLMOBJ = tclm45_ndep.o  
