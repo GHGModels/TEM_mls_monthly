@@ -2469,10 +2469,6 @@ void Ttem45::ECDsetODEstate( const int& pdcmnt,
   y[I_LABILEC] =  labilecb[pdcmnt];
 
   if( y[I_LABILEC] < ZERO ) { y[I_LABILEC] = ZERO; }
-
-  y[I_SOLC] = solc[pdcmnt];
-
-  if( y[I_SOLC] < ZERO ) { y[I_SOLC] = ZERO; }
   
   y[I_ACTIVE_C] = active_c[pdcmnt];
 
@@ -2484,7 +2480,11 @@ void Ttem45::ECDsetODEstate( const int& pdcmnt,
 
   y[I_PASSIVE_C] = passive_c[pdcmnt];
 
-  if( y[I_PASSIVE_C] < ZERO ) { y[I_PASSIVE_C] = ZERO; }  // 10
+  if( y[I_PASSIVE_C] < ZERO ) { y[I_PASSIVE_C] = ZERO; }  
+  
+  y[I_SOLC] = active_c[pdcmnt] + slow_c[pdcmnt] + passive_c[pdcmnt];
+  
+  if( y[I_SOLC] < ZERO ) { y[I_SOLC] = ZERO; }            // 10
 
   y[I_DOC] =  ZERO;
 
@@ -2528,10 +2528,6 @@ void Ttem45::ECDsetODEstate( const int& pdcmnt,
 
   if( y[I_LABILEN] < ZERO ) { y[I_LABILEN] = ZERO; }    // 25
                                             
-  y[I_SOLN] = soln[pdcmnt];
-
-  if( y[I_SOLN] < ZERO ) { y[I_SOLN] = ZERO; }
-
   y[I_ACTIVE_N] = active_n[pdcmnt];
 
   if( y[I_ACTIVE_N] < ZERO ) { y[I_ACTIVE_N] = ZERO; }
@@ -2543,11 +2539,15 @@ void Ttem45::ECDsetODEstate( const int& pdcmnt,
   y[I_PASSIVE_N] = passive_n[pdcmnt];
 
   if( y[I_PASSIVE_N] < ZERO ) { y[I_PASSIVE_N] = ZERO; }
+  
+  y[I_SOLN] = active_n[pdcmnt] + slow_n[pdcmnt] + passive_n[pdcmnt];
+  
+  if( y[I_SOLN] < ZERO ) { y[I_SOLN] = ZERO; }
 
   y[I_AVLN] = avln[pdcmnt];                       
 
   if( y[I_AVLN] < ZERO ) { y[I_AVLN] = ZERO; }        // 30
-  
+  /*
   y[I_AVLN_ACTIVE] = avln_active[pdcmnt];                       
   
   if( y[I_AVLN_ACTIVE] < ZERO ) { y[I_AVLN_ACTIVE] = ZERO; }
@@ -2559,7 +2559,7 @@ void Ttem45::ECDsetODEstate( const int& pdcmnt,
   y[I_AVLN_PASSIVE] = avln_passive[pdcmnt];                       
   
   if( y[I_AVLN_PASSIVE] < ZERO ) { y[I_AVLN_PASSIVE] = ZERO; }
-  
+  */
   y[I_SM] = soil.getAWCAPMM() + soil.getWILTPT();
 
   if( y[I_SM] <= ZERO )
@@ -3054,13 +3054,13 @@ void Ttem45::getsitecd( const int& dv, const string&  ecd )
                                          "vegkra",
                                          veg.cmnt ),
               veg.cmnt );
-  
+  /*
    microbe.setKDB( veg.getXMLcmntArrayDouble( fecd[dv],
                                              "siteECD",
                                              "microbekdb",
                                              veg.cmnt ),
                   veg.cmnt );
-
+  */
 
   microbe.setKD_ACTIVE( veg.getXMLcmntArrayDouble( fecd[dv],
                                              "siteECD",
@@ -3155,6 +3155,12 @@ void Ttem45::getsitecd( const int& dv, const string&  ecd )
                                      "vegc_den_slow",
                                      veg.cmnt ),
           veg.cmnt );
+  
+  soil.setC_DEN_PASSIVE( veg.getXMLcmntArrayDouble( fecd[dv],
+                                                 "siteECD",
+                                                 "vegc_den_passive",
+                                                 veg.cmnt ),
+                                                 veg.cmnt );
 
   veg.setO3PARA( veg.getXMLcmntArrayDouble( fecd[dv],
                                             "siteECD",
@@ -6106,9 +6112,7 @@ soil.setNLOST(soil.getNINPUT());
                                                         setPrevState();
                                                         
                                                         
-                                                        
-                                                        
-                                                        
+                                                      
                                                         // Update annual parameters for next year
                                                         
                                                         if( (CYCLE-1) == pdm )

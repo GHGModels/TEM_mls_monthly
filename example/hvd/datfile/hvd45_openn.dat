@@ -22,15 +22,13 @@
     <rootnb>12.0</rootnb>
     <seednb>0.0</seednb>
     <labilenb>10.0</labilenb>
-    <fbc>4000.0</fbc>
-    <amc>3000.0</amc>
-    <mnc>1290.0</mnc>
-    <fbn>4000.0</fbn>
-    <amn>3000.0</amn>
-    <mnn>1290.0</mnn>
-    <avlnfb>0.92</avlnfb>
-    <avlnam>0.68</avlnam>
-    <avlnmn>0.3</avlnmn>
+    <active_c>4000.0</active_c>
+    <slow_c>3000.0</slow_c>
+    <passive_c>1290.0</passive_c>
+    <active_n>4000.0</active_n>
+    <slow_n>3000.0</slow_n>
+    <passive_n>1290.0</passive_n>
+    <avln>0.92</avln>
 
     <vegcmax1b>16.75</vegcmax1b>
     <vegtauleaf>1.0</vegtauleaf>
@@ -39,23 +37,22 @@
     <vegtauroot>1.0</vegtauroot>
     <vegtauseed>1.0</vegtauseed>
     <vegkra>0.328</vegkra>
-    <microbekdb>1.0</microbekdb>
+    <microbekd_active>1.0</microbekd_active>
+    <microbekd_slow>1.0</microbekd_slow>
+    <microbekd_passive>1.0</microbekd_passive>
     <microbelcclnc>70.87</microbelcclnc>
     <microbepropftos>0.2000</microbepropftos>
     <vegnmax1b>492.0</vegnmax1b>
-    <microbenupfb>0.65</microbenupfb>
-    <microbenupfbam>0.37</microbenupfbam>
-    <microbenupfbmn>0.09</microbenupfbmn>    
-    <soilnlossfb>0.05</soilnlossfb>
-    <soilnlossfbam>1.0</soilnlossfbam>
-    <soilnlossfbmn>1.0</soilnlossfbmn>
+    <microbenup>0.65</microbenup>
+    <soilnloss>0.05</soilnloss>
     <soildenitr>1.50</soildenitr>
-    <microbecnsoilfb>20.0</microbecnsoilfb>
-    <microbecnsoilam>15.0</microbecnsoilam>
-    <microbecnsoilmn>10.0</microbecnsoilmn>    
+    <microbecnsoil_active>20.0</microbecnsoil_active>
+    <microbecnsoil_slow>15.0</microbecnsoil_slow>
+    <microbecnsoil_passive>10.0</microbecnsoil_passive>    
     <vegcnltr>57.3</vegcnltr>
-    <vegc_denfb>8290.0</vegc_denfb>
-    <vegc_denam>7040.0</vegc_denam>    
+    <vegc_den_active>8290.0</vegc_den_active>
+    <vegc_den_slow>7040.0</vegc_den_slow>    
+    <vegc_den_passive>7040.0</vegc_den_passive>    
     <o3para>2.6</o3para>
     <o3parb>1.0</o3parb>
     <o3parc>0.0080782</o3parc>
