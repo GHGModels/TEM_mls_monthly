@@ -767,6 +767,33 @@ class Humnact45 : public ProcessXML45
      {
        natsoil = pnatsoil;
      }
+     
+     
+     inline double getNATSOIL_ACTIVE( void ) { return natsoil_active; }
+     
+     inline void setNATSOIL_ACTIVE( const double& pnatsoil_active )
+     {
+       natsoil_active = pnatsoil_active;
+     }
+     
+     
+     
+     inline double getNATSOIL_SLOW( void ) { return natsoil_slow; }
+     
+     inline void setNATSOIL_SLOW( const double& pnatsoil_slow )
+     {
+       natsoil_slow = pnatsoil_slow;
+     }
+     
+     
+     
+     inline double getNATSOIL_PASSIVE( void ) { return natsoil_passive; }
+     
+     inline void setNATSOIL_PASSIVE( const double& pnatsoil_passive )
+     {
+       natsoil_passive = pnatsoil_passive;
+     }
+     
 
 
      // nattopt ************************************************
@@ -1689,6 +1716,9 @@ class Humnact45 : public ProcessXML45
     Biomass manure;
 
     double natsoil;
+    double natsoil_active;
+    double natsoil_slow;
+    double natsoil_passive;
 
     double natseedC;
 

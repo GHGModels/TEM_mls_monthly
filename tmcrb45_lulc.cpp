@@ -353,10 +353,18 @@ void Tmcrb45::resetYrFluxes( void )
   // Carbon fluxes
 
   yrrh = ZERO;
+  yrrh_active = ZERO;
+  yrrh_slow = ZERO;
+  yrrh_passive = ZERO;
+  
 
   // Nitrogen fluxes
 
   yrnuptake = ZERO;
+  yrnuptake_active = ZERO;
+  yrnuptake_slow = ZERO;
+  yrnuptake_passive = ZERO;
+  
   yrnmin = ZERO;
   yrnmin_active = ZERO;
   yrnmin_slow = ZERO;

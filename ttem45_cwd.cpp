@@ -2444,10 +2444,11 @@ void Ttem45::ECDsetODEstate( const int& pdcmnt,
 {
   // Initialize the NUMEQ state variables used in the
   //   ODE integrator from ECD and DAT files
+  // total number should match MAXESTAT + MAXWSTAT in the h file 
 
   y[I_LEAFC] = leafcb[pdcmnt];
 
-  if( y[I_LEAFC] < ZERO ) { y[I_LEAFC] = ZERO; }
+  if( y[I_LEAFC] < ZERO ) { y[I_LEAFC] = ZERO; }        
 
   y[I_SAPWOODC] = sapwoodcb[pdcmnt];
 
@@ -2463,16 +2464,15 @@ void Ttem45::ECDsetODEstate( const int& pdcmnt,
 
   y[I_SEEDC] = seedcb[pdcmnt];
 
-  if( y[I_SEEDC] < ZERO ) { y[I_SEEDC] = ZERO; }
+  if( y[I_SEEDC] < ZERO ) { y[I_SEEDC] = ZERO; }          // 5
 
   y[I_LABILEC] =  labilecb[pdcmnt];
 
   if( y[I_LABILEC] < ZERO ) { y[I_LABILEC] = ZERO; }
 
+  y[I_SOLC] = solc[pdcmnt];
 
-//  y[I_SOLC] = solcb[pdcmnt];
-//
-//  if( y[I_SOLC] < ZERO ) { y[I_SOLC] = ZERO; }
+  if( y[I_SOLC] < ZERO ) { y[I_SOLC] = ZERO; }
   
   y[I_ACTIVE_C] = active_c[pdcmnt];
 
@@ -2484,8 +2484,7 @@ void Ttem45::ECDsetODEstate( const int& pdcmnt,
 
   y[I_PASSIVE_C] = passive_c[pdcmnt];
 
-  if( y[I_PASSIVE_C] < ZERO ) { y[I_PASSIVE_C] = ZERO; }
-
+  if( y[I_PASSIVE_C] < ZERO ) { y[I_PASSIVE_C] = ZERO; }  // 10
 
   y[I_DOC] =  ZERO;
 
@@ -2495,7 +2494,7 @@ void Ttem45::ECDsetODEstate( const int& pdcmnt,
 
   y[I_DOC_PASSIVE] =  ZERO;
 
-  y[I_DON] =  ZERO;
+  y[I_DON] =  ZERO;                                       // 15
 
   y[I_DON_ACTIVE] =  ZERO;
 
@@ -2505,10 +2504,9 @@ void Ttem45::ECDsetODEstate( const int& pdcmnt,
 
   y[I_FOZONE] = 1.0;
 
+  y[I_LEAFN] = leafnb[pdcmnt];     
 
-  y[I_LEAFN] = leafnb[pdcmnt];
-
-  if( y[I_LEAFN] < ZERO ) { y[I_LEAFN] = ZERO; }
+  if( y[I_LEAFN] < ZERO ) { y[I_LEAFN] = ZERO; }         // 20
 
   y[I_SAPWOODN] = sapwoodnb[pdcmnt];
 
@@ -2528,13 +2526,12 @@ void Ttem45::ECDsetODEstate( const int& pdcmnt,
 
   y[I_LABILEN] = labilenb[pdcmnt];
 
-  if( y[I_LABILEN] < ZERO ) { y[I_LABILEN] = ZERO; }
-
-/*                                            
-  y[I_SOLN] = solnb[pdcmnt];
+  if( y[I_LABILEN] < ZERO ) { y[I_LABILEN] = ZERO; }    // 25
+                                            
+  y[I_SOLN] = soln[pdcmnt];
 
   if( y[I_SOLN] < ZERO ) { y[I_SOLN] = ZERO; }
-*/
+
   y[I_ACTIVE_N] = active_n[pdcmnt];
 
   if( y[I_ACTIVE_N] < ZERO ) { y[I_ACTIVE_N] = ZERO; }
@@ -2547,14 +2544,23 @@ void Ttem45::ECDsetODEstate( const int& pdcmnt,
 
   if( y[I_PASSIVE_N] < ZERO ) { y[I_PASSIVE_N] = ZERO; }
 
-
   y[I_AVLN] = avln[pdcmnt];                       
 
-  if( y[I_AVLN] < ZERO ) { y[I_AVLN] = ZERO; }
-
+  if( y[I_AVLN] < ZERO ) { y[I_AVLN] = ZERO; }        // 30
+  
+  y[I_AVLN_ACTIVE] = avln_active[pdcmnt];                       
+  
+  if( y[I_AVLN_ACTIVE] < ZERO ) { y[I_AVLN_ACTIVE] = ZERO; }
+  
+  y[I_AVLN_SLOW] = avln_slow[pdcmnt];                       
+  
+  if( y[I_AVLN_SLOW] < ZERO ) { y[I_AVLN_SLOW] = ZERO; }
+  
+  y[I_AVLN_PASSIVE] = avln_passive[pdcmnt];                       
+  
+  if( y[I_AVLN_PASSIVE] < ZERO ) { y[I_AVLN_PASSIVE] = ZERO; }
   
   y[I_SM] = soil.getAWCAPMM() + soil.getWILTPT();
-
 
   if( y[I_SM] <= ZERO )
   {
@@ -2566,14 +2572,14 @@ void Ttem45::ECDsetODEstate( const int& pdcmnt,
   if( y[I_VSM] <= ZERO )
   {
     y[I_VSM] = 0.001;
-  }
+  }                                                 // 35
 
 
   y[I_PCTP] = 100.0 * y[I_SM] / soil.getTOTPOR();
 
   y[I_RGRW] = ZERO;
 
-  y[I_SGRW] =  ZERO;
+  y[I_SGRW] =  ZERO;                               // 38
 
 
   // Initialize all phenology and flux states to zero
@@ -3205,7 +3211,7 @@ void Ttem45::initializeState( void )
 
   veg.setRNPP( 50.0 );
   soil.setREET( 0.0);
-//  microbe.setRRH( 0.0 );
+  microbe.setRRH( 0.0 );     // originally commented out, check back to see if the uncommenting is OK?
   veg.setRLTRC( 0.0 );
   veg.setRGPP( 100.0 ); 
   veg.setRINGPP( 100.0 ); 
@@ -3247,7 +3253,7 @@ void Ttem45::initializecalibState( void )
 
   veg.setRNPP( 50.0 );
   soil.setREET( 0.0 );
-//  microbe.setRRH( 0.0 );
+  microbe.setRRH( 0.0 );    // originally commented out, check back
   veg.setRLTRC( 0.0 );
   veg.setRGPP( 100.0 );
   veg.setRINGPP( 100.0 );
@@ -4876,8 +4882,7 @@ void Ttem45::rkf( const int& numeq,
 void Ttem45::setELMNTecd( const int& pdcmnt,
                           const double& psiplusc )
 {
-  // Initialize TEM parameters dependent upon a grid cell's
-  //   soil texture
+  // Initialize TEM parameters dependent upon a grid cell's soil texture
 
   veg.resetEcds( pdcmnt, psiplusc );
 
@@ -5048,65 +5053,6 @@ int Ttem45::stepmonth( const int& pdyr,
 //    prevy[I_AVLN] = y[I_AVLN] = y[I_AVLN]/10.0; 
 //    prevy[I_SOLN] = y[I_SOLN] = y[I_SOLN]/10.0; 
 //  }
-//following lines commented out for the new modification to consider setKD only, MJ MLS
-/*
-  if( 0 == pdm )
-  {
-    if( 0 == pdyr )
-    {
-      microbe.setKDFB( microbe.getKDFB( veg.cmnt ), veg.cmnt);       
-      microbe.setKDFBAM( microbe.getKDFBAM( veg.cmnt ), veg.cmnt);       
-      microbe.setKDFBMN( microbe.getKDFBMN( veg.cmnt ), veg.cmnt);       
-
-      ag.setKDFB( microbe.getKDFB( veg.cmnt ));
-      ag.setKDFBAM( microbe.getKDFBAM( veg.cmnt ));
-      ag.setKDFBMN( microbe.getKDFBMN( veg.cmnt ));
-      ag.setNATSOIL( y[I_FBC] + y[I_AMC] + y[I_MNC] );
-    }
-    else
-    {
-      if( 0 == ag.state && 0 == ag.prvstate )
-      {
-      microbe.setKDFB( microbe.yrkd( nfeed,
-                                     veg.yrltrc,
-                                     veg.yrltrn,
-                                     microbe.getKDFB( veg.cmnt ) ,
-                                     veg.cmnt ), veg.cmnt );
-
-      microbe.setKDFBAM( microbe.yrkd( nfeed,
-                                     veg.yrltrc,
-                                     veg.yrltrn,
-                                     microbe.getKDFBAM( veg.cmnt ),
-                                     veg.cmnt ), veg.cmnt );
-
-      microbe.setKDFBMN( microbe.yrkd( nfeed,
-                                     veg.yrltrc,
-                                     veg.yrltrn,
-                                     microbe.getKDFBMN( veg.cmnt ),
-                                     veg.cmnt ), veg.cmnt );
-
-      ag.setKDFB( microbe.getKDFB( veg.cmnt ));
-      ag.setKDFBAM( microbe.getKDFBAM( veg.cmnt ));
-      ag.setKDFBMN( microbe.getKDFBMN( veg.cmnt ));
-
-        ag.setNATSOIL( soil.getSOLC() );
-      }
-      else
-      {
-        if( soil.getSOLC() < ag.getNATSOIL() )
-        {
-          microbe.setKDFB( (ag.getKDFB()
-                         * soil.getSOLC()
-                         / ag.getNATSOIL()), veg.cmnt );
-        }
-        else { 
-       microbe.setKDFB( microbe.getKDFB( veg.cmnt ), veg.cmnt);
-       microbe.setKDFBAM( microbe.getKDFBAM( veg.cmnt ), veg.cmnt);
-       microbe.setKDFBMN( microbe.getKDFBMN( veg.cmnt ), veg.cmnt); }
-      }
-    }
-  }
-*/
 
   if( 0 == pdm )
   {
@@ -5126,7 +5072,7 @@ int Ttem45::stepmonth( const int& pdyr,
       if( 0 == ag.state && 0 == ag.prvstate )
       {
       microbe.setKD_ACTIVE( microbe.yrkd( nfeed,
-                                     veg.yrltrc_active,
+                                     veg.yrltrc_active,     // partition yrltrc into different components using a coefficient rather than using different stocks, check back.
                                      veg.yrltrn_active,
                                      microbe.getKD_ACTIVE( veg.cmnt ) ,
                                      veg.cmnt ), veg.cmnt );
@@ -5147,29 +5093,44 @@ int Ttem45::stepmonth( const int& pdyr,
       ag.setKD_SLOW( microbe.getKD_SLOW( veg.cmnt ));
       ag.setKD_PASSIVE( microbe.getKD_PASSIVE( veg.cmnt ));
 
+        ag.setNATSOIL_ACTIVE( soil.getACTIVE_C() );
+        ag.setNATSOIL_SLOW( soil.getSLOW_C() );
+        ag.setNATSOIL_PASSIVE( soil.getPASSIVE_C() );
         ag.setNATSOIL( soil.getSOLC() );
       }
       else
       {
-        if( soil.getSOLC() < ag.getNATSOIL() )
+        
+        if( soil.getACTIVE_C() < ag.getNATSOIL_ACTIVE())
         {
           microbe.setKD_ACTIVE( (ag.getKD_ACTIVE()
-                         * soil.getSOLC()
-                        / ag.getNATSOIL()), veg.cmnt );
-
-          microbe.setKD_SLOW( (ag.getKD_SLOW()
-                         * soil.getSOLC()
-                         / ag.getNATSOIL()), veg.cmnt );       
-
-          microbe.setKD_PASSIVE( (ag.getKD_PASSIVE()
-                         * soil.getSOLC()
-                         / ag.getNATSOIL()), veg.cmnt );
+                                  * soil.getACTIVE_C()
+                                  / ag.getNATSOIL_ACTIVE()), veg.cmnt );
         }
-      else {
-         microbe.setKD_ACTIVE( microbe.getKD_ACTIVE( veg.cmnt ), veg.cmnt);
-         microbe.setKD_SLOW( microbe.getKD_SLOW( veg.cmnt ), veg.cmnt);
-         microbe.setKD_PASSIVE( microbe.getKD_PASSIVE( veg.cmnt ), veg.cmnt); }
-      }
+        else {
+          microbe.setKD_ACTIVE( microbe.getKD_ACTIVE( veg.cmnt ), veg.cmnt);
+        }
+        
+        if( soil.getSLOW_C() < ag.getNATSOIL_SLOW())
+        {
+          microbe.setKD_SLOW( (ag.getKD_SLOW()
+                                  * soil.getSLOW_C()
+                                  / ag.getNATSOIL_SLOW()), veg.cmnt );
+        }
+        else {
+          microbe.setKD_SLOW( microbe.getKD_SLOW( veg.cmnt ), veg.cmnt);
+        }
+        
+        if( soil.getPASSIVE_C() < ag.getNATSOIL_PASSIVE())
+        {
+          microbe.setKD_PASSIVE( (ag.getKD_PASSIVE()
+                                   * soil.getPASSIVE_C()
+                                   / ag.getNATSOIL_PASSIVE()), veg.cmnt );
+        }
+        else {
+          microbe.setKD_PASSIVE( microbe.getKD_PASSIVE( veg.cmnt ), veg.cmnt);
+        }
+        
     }
     }
                                                                           
@@ -5304,8 +5265,6 @@ else if ( disturbflag ==  4 && pdm == (disturbmonth-1)) //hurricane-strength sto
 
   ag.updatestanddead(pdyr);
 
-
-
     if ( 1 == disturbflag && ag.state >= 1 )
     {
       // Update rooting depth to be appropriate to crops
@@ -5313,8 +5272,6 @@ else if ( disturbflag ==  4 && pdm == (disturbmonth-1)) //hurricane-strength sto
     y[I_VSM] = soil.updateRootZ( ag.cmnt,
                                 y[I_SM],
                                 y[I_ROOTC] );
-
-
 
       // Establish crops
 

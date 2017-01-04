@@ -45,7 +45,7 @@ TVEG45.CPP - object describing characteristics of vegetation
 
 #include "tveg45_equil.h"
 
-/**
+/*
     Static phenology variables, used in veg.phenology, are initialized
     the variable "phen" for each PFT is defined in the tveg.ecd file
 */
@@ -1612,7 +1612,7 @@ void Tveg45::phenology(const int& pdcmnt,
                        const double& awcapmm,
                        const double& prec)
 {
-/**
+/*
     Determine whether or not new leaf growth is allowed in a given month.
     Calculation is based on vegetation phenology type (evergreen, cold-
     deciduous, or stress-deciduous), and temperature and/or 
@@ -1861,7 +1861,7 @@ void Tveg45::resetNEWTOPT( const int& pcmnt,
 
 void Tveg45::resetYrFluxes( void )
 {
-/**
+/*
   Reset annual fluxes and summary variables to zero.  Note that most of these
   'yr' values are actually running means over a longer time period (tem.tauavg)
 */
@@ -1908,7 +1908,7 @@ void Tveg45::resetYrFluxes( void )
   yrrgrowth = ZERO;
 
   yrltrc = ZERO;
-  yrltrc_active = ZERO;
+  yrltrc_active = ZERO;    //check back, litter root c possibly not needed partition;
   yrltrc_slow = ZERO;
   yrltrc_passive = ZERO;
 

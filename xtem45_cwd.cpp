@@ -1,6 +1,6 @@
 /* *************************************************************
-XTEM45_cwd.CPP - Extrapolation version of the Terrestrial Ecosystem
-               Model Version MLS
+XTEM45_cwd.CPP - Extrapolation version of the TEM-MLS
+
 ****************************************************************
 
 
@@ -92,7 +92,7 @@ XTEM45_cwd.CPP - Extrapolation version of the Terrestrial Ecosystem
 #include "tco2dat45.h"       // CO2dat45 class
 #include "elmnt45.h"         // Elmnt45 Class
 #include "latdat45.h"        // Latdat45 class
-#include "telm45_cwd.h"          // Telm45 Class
+#include "telm45_cwd.h"      // Telm45 Class
 
 void initializeCLMGridCell( void );
 void initializeLCLUCGridCell( void );
@@ -1243,15 +1243,14 @@ void initRun( void )
     
     ifilename = telmnt[0].tem.goxml.getXMLstring( telmnt[0].tem.gofile, "gofile", "conductecd" );
     telmnt[0].tem.veg.pen.getecd( ifilename );
-	flog1 << " hydraulic and conductance-related parameters found in " << ifilename << endl;
+  	flog1 << " hydraulic and conductance-related parameters found in " << ifilename << endl;
 	
-	ifilename = telmnt[0].tem.goxml.getXMLstring( telmnt[0].tem.gofile, "gofile", "mcrbecd" );
+  	ifilename = telmnt[0].tem.goxml.getXMLstring( telmnt[0].tem.gofile, "gofile", "mcrbecd" );
     telmnt[0].tem.microbe.getvegecd( ifilename );
     flog1 << " microbial parameters found in " << ifilename << endl;
 
 
-    // Get parameters associated with human disturbance
-    //   activities
+    // Get parameters associated with human disturbance activities
     
     ifilename = telmnt[0].tem.goxml.getXMLstring( telmnt[0].tem.gofile, "gofile", "agecd" );
     telmnt[0].tem.ag.getecd( ifilename );

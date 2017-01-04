@@ -462,9 +462,17 @@ class Tmcrb45: public ProcessXML45
 
      // Annual sum of nuptake
      double yrnuptake;      // (g N / (sq. meter * year))
+     double yrnuptake_active;      // (g N / (sq. meter * year))
+     double yrnuptake_slow;      // (g N / (sq. meter * year))
+     double yrnuptake_passive;      // (g N / (sq. meter * year))
+     
 
      // Annual sum of rh
      double yrrh;       // (g C / (sq. meter * year))
+     double yrrh_active;       // (g C / (sq. meter * year))
+     double yrrh_slow;       // (g C / (sq. meter * year))
+     double yrrh_passive;       // (g C / (sq. meter * year))
+     
 
      // Running mean of rh
      double rrh;       // (g C / (sq. meter * year))

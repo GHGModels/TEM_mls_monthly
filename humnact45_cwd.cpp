@@ -604,11 +604,17 @@ void Humnact45::resetMonthlyDisturbFluxes( void )
   convrtflx.nitrogen = ZERO;
   vconvrtflx.nitrogen = ZERO;
   sconvrtflx.nitrogen = ZERO;
+  sconvrtflx_active.nitrogen = ZERO;
+  sconvrtflx_slow.nitrogen = ZERO;
+  sconvrtflx_passive.nitrogen = ZERO;
   slash.nitrogen = ZERO;
 
   nretent = ZERO;
   nvretent = ZERO;
   nsretent = ZERO;
+  nsretent_active = ZERO;
+  nsretent_slow = ZERO;
+  nsretent_passive = ZERO;
 
   cropResidueFlux.carbon = ZERO;
   cropResidueFlux.nitrogen = ZERO;

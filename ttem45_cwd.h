@@ -54,18 +54,18 @@ class Ttem45
 
      enum temkey
      {
-       I_LEAFC,    I_SAPWOODC, I_HEARTWOODC, I_ROOTC,
-       I_SEEDC,    I_LABILEC,  
-       I_ACTIVE_C,      I_SLOW_C,        I_PASSIVE_C,
+       I_LEAFC,    I_SAPWOODC,     I_HEARTWOODC,      I_ROOTC,
+       I_SEEDC,    I_LABILEC,      I_SOLC,            I_ACTIVE_C,      
+       I_SLOW_C,   I_PASSIVE_C,    // 10
 
-       I_LEAFN,    I_SAPWOODN, I_HEARTWOODN, I_ROOTN,
-       I_SEEDN,    I_LABILEN,  
-       I_ACTIVE_N, I_SLOW_N,        I_PASSIVE_N,
-       I_AVLN,     I_AVLN_ACTIVE,   I_AVLN_SLOW,      I_AVLN_PASSIVE,
+       I_LEAFN,    I_SAPWOODN,     I_HEARTWOODN,      I_ROOTN,
+       I_SEEDN,    I_LABILEN,      I_SOLN,            I_ACTIVE_N, 
+       I_SLOW_N,   I_PASSIVE_N,    I_AVLN,            I_AVLN_ACTIVE,   
+       I_AVLN_SLOW,I_AVLN_PASSIVE,  // 14
 
-       I_FOZONE,   I_DOC,          I_DOC_ACTIVE,      I_DOC_SLOW,   I_DOC_PASSIVE,
-       I_DON,      I_DON_ACTIVE,   I_DON_SLOW,        I_DON_PASSIVE,
-                 /* 31 C&N Pools (MAXESTAT)  */
+       I_FOZONE,   I_DOC,          I_DOC_ACTIVE,      I_DOC_SLOW,     I_DOC_PASSIVE,
+       I_DON,      I_DON_ACTIVE,   I_DON_SLOW,        I_DON_PASSIVE,    // 9
+                 /* 10+14+9=33 C&N Pools (MAXESTAT)  */
                  /*##########################*/
  
        I_SM,       I_VSM,      I_PCTP,     I_RGRW,      I_SGRW,
@@ -442,7 +442,7 @@ class Ttem45
        avln[pcmnt] = pavln;
      } 
 
-     /*
+     
      // avln_active **************************************************    //MJ MLS;
 
      inline double getAVLN_ACTIVE( const int& pcmnt )
@@ -481,7 +481,7 @@ class Ttem45
      {
        avln_passive[pcmnt] = pavln_passive;
      }
-     */
+     
 
      // nce ****************************************************
 
@@ -1187,30 +1187,28 @@ class Ttem45
 
      double seednb[MAXCMNT];
 
-//     double solcb[MAXCMNT];
-
-//     double solnb[MAXCMNT];
-
      double avln[MAXCMNT];
-
+     double avln_active[MAXCMNT];
+     double avln_slow[MAXCMNT];
+     double avln_passive[MAXCMNT];
+     
      double active_c[MAXCMNT];
-
      double slow_c[MAXCMNT];
-
      double passive_c[MAXCMNT];
 
      double active_n[MAXCMNT];
-
      double slow_n[MAXCMNT];
-
      double passive_n[MAXCMNT];
      
      double solc[MAXCMNT];
      double soln[MAXCMNT];
+     
      double doc[MAXCMNT];
      double don[MAXCMNT];
+     
      double docprod[MAXCMNT];
      double donprod[MAXCMNT];
+     
      double lchdoc[MAXCMNT];
      double lchdon[MAXCMNT];
  };
