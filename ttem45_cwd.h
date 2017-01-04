@@ -18,7 +18,7 @@ TTEM45_ndep.H - Terrestrial Ecosystem Model Version TEM-MLS
 
   const int WSY = 8;
   const int ESY = 10;
-  const int NEKEY = 134; // number of choices for output as "optional E fluxes"
+  const int NEKEY = 131; // number of choices for output as "optional E fluxes"
   const int NWKEY = 41;  // number of choices for output as "optional W fluxes"
 #endif
 

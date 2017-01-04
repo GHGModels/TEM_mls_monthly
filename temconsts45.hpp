@@ -42,7 +42,7 @@
 //   pool variables in TEM
 #ifndef MAXESTAT_CONST
 #define MAXESTAT_CONST
-  const int MAXESTAT = 30;
+  const int MAXESTAT = 33;
 #endif
 
 // Maximum value of Fire Return Interval (years)
