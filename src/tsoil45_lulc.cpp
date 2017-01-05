@@ -116,7 +116,10 @@ Tsoil45::Tsoil45( void ) : ProcessXML45()
   yrc2n_slow = MISSING;
   yrc2n_passive = MISSING;
 
-  yravln = MISSING;   // need different pools or not? MJ MLS
+  yravln = MISSING;   
+  yravln_active = MISSING;   
+  yravln_slow = MISSING;   
+  yravln_passive = MISSING;   
 
   ninput = MISSING;
   yrnin = MISSING;
@@ -322,10 +325,6 @@ void Tsoil45::resetMonthlyFluxes( void )
 
   ninput = ZERO;
   nlost = ZERO;
-  nlost_active = ZERO;
-  nlost_slow = ZERO;
-  nlost_passive = ZERO;
-
 
   // Water fluxes
 
@@ -386,7 +385,6 @@ void Tsoil45::resetYrFluxes( void )
   yrrgrndh2o = ZERO;
   yrsgrndh2o = ZERO;
 
-
   // Annual nitrogen fluxes
 
   yrnin = ZERO;
@@ -400,9 +398,6 @@ void Tsoil45::resetYrFluxes( void )
   yrnlost_passive = ZERO;
 
   yrlchdin = ZERO;
-  yrlchdin_active = ZERO;
-  yrlchdin_slow = ZERO;
-  yrlchdin_passive = ZERO;
 
   // Annual water fluxes
 
@@ -646,7 +641,6 @@ void Tsoil45::updateNLosses( const int& pdcmnt,
 {
    nlost = (availn/(soilh2o+rrun+srun))*(rrun+srun);
    
-//cout << "nlostmn1 = " << nlostmn << " " << availnmn << endl;
 /*
   if( soilh2o > ZERO )
  { 
@@ -657,13 +651,10 @@ void Tsoil45::updateNLosses( const int& pdcmnt,
 
     nlost *= nloss[pdcmnt];
   } 
-  else { nlost = ZERO; } */ 
-  //nlost *= nloss[pdcmnt];           
-  nlost_active *= nloss_active[pdcmnt]; 
-  nlost_slow *= nloss_slow[pdcmnt];
-  nlost_passive *= nloss_passive[pdcmnt];
+  else { nlost = ZERO; } 
+ */
 
-//  nlost = nlost_active + nlost_slow + nlost_passive;
+  nlost *= nloss[pdcmnt];           
 
 };
 

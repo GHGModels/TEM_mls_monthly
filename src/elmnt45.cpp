@@ -69,6 +69,7 @@ void Elmnt45::show( ofstream& rflog1,
                     const float& col,
                     const float& row )
 {
+  cout << "in show " << endl;    // diagnosis MJ
 
   time_t timer;
 
@@ -85,6 +86,8 @@ void Elmnt45::show( ofstream& rflog1,
     cout << setprecision( 1 ) << col << " , " << row << ") ";
     cout << ctime( &timer );
   }
+  
+  cout << "after if loop of finished cell " << endl;    // diagnosis MJ
 
     if( count == grdcnt ||
         (count < grdcnt && 0 == endflag && count == numgrids) )

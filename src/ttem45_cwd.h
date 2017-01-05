@@ -63,9 +63,8 @@ class Ttem45
        I_SLOW_N,   I_PASSIVE_N,    I_AVLN,            I_AVLN_ACTIVE,   
        I_AVLN_SLOW,I_AVLN_PASSIVE,  // 14
 
-       I_FOZONE,   I_DOC,          I_DOC_ACTIVE,      I_DOC_SLOW,     I_DOC_PASSIVE,
-       I_DON,      I_DON_ACTIVE,   I_DON_SLOW,        I_DON_PASSIVE,    // 9
-                 /* 10+14+9=33 C&N Pools (MAXESTAT)  */
+       I_FOZONE,   I_DOC,          I_DON,         // 3
+                 /* 10+14+3=27 C&N Pools (MAXESTAT)  */
                  /*##########################*/
  
        I_SM,       I_VSM,      I_PCTP,     I_RGRW,      I_SGRW,
@@ -80,17 +79,17 @@ class Ttem45
        I_LTRHC,      I_LTRRC,      I_LTRSEEDC,   I_RH,         I_RH_ACTIVE,    
        I_RH_SLOW,    I_RH_PASSIVE,                                             // 32
 
-       I_ALLOCLN,         I_ALLOCSN,        I_ALLOCHN,        I_ALLOCRN,       I_ALLOCSEEDN,
-       I_ALLOCILN,        I_ALLOCISN,       I_ALLOCIHN,       I_ALLOCIRN,      I_ALLOCISEEDN,
-       I_NINP,            I_AGFRTN,         I_INNUP,          I_VNUP,          I_NRESORBL, 
-       I_NRESORBS,        I_NRESORBR,       I_NRESORBSEED,    I_LTRLN,         I_LTRSN,    
-       I_LTRHN,           I_LTRRN,          I_LTRSEEDN,       I_MNUP,          I_NMIN,   
-       I_NMIN_ACTIVE,     I_NMIN_SLOW,      I_NMIN_PASSIVE,   I_NLST,          I_DOCPROD,  
-       I_DOCPROD_ACTIVE,  I_DOCPROD_SLOW,   I_DOCPROD_PASSIVE,I_LCHDOC,        I_LCHDOC_ACTIVE,
-       I_LCHDOC_SLOW,     I_LCHDOC_PASSIVE, I_DONPROD,        I_DONPROD_ACTIVE,I_DONPROD_SLOW,
-       I_DONPROD_PASSIVE, I_LCHDON,         I_LCHDON_ACTIVE,  I_LCHDON_SLOW,   I_LCHDON_PASSIVE,
-       I_NFIXS,           I_NFIXN,          I_FRDL,           I_FCO2,          I_FH2O,   
-       I_TEMP,            I_FO3,            I_LCHDIN,                          // 53
+       I_ALLOCLN,         I_ALLOCSN,        I_ALLOCHN,        I_ALLOCRN,         I_ALLOCSEEDN,
+       I_ALLOCILN,        I_ALLOCISN,       I_ALLOCIHN,       I_ALLOCIRN,        I_ALLOCISEEDN,
+       I_NINP,            I_AGFRTN,         I_INNUP,          I_VNUP,            I_NRESORBL, 
+       I_NRESORBS,        I_NRESORBR,       I_NRESORBSEED,    I_LTRLN,           I_LTRSN,    
+       I_LTRHN,           I_LTRRN,          I_LTRSEEDN,       I_MNUP,            I_MNUP_ACTIVE,
+       I_MNUP_SLOW,       I_MNUP_PASSIVE,   I_NMIN,           I_NMIN_ACTIVE,     I_NMIN_SLOW,      
+       I_NMIN_PASSIVE,    I_NLST,           I_DOCPROD,        I_DOCPROD_ACTIVE,  I_DOCPROD_SLOW,   
+       I_DOCPROD_PASSIVE, I_LCHDOC,         I_DONPROD,        I_DONPROD_ACTIVE,  I_DONPROD_SLOW,    
+       I_DONPROD_PASSIVE, I_LCHDON,         I_NFIXS,          I_NFIXN,           I_NFIXN_ACTIVE,    
+       I_NFIXN_SLOW,      I_NFIXN_PASSIVE,  I_FRDL,           I_FCO2,            I_FH2O,           
+       I_TEMP,            I_FO3,            I_LCHDIN,         // 53
                   /* 85 C&N Fluxes (NUMEEQ-MAXESTAT) */
                   /*#################################*/
 
@@ -104,23 +103,25 @@ class Ttem45
 // 33+5+85+11 = 134 = NUMEQ; no variables below this point should appear in
 //   the tem.y[NUMEQ] variable
 
-       I_TOTEC,       I_TOTC,          I_VEGN,          I_SNWPCK,          I_AVLW,
+       I_TOTEC,       I_TOTC,            I_VEGN,          I_SNWPCK,          I_AVLW,
 
-       I_NEP,         I_NCE,           I_LAI,           I_PET,             I_SNWINF, 
+       I_NEP,         I_NCE,             I_LAI,           I_PET,             I_SNWINF, 
       
-       I_WYLD,        I_AGPRDC,        I_PROD10C,       I_PROD100C,        I_TOTPRDC,
+       I_WYLD,        I_AGPRDC,          I_PROD10C,       I_PROD100C,        I_TOTPRDC,
 
-       I_RESIDC,      I_AGSTUBC,       I_AGPRDN,        I_PROD10N,         I_PROD100N, 
+       I_RESIDC,      I_AGSTUBC,         I_AGPRDN,        I_PROD10N,         I_PROD100N, 
         
-       I_TOTPRDN,     I_RESIDN,        I_AGSTUBN,       I_CNVRTC,          I_VCNVRTC,  
+       I_TOTPRDN,     I_RESIDN,          I_AGSTUBN,       I_CNVRTC,          I_VCNVRTC,  
         
-       I_SCNVRTC,     I_SLASHC,        I_CFLX,          I_CNVRTN,          I_VCNVRTN,  
+       I_SCNVRTC,     I_SCNVRTC_ACTIVE,  I_SCNVRTC_SLOW,  I_SCNVRTC_PASSIVE, I_SLASHC, 
        
-       I_SCNVRTN,     I_SLASHN,        I_NRETNT,        I_NVRTNT,          I_NSRTNT,   
+       I_CFLX,        I_CNVRTN,          I_VCNVRTN,       I_SCNVRTN,         I_SCNVRTN_ACTIVE,
        
-       I_NSRTNT_ACTIVE, I_NSRTNT_SLOW, I_NSRTNT_PASSIVE,
+       I_SCNVRTN_SLOW,I_SCNVRTN_PASSIVE, I_SLASHN,        I_NRETNT,          I_NVRTNT,          
+       
+       I_NSRTNT,      I_NSRTNT_ACTIVE,   I_NSRTNT_SLOW,   I_NSRTNT_PASSIVE,
 
-  //ok to here 38
+  //ok to here 44
   
        I_AGFPRDC,  I_AGFPRDN,  I_FRESIDC,  I_FRESIDN,   I_AGPRDFC,
        I_AGPRDFN,  I_RESIDFC,  I_RESIDFN,
@@ -143,7 +144,7 @@ class Ttem45
        I_AGVNMBL,  I_NATVNMBL,
        I_AGVNRSRB, I_NVNRSRB,  I_AGLTRN,   I_NATLTRN,   I_CLIPPINGS  // 11
 
-       //  38 + 20 + 8 + 4 + 16 + 11 =  97 extra variables
+       //  44 + 20 + 8 + 4 + 16 + 11 =  103 extra variables
      };
 
      #ifdef CALIBRATE_TEM
@@ -438,46 +439,21 @@ class Ttem45
        avln[pcmnt] = pavln;
      } 
 
+     /*
+     // avln_active **************************************************    
+
+     inline double getAVLN_ACTIVE( void ) { return avln_active; }
      
-     // avln_active **************************************************    //MJ MLS;
+     
+     // avln_slow **************************************************    
+     
+     inline double getAVLN_SLOW( void ) { return avln_slow; }
 
-     inline double getAVLN_ACTIVE( const int& pcmnt )
-     {
-       return avln_active[pcmnt];
-     }
-
-     inline void setAVLN_ACTIVE( const double& pavln_active,
-                           const int& pcmnt )
-     {
-       avln_active[pcmnt] = pavln_active;
-     }
-
-     // avln_slow **************************************************
-
-     inline double getAVLN_SLOW( const int& pcmnt )
-     {
-       return avln_slow[pcmnt];
-     }
-
-     inline void setAVLN_SLOW( const double& pavln_slow,
-                           const int& pcmnt )
-     {
-       avln_slow[pcmnt] = pavln_slow;
-     }
-
+     
      // avln_passive **************************************************
 
-     inline double getAVLN_PASSIVE( const int& pcmnt )
-     {
-       return avln_passive[pcmnt];
-     }
-
-     inline void setAVLN_PASSIVE( const double& pavln_passive,
-                           const int& pcmnt )
-     {
-       avln_passive[pcmnt] = pavln_passive;
-     }
-     
+     inline double getAVLN_PASSIVE( void ) { return avln_passive; }
+     */
 
      // nce ****************************************************
 
@@ -498,69 +474,47 @@ class Ttem45
        prevy[i] = pprevy;
      }
 
+     /*
      // solc **************************************************
-
-     inline double getSOLC( const int& pcmnt )
-     {
-       return solc[pcmnt];
-     }
-
-     inline void setSOLC( const double& psolc,
-                           const int& pcmnt )
-     {
-       solc[pcmnt] = psolc;
-     }
-
-     // soln **************************************************
-
-     inline double getSOLN( const int& pcmnt )
-     {
-       return soln[pcmnt];
-     }
-
-     inline void setSOLN( const double& psoln,
-                           const int& pcmnt )
-     {
-       soln[pcmnt] = psoln;
-     } 
-
-/*   comment out because solc etc are not the sum of active,slow,passive pools yet, check back
-     inline double getSOLC( void ) { return solc; }
-     inline double getSOLN( void ) { return soln; }
-     inline double getDOC( void ) { return doc; }
-     inline double getDON( void ) { return don; }
-     inline double getDOCPROD( void ) { return docprod; }
-     inline double getDONPROD( void ) { return donprod; }
-     inline double getLCHDOC( void ) { return lchdoc; }
-     inline double getLCHDON( void ) { return lchdon; }
- */
-
-     // doc **************************************************
-
-      inline double getDOC( const int& pcmnt )
-      {
-       return doc[pcmnt];
-      }
      
-     inline void setDOC( const double& pdoc,
-                          const int& pcmnt )
-     {
-       doc[pcmnt] = pdoc;
-     } 
+     inline double getSOLC( void ) { return solc; }
+     
+     
+     // soln **************************************************
+     
+     inline double getSOLN( void ) { return soln; }
+     
+     
+     // doc **************************************************
+     
+     inline double getDOC( void ) { return doc; }
+     
      
      // don **************************************************
      
-     inline double getDON( const int& pcmnt )
-     {
-       return don[pcmnt];
-     }
+     inline double getDON( void ) { return don; }
      
-     inline void setDON( const double& pdon,
-                         const int& pcmnt )
-     {
-       don[pcmnt] = pdon;
-     } 
-
+     
+     // docprod **************************************************
+     
+     inline double getDOCPROD( void ) { return docprod; }
+     
+     
+     // donprod **************************************************
+     
+     inline double getDONPROD( void ) { return donprod; }
+     
+     
+     // lchdoc **************************************************
+     
+     inline double getLCHDOC( void ) { return lchdoc; }
+     
+     
+     // lchdon **************************************************
+     
+     inline double getLCHDON( void ) { return lchdon; }
+ 
+    */
     // active_c **************************************************
     
       inline double getACTIVE_C( const int& pcmnt )
@@ -1184,6 +1138,7 @@ class Ttem45
      double seednb[MAXCMNT];
 
      double avln[MAXCMNT];
+     
      double avln_active[MAXCMNT];
      double avln_slow[MAXCMNT];
      double avln_passive[MAXCMNT];
@@ -1196,6 +1151,7 @@ class Ttem45
      double slow_n[MAXCMNT];
      double passive_n[MAXCMNT];
      
+     
      double solc[MAXCMNT];
      double soln[MAXCMNT];
      
@@ -1203,10 +1159,18 @@ class Ttem45
      double don[MAXCMNT];
      
      double docprod[MAXCMNT];
+     double docprod_active[MAXCMNT];
+     double docprod_slow[MAXCMNT];
+     double docprod_passive[MAXCMNT];
+     
      double donprod[MAXCMNT];
+     double donprod_active[MAXCMNT];
+     double donprod_slow[MAXCMNT];
+     double donprod_passive[MAXCMNT];
      
      double lchdoc[MAXCMNT];
      double lchdon[MAXCMNT];
+      
  };
 
 #endif

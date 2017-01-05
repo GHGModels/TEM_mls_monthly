@@ -394,14 +394,15 @@ int Telm45::equilibrateTEM( const double& ptol,
         //cout << " equilibrating, simulation year = " << dyr << endl;
       #endif
 
-//cout << "prevalue = " << tem.prvstempn[9] << endl;
+     cout << "in equilibrateTEM, before stepmonth = " << endl;
  
      tem.endeq = tem.stepmonth( dyr,
                                  dm,
                                  tem.intflag,
                                  ptol );
       
-//     cout << "dyr = " << dyr << endl;
+     cout << "after stepmonth" << endl;
+  
       #ifdef DEBUGT
         printf( "\n after stepmonth, month = %d, dyr = %d, rphi = %4.2lf, rtair = %4.2lf, vegc = %8.2lf, gpp = %5.21f, rh = %5.21f", 
                  dm, dyr, tem.veg.getRPHI(), tem.veg.getRTAIR(), tem.veg.getVEGC(), tem.veg.getGPP(), tem.microbe.getRH());
@@ -2067,8 +2068,7 @@ void Telm45::setTEMequilState( ofstream& rflog1,
                                    const int& pichrt,
                                    ofstream fout[NUMTEM],
                                    const vector<string>& predname,
-                                   const int& spinoutfg
-                              )
+                                   const int& spinoutfg )
 
 {
   int dyr = 0;
@@ -2076,7 +2076,7 @@ void Telm45::setTEMequilState( ofstream& rflog1,
   double avgphi = ZERO;
   double avgtair = ZERO;
 
-//  cout << "entering setTEMequilState" << endl;
+  cout << "entering setTEMequilState" << endl;   // MJ
 
   // Set all TEM state-related variables in cohort to MISSING
   //   (i.e. start with "clean slate" in cohort)
@@ -2087,13 +2087,15 @@ void Telm45::setTEMequilState( ofstream& rflog1,
   //   the land cover/land use module to TEM and start with
   //   "clean slate" for TEM cohort data)
 
-//  cout << "pichrt = " << pichrt << endl;
+  //cout << "pichrt = " << pichrt << endl;   // MJ
+  
   getTEMCohortState( pichrt );
 
   cohort[pichrt].qc = ACCEPT;
   cohort[pichrt].tqc = ACCEPT;
   
-//cout << "cohort[pichrt] = veryfirst" << cohort[pichrt].tqc << " " << cohort[pichrt].qc <<   endl;
+  //cout << "cohort[pichrt] = veryfirst" << cohort[pichrt].tqc << " " << cohort[pichrt].qc << endl;  // MJ
+  
   if( de_startyear > clm.startyr ) { dyr = de_startyear + 1 - clm.startyr; }
 
   tem.totyr = 0;
@@ -2162,7 +2164,7 @@ void Telm45::setTEMequilState( ofstream& rflog1,
   }
 
 
-//  cout << "tem.atms.getTAIRD in setTEMequilState " << tem.atms.getTAIRD() << " " << tem.prvstempd[1] << endl;
+  // cout << "tem.atms.getTAIRD in setTEMequilState " << tem.atms.getTAIRD() << " " << tem.prvstempd[1] << endl;  // MJ
 
     // Check TEM climate input for valid data
 
@@ -2336,9 +2338,12 @@ void Telm45::setTEMequilState( ofstream& rflog1,
     {
       tem.initializeState();
       
-//     cout << "entering equilibrateTEM " << endl;
+      cout << "entering equilibrateTEM " << endl;    // MJ
+      
       tem.nattempt = equilibrateTEM( tem.tol, pichrt, fout, predname, spinoutfg, year );
 
+      cout << "after equilibrateTEM " << endl;    // MJ
+      
       if( tem.nattempt < tem.maxnrun
           && 0 == tem.initFlag )
       {

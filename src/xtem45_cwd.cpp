@@ -198,13 +198,13 @@ int main()
   /// from the file pointed to by tem_in.txt; using xml methods
    
   initRun();
+  
+  // cout << "after initRun " << endl;  // MJ
 
   telmnt[0].col = MISSING;
   telmnt[0].row = MISSING;
   telmnt[0].tem.totyr = -99;
 
-//  cout << endl;
-//  flog1 << endl << endl;
 
   #ifdef DEBUGX
     cout << " tem initialized " << endl;
@@ -217,6 +217,7 @@ int main()
               telmnt[0].tem.inittol,
               telmnt[0].tem.veg.getERRCNT() );
 
+  // cout << "after elmnt.show " << endl;  // MJ
 
   // Extrapolate TEM across region
 
@@ -224,15 +225,16 @@ int main()
 
   while( grdcnt < mxnumgrid && 0 == fatalerr )   // Grid cell loop
   {
+    // cout << "in grdcnt loop " << endl;  // MJ
 
     // Load grid cell climate data into one node of CLM linked list
 
     for( xdyr = 0; xdyr < RTIME; ++xdyr )
     {
+    // cout << "initial year = " << xdyr << endl;   // MJ
 
-//    cout << "initial year = " << xdyr << endl;
-      updateTCLMGridCell( xdyr ); 
-  // Copy TEMclm results to output variables
+    updateTCLMGridCell( xdyr ); 
+    // Copy TEMclm results to output variables
 
   if( 1 == telmnt[0].clm.predflag )
   {
@@ -277,6 +279,8 @@ int main()
       cout << " after updateTLCLUCGridCell " << endl;
     #endif  
 
+      cout << " after updateTLCLUCGridCell " << endl;    // MJ
+
     // Initialize TEM to equilibrium conditions for all cohorts
     // using the baseline climate if starting from calibration data
     // (i.e. istateflag == 0) or read in initial conditions from
@@ -286,6 +290,8 @@ int main()
     #ifdef DEBUGX
       cout << " after initializeTEMGridCell " << endl;
     #endif  
+      
+      cout << " after initializeTEMGridCell " << endl;  // MJ
 
     // Begin simulation of transient climate and terrestrial
     //   ecosystem response
@@ -649,7 +655,7 @@ void initializeCLMGridCell()
   ndepname = tempfname.str();
 
   ifndep = fopen( ndepname.c_str(), "r" );
-cout << "ndepname = " << ndepname << endl;
+
   if( !ifndep )
   {
     flog1 << endl << "Cannot open " << ndepname;
@@ -731,9 +737,9 @@ void initializeTEMGridCell( void )
   const int dyr = 0;
   int ichrt;
 
+  cout << "in initializeTEMGridCell " << endl;   // MJ
+  
   // Set elevation and soil texture for TEM
-
-
   telmnt[0].setGIStopography( flog1, fatalerr, fstxt, felev );
 
 
@@ -743,9 +749,12 @@ void initializeTEMGridCell( void )
 
   for( ichrt = 0; ichrt < telmnt[0].maxcohorts; ++ichrt )
   {
-//    cout << "ichrt in initialize = " << ichrt << endl;
+    // cout << "ichrt in initialize = " << ichrt << endl;   // MJ
+    
     if( istateflag > 0 )
     {
+      // cout << "istateflag > 0 " << endl;   // MJ
+      
       // Read in initial TEM state determined in a previous
       //  TEM simulation to telmnt[0].cohort
 
@@ -757,6 +766,8 @@ void initializeTEMGridCell( void )
     }
     else
     {
+      cout << "istateflag <= 0 " << endl;   // MJ
+      
       telmnt[0].setTEMequilState( flog1,
                                   equil,
                                   totsptime,
@@ -764,6 +775,8 @@ void initializeTEMGridCell( void )
                                   ftempred,
                                   tempredmap,
                                   spinoutfg );
+      
+      cout << "after setTEMequilState " << endl;   // MJ
 //
 //  BSF if intflag = 1, that means integration is solved ok
 //
@@ -1115,8 +1128,13 @@ void initRun( void )
     
     flog1 << "      " << clmpredfile << " opened for output of " << clmpredmap[i] << endl;    
   }
+  
+  //cout << "before initializeCLMGridCell " << endl;  // MJ
+  
 
   initializeCLMGridCell();
+  
+  //cout << "after initializeCLMGridCell " << endl;  // MJ
   
 /// Land use/land cover inputs
 
@@ -1141,6 +1159,8 @@ void initRun( void )
   if( telmnt[0].lcluc.tlulcflag == 1 ) { flog1 << " the last year of transient cohort data is: " << telmnt[0].lcluc.lastyr << endl; }
 
   initializeLCLUCGridCell();
+  
+  //cout << "after initializeLCLUCGridCell " << endl;  // MJ
 
 /// Vegetation inputs and output selection
 
