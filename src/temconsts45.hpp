@@ -42,7 +42,7 @@
 //   pool variables in TEM
 #ifndef MAXESTAT_CONST
 #define MAXESTAT_CONST
-  const int MAXESTAT = 33;
+  const int MAXESTAT = 27;
 #endif
 
 // Maximum value of Fire Return Interval (years)
@@ -141,7 +141,7 @@ const int NUMATMS = 18;
 //  used to simulate carbon and nitrogen dynamics in TEM
 #ifndef NUMEEQ_CONST
 #define NUMEEQ_CONST
-  const int NUMEEQ = MAXESTAT + 100;
+  const int NUMEEQ = MAXESTAT + 85;
 #endif
 
 // Total number of state (pools plus fluxes variables
