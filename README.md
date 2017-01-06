@@ -3,6 +3,10 @@ The Terrestrial Ecosystem Model multi-layer soil (TEM-mls) monthly version.
 
 Version built based on TEM-Hydro.
 
+# Model framework
+
+https://github.com/mingkaijiang/TEM_mls_monthly/blob/master/doc/TEM-MLS_framework.jpg?raw=true
+
 # TEM history review
 
 TEM was originally developed by the Marine Biological Lab. It is a process-based biogeochemical model, which involves the carbon (short-term cycle), nitrogen (more complex in terms of organic – inorganic, open – close) and hydrology cycle. It calculates GPP and NPP at the canopy level by using parameters obtained for photosynthesis and respiration at individual plants. 
