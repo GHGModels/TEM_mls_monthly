@@ -5,7 +5,7 @@ Version built based on TEM-Hydro.
 
 # Model framework
 
-<p style="text-align:center"><img src="doc/EM-MLS_framework.jpg" width="500"/></p>
+<p style="text-align:center"><img src="doc/TEM-MLS_framework.jpg" width="500"/></p>
 
 # TEM history review
 
