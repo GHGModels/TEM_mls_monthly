@@ -342,6 +342,7 @@ class Tmcrb45: public ProcessXML45
      {
        nup[pcmnt] = pnup;
      }
+     
 
      // active
      inline double getNUP_ACTIVE( const int& pcmnt )
@@ -388,7 +389,6 @@ class Tmcrb45: public ProcessXML45
        nuptake = pnuptake;
      }
 
-     
      inline double getNUPTAKE_ACTIVE( void ) { return nuptake_active; }
 
      inline double getNUPTAKE_SLOW( void ) { return nuptake_slow; }

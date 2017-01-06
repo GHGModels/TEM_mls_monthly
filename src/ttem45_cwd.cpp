@@ -4820,8 +4820,7 @@ int Ttem45::stepmonth( const int& pdyr,
   double timber, dleaf, dwood;
   //  double sonp,availnp,vegnp,donpout,dinpout,ndif;
   
-  cout << "entering stepmonth 1 " << veg.cmnt << " " << pdyr << " " << pdm << " " << y[I_AVLN_ACTIVE] + y[I_AVLN_SLOW] + y[I_AVLN_PASSIVE]  << " " << soil.getAVLN() << endl;  // MJ
-   
+  cout << "entering stepmonth " << endl;
   
   avgfac = 1.0/(12.0*(veg.getTAULEAF( veg.cmnt ) + veg.getTAUSAPWOOD( veg.cmnt ) 
                         + veg.getTAUROOT( veg.cmnt ))/3.0);
@@ -4830,21 +4829,27 @@ int Ttem45::stepmonth( const int& pdyr,
   
   soil.setSOLC( y[I_ACTIVE_C] + y[I_SLOW_C] + y[I_PASSIVE_C] ); 
   
+  cout << "setSOLC " << soil.getSOLC() << endl;   // MJ
+  
   soil.setSOLN( y[I_ACTIVE_N] + y[I_SLOW_N] + y[I_PASSIVE_N] );
   
-  soil.setAVLN( y[I_AVLN] );   
+  soil.setAVLN( y[I_AVLN] );  
+  
+  cout << "setAVLN " << soil.getAVLN() << " " << y[I_AVLN] << endl;   // MJ
   
   soil.setLCHDOC( y[I_LCHDOC] );
   
+  cout << "setLCHDOC " << soil.getLCHDOC() << " " << y[I_LCHDOC] << endl;   // MJ
+  
   soil.setLCHDON( y[I_LCHDON] );
+
+  microbe.setNUPTAKE( y[I_MNUP] );   
   
-  //  soil.setNLOST( soil.getNLOSTFB() + soil.getNLOSTAM() + soil.getNLOSTMN());
-  
-  microbe.setNUPTAKE( y[I_MNUP] );    
+  cout << "microbe.setNUP " << microbe.getNUP(veg.cmnt) << endl;
+  cout << "setNUPTAKE " << microbe.getNUPTAKE() << " " << y[I_MNUP] << endl;   // MJ
+  cout << "MNUP pools " << y[I_MNUP_ACTIVE] << " " << y[I_MNUP_SLOW] << endl; // MJ
   
   soil.setLCHDIN( y[I_LCHDIN] );
-  
-  // avgfac = exp(-1 / average lifetime of leaves, stem, and roots, in months)
   
   // Reset all monthly fluxes to zero
   #ifdef DEBUG_CTEM
