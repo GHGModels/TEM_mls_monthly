@@ -54,14 +54,14 @@ class Ttem45
 
      enum temkey
      {
-       I_LEAFC,    I_SAPWOODC,     I_HEARTWOODC,      I_ROOTC,
-       I_SEEDC,    I_LABILEC,      I_SOLC,            I_ACTIVE_C,      
-       I_SLOW_C,   I_PASSIVE_C,    // 10
+       I_LEAFC,     I_SAPWOODC,     I_HEARTWOODC,      I_ROOTC,
+       I_SEEDC,     I_LABILEC,      I_ACTIVE_C,        I_SLOW_C,   
+       I_PASSIVE_C, I_SOLC,            // 10
 
-       I_LEAFN,    I_SAPWOODN,     I_HEARTWOODN,      I_ROOTN,
-       I_SEEDN,    I_LABILEN,      I_SOLN,            I_ACTIVE_N, 
-       I_SLOW_N,   I_PASSIVE_N,    I_AVLN,            I_AVLN_ACTIVE,   
-       I_AVLN_SLOW,I_AVLN_PASSIVE,  // 14
+       I_LEAFN,     I_SAPWOODN,     I_HEARTWOODN,      I_ROOTN,
+       I_SEEDN,     I_LABILEN,      I_ACTIVE_N,        I_SLOW_N,   
+       I_PASSIVE_N, I_SOLN,         I_AVLN,            I_AVLN_ACTIVE,   
+       I_AVLN_SLOW, I_AVLN_PASSIVE,  // 14
 
        I_FOZONE,   I_DOC,          I_DON,         // 3
                  /* 10+14+3=27 C&N Pools (MAXESTAT)  */

@@ -2452,15 +2452,9 @@ void Ttem45::ECDsetODEstate( const int& pdcmnt,
 
   if( y[I_PASSIVE_C] < ZERO ) { y[I_PASSIVE_C] = ZERO; }  
   
-  y[I_SOLC] = active_c[pdcmnt] + slow_c[pdcmnt] + passive_c[pdcmnt];
+  y[I_SOLC] = y[I_ACTIVE_C] + y[I_SLOW_C] + y[I_PASSIVE_C];
   
   if( y[I_SOLC] < ZERO ) { y[I_SOLC] = ZERO; }            // 10
-
-  y[I_DOC] =  ZERO;
-
-  y[I_DON] =  ZERO;                                       
-
-  y[I_FOZONE] = 1.0;
 
   y[I_LEAFN] = leafnb[pdcmnt];     
 
@@ -2468,7 +2462,7 @@ void Ttem45::ECDsetODEstate( const int& pdcmnt,
 
   y[I_SAPWOODN] = sapwoodnb[pdcmnt];
 
-  if( y[I_SAPWOODN] < ZERO ) { y[I_SAPWOODN] = ZERO; }    // 15
+  if( y[I_SAPWOODN] < ZERO ) { y[I_SAPWOODN] = ZERO; }    
 
   y[I_HEARTWOODN] =  heartwoodnb[pdcmnt];
 
@@ -2480,15 +2474,15 @@ void Ttem45::ECDsetODEstate( const int& pdcmnt,
 
   y[I_SEEDN] = seednb[pdcmnt];
 
-  if( y[I_SEEDN] < ZERO ) { y[I_SEEDN] = ZERO; }
+  if( y[I_SEEDN] < ZERO ) { y[I_SEEDN] = ZERO; }         // 15
 
   y[I_LABILEN] = labilenb[pdcmnt];
 
-  if( y[I_LABILEN] < ZERO ) { y[I_LABILEN] = ZERO; }    
+  if( y[I_LABILEN] < ZERO ) { y[I_LABILEN] = ZERO; }  
                                             
   y[I_ACTIVE_N] = active_n[pdcmnt];
 
-  if( y[I_ACTIVE_N] < ZERO ) { y[I_ACTIVE_N] = ZERO; }  // 20
+  if( y[I_ACTIVE_N] < ZERO ) { y[I_ACTIVE_N] = ZERO; }  
 
   y[I_SLOW_N] = slow_n[pdcmnt];
 
@@ -2496,28 +2490,28 @@ void Ttem45::ECDsetODEstate( const int& pdcmnt,
 
   y[I_PASSIVE_N] = passive_n[pdcmnt];
 
-  if( y[I_PASSIVE_N] < ZERO ) { y[I_PASSIVE_N] = ZERO; }
+  if( y[I_PASSIVE_N] < ZERO ) { y[I_PASSIVE_N] = ZERO; }  
   
-  y[I_SOLN] = active_n[pdcmnt] + slow_n[pdcmnt] + passive_n[pdcmnt];
+  y[I_SOLN] = y[I_ACTIVE_N] + y[I_SLOW_N] + y[I_PASSIVE_N];
   
-  if( y[I_SOLN] < ZERO ) { y[I_SOLN] = ZERO; }
+  if( y[I_SOLN] < ZERO ) { y[I_SOLN] = ZERO; }           // 20
 
   y[I_AVLN] = avln[pdcmnt];                       
 
-  if( y[I_AVLN] < ZERO ) { y[I_AVLN] = ZERO; }        // 24
-  /*
-  y[I_AVLN_ACTIVE] = avln_active[pdcmnt];                       
+  if( y[I_AVLN] < ZERO ) { y[I_AVLN] = ZERO; }         
   
-  if( y[I_AVLN_ACTIVE] < ZERO ) { y[I_AVLN_ACTIVE] = ZERO; }
+  y[I_AVLN_ACTIVE] = ZERO;
   
-  y[I_AVLN_SLOW] = avln_slow[pdcmnt];                       
+  y[I_AVLN_SLOW] = ZERO;
   
-  if( y[I_AVLN_SLOW] < ZERO ) { y[I_AVLN_SLOW] = ZERO; }
+  y[I_AVLN_PASSIVE] = ZERO;
   
-  y[I_AVLN_PASSIVE] = avln_passive[pdcmnt];                       
+  y[I_FOZONE] = 1.0;                                     // 25
   
-  if( y[I_AVLN_PASSIVE] < ZERO ) { y[I_AVLN_PASSIVE] = ZERO; }
-  */
+  y[I_DOC] =  ZERO;
+  
+  y[I_DON] =  ZERO;                                     // 27 = MAXESTAT                       
+
   y[I_SM] = soil.getAWCAPMM() + soil.getWILTPT();
 
   if( y[I_SM] <= ZERO )
@@ -2530,14 +2524,13 @@ void Ttem45::ECDsetODEstate( const int& pdcmnt,
   if( y[I_VSM] <= ZERO )
   {
     y[I_VSM] = 0.001;
-  }                                                 // 26
-
+  }                                                 
 
   y[I_PCTP] = 100.0 * y[I_SM] / soil.getTOTPOR();
 
   y[I_RGRW] = ZERO;
 
-  y[I_SGRW] =  ZERO;                               // 29
+  y[I_SGRW] =  ZERO;                                    // 5 = MAXWSTAT
 
 
   // Initialize all phenology and flux states to zero
@@ -3422,7 +3415,7 @@ if( y[I_RGRW] < ZERO ) { y[I_RGRW] = ZERO; }
 
 
   if( y[I_PASSIVE_C] - prevy[I_PASSIVE_C] !=  y[I_LTRRC]
-                               - y[I_DOCPROD_PASSIVE]    //should DOC be here? 
+                               - y[I_DOCPROD_PASSIVE]    
                                - ag.getSCONVRTFLXC_PASSIVE()
                                - microbe.getRH_PASSIVE())
 
@@ -4827,9 +4820,11 @@ int Ttem45::stepmonth( const int& pdyr,
   avgfac = exp(-avgfac);
   if(pdm == 0) { mxeet = 0.0; }
   
+  cout << "SOLC 1 " << soil.getSOLC() << endl;   // MJ
+  
   soil.setSOLC( y[I_ACTIVE_C] + y[I_SLOW_C] + y[I_PASSIVE_C] ); 
   
-  cout << "setSOLC " << soil.getSOLC() << endl;   // MJ
+  cout << "SOLC 2 " << soil.getSOLC() << endl;   // MJ
   
   soil.setSOLN( y[I_ACTIVE_N] + y[I_SLOW_N] + y[I_PASSIVE_N] );
   
@@ -4845,7 +4840,7 @@ int Ttem45::stepmonth( const int& pdyr,
 
   microbe.setNUPTAKE( y[I_MNUP] );   
   
-  cout << "microbe.setNUP " << microbe.getNUP(veg.cmnt) << endl;
+  cout << "microbe.setNUP " << microbe.getNUP(veg.cmnt) << endl; 
   cout << "setNUPTAKE " << microbe.getNUPTAKE() << " " << y[I_MNUP] << endl;   // MJ
   cout << "MNUP pools " << y[I_MNUP_ACTIVE] << " " << y[I_MNUP_SLOW] << endl; // MJ
   
@@ -5014,16 +5009,17 @@ int Ttem45::stepmonth( const int& pdyr,
       ag.setNATSEEDSTON (y[I_SEEDN] );
       ag.conversion( veg.cmnt,
                      y[I_LEAFC]+y[I_ROOTC],
-                                 y[I_LEAFN]+y[I_ROOTN],
-                                             y[I_SAPWOODC]+y[I_HEARTWOODC]+y[I_LABILEC],
-                                                                            y[I_SAPWOODN]+y[I_HEARTWOODN],
-                                                                                           y[I_LABILEN],
-                                                                                            y[I_ACTIVE_C],
-                                                                                             y[I_SLOW_C],
-                                                                                              y[I_PASSIVE_C],
-                                                                                               y[I_ACTIVE_N],
-                                                                                                y[I_SLOW_N],
-                                                                                                 y[I_PASSIVE_N] ); 
+                     y[I_LEAFN]+y[I_ROOTN],
+                     y[I_SAPWOODC]+y[I_HEARTWOODC]+y[I_LABILEC],
+                     y[I_SAPWOODN]+y[I_HEARTWOODN],
+                     y[I_LABILEN],
+                     y[I_ACTIVE_C],
+                     y[I_SLOW_C],
+                     y[I_PASSIVE_C],
+                     y[I_ACTIVE_N],
+                     y[I_SLOW_N],
+                     y[I_PASSIVE_N] ); 
+      
       prevy[I_LEAFC] = y[I_LEAFC] = ZERO;
       prevy[I_LEAFN] = y[I_LEAFN] = ZERO;
       prevy[I_ROOTC] = y[I_ROOTC] = ZERO;
@@ -5076,24 +5072,25 @@ int Ttem45::stepmonth( const int& pdyr,
       
       ag.conversion( veg.cmnt,
                      dwood*y[I_ROOTC],
-                            dwood*y[I_ROOTN],
-                                   dwood*(y[I_SAPWOODC]+y[I_HEARTWOODC]+y[I_LABILEC]) + dleaf*y[I_LEAFC],
-                                                                                               dwood*(y[I_SAPWOODN]+y[I_HEARTWOODN]) + dleaf*y[I_LEAFN],
-                                                                                                                                              dwood* y[I_LABILEN],
-                                                                                                                                                      y[I_ACTIVE_C],
-                                                                                                                                                       y[I_SLOW_C],
-                                                                                                                                                        y[I_PASSIVE_C],
-                                                                                                                                                         y[I_ACTIVE_N],
-                                                                                                                                                          y[I_SLOW_N],
-                                                                                                                                                           y[I_PASSIVE_N] );
+                     dwood*y[I_ROOTN],
+                     dwood*(y[I_SAPWOODC]+y[I_HEARTWOODC]+y[I_LABILEC]) + dleaf*y[I_LEAFC],
+                     dwood*(y[I_SAPWOODN]+y[I_HEARTWOODN]) + dleaf*y[I_LEAFN],
+                     dwood* y[I_LABILEN],
+                     y[I_ACTIVE_C],
+                     y[I_SLOW_C],
+                     y[I_PASSIVE_C],
+                     y[I_ACTIVE_N],
+                     y[I_SLOW_N],
+                     y[I_PASSIVE_N] );
+      
       //
       ////  overwrite the slash with same as above but add to standing dead
       ////
       ag.standingdead( veg.cmnt,
                        dwood*y[I_ROOTC],
-                              dwood*y[I_ROOTN],
-                                     (1.0-ag.getVCONVERT())*(dwood*(y[I_SAPWOODC]+y[I_HEARTWOODC]+y[I_LABILEC]) + dleaf*y[I_LEAFC]),
-                                     (1.0-ag.getVCONVERT())*(dwood*(y[I_SAPWOODN]+y[I_HEARTWOODN]+y[I_LABILEN]) + dleaf*y[I_LEAFN]));
+                       dwood*y[I_ROOTN],
+                       (1.0-ag.getVCONVERT())*(dwood*(y[I_SAPWOODC]+y[I_HEARTWOODC]+y[I_LABILEC]) + dleaf*y[I_LEAFC]),
+                       (1.0-ag.getVCONVERT())*(dwood*(y[I_SAPWOODN]+y[I_HEARTWOODN]+y[I_LABILEN]) + dleaf*y[I_LEAFN]));
       
       
       prevy[I_LABILEC] = y[I_LABILEC] = (1. - dwood)*y[I_LABILEC];
@@ -5771,60 +5768,60 @@ int Ttem45::stepmonth( const int& pdyr,
                                                         
                     // Reset growing degree days to zero if crops were harvested this month
                                                         
-                                                        if( 1 == ag.state && ag.getGROWDD() >= ag.getGDDHARVST(ag.cmnt) )
-                                                        {
-                                                          ag.setGROWDD( ZERO );
-                                                        }
+                    if( 1 == ag.state && ag.getGROWDD() >= ag.getGDDHARVST(ag.cmnt) )
+                    {
+                      ag.setGROWDD( ZERO );
+                    }
                                                         
-                                                        //if( atms.getTAIR() < ag.getGDDMIN(ag.cmnt) ) { ag.setGROWDD( ZERO ); }
-                                                        if( atms.getTAIRN() < ag.getTKILL(ag.cmnt) ) { ag.setGROWDD( ZERO ); }
-                                                        ag.setFROSTFLAG( 0 );
+                    //if( atms.getTAIR() < ag.getGDDMIN(ag.cmnt) ) { ag.setGROWDD( ZERO ); }
+                    if( atms.getTAIRN() < ag.getTKILL(ag.cmnt) ) { ag.setGROWDD( ZERO ); }
+                    ag.setFROSTFLAG( 0 );
                                                         
-                                                        veg.setRPREC( veg.getRPREC()*avgfac+atms.getPREC()*(1.0-avgfac));
-                                                        veg.setRNPP( veg.getRNPP()*avgfac+y[I_NPP]*(1.0-avgfac));
-                                                        if(pdm == CYCLE - 1)
-                                                        {
-                                                          //  cout << "mxeet = " << mxeet << endl;
-                                                          soil.setREET( mxeet*avgfac+mxeet*(1.0-avgfac));
-                                                          //  soil.setREET( soil.getREET()*avgfac+y[I_EET]*(1.0-avgfac));
-                                                        }
-                                                        microbe.setRRH( microbe.getRRH()*avgfac+y[I_RH]*(1.0-avgfac));
-                                                        veg.setRLTRC( veg.getRLTRC()*avgfac+(y[I_LTRLC]+ y[I_LTRSC] + y[I_LTRHC] + y[I_LTRRC] + y[I_LTRSEEDC])*(1.0-avgfac));
+                    veg.setRPREC( veg.getRPREC()*avgfac+atms.getPREC()*(1.0-avgfac));
+                    veg.setRNPP( veg.getRNPP()*avgfac+y[I_NPP]*(1.0-avgfac));
+                    if(pdm == CYCLE - 1)
+                    {
+                      //  cout << "mxeet = " << mxeet << endl;
+                      soil.setREET( mxeet*avgfac+mxeet*(1.0-avgfac));
+                      //  soil.setREET( soil.getREET()*avgfac+y[I_EET]*(1.0-avgfac));
+                    }
+                    microbe.setRRH( microbe.getRRH()*avgfac+y[I_RH]*(1.0-avgfac));
+                    veg.setRLTRC( veg.getRLTRC()*avgfac+(y[I_LTRLC]+ y[I_LTRSC] + y[I_LTRHC] + y[I_LTRRC] + y[I_LTRSEEDC])*(1.0-avgfac));
                                                         
-                                                        veg.setRGPP( veg.getRGPP()*avgfac+y[I_GPP]*(1.0-avgfac));
-                                                        veg.setRINGPP( veg.getRINGPP()*avgfac+y[I_INGPP]*(1.0-avgfac));
-                                                        veg.setRTAIR( veg.getRTAIR()*avgfac+atms.getTAIRD()*(1.0-avgfac));
-                                                        veg.setRTAIRPHI( veg.getRTAIRPHI()*avgfac+atms.getTAIRD()* veg.getPHI() *(1.0-avgfac));
-                                                        veg.setRPHI( veg.getRPHI()*avgfac+veg.getPHI()*(1.0-avgfac));
+                    veg.setRGPP( veg.getRGPP()*avgfac+y[I_GPP]*(1.0-avgfac));
+                    veg.setRINGPP( veg.getRINGPP()*avgfac+y[I_INGPP]*(1.0-avgfac));
+                    veg.setRTAIR( veg.getRTAIR()*avgfac+atms.getTAIRD()*(1.0-avgfac));
+                    veg.setRTAIRPHI( veg.getRTAIRPHI()*avgfac+atms.getTAIRD()* veg.getPHI() *(1.0-avgfac));
+                    veg.setRPHI( veg.getRPHI()*avgfac+veg.getPHI()*(1.0-avgfac));
                                                         
-                                                        veg.setRLABILEC( veg.getRLABILEC()*avgfac+y[I_LABILEC]*(1.0-avgfac));
-                                                        veg.setRLABILEN( veg.getRLABILEN()*avgfac+y[I_LABILEN]*(1.0-avgfac));
+                    veg.setRLABILEC( veg.getRLABILEC()*avgfac+y[I_LABILEC]*(1.0-avgfac));
+                    veg.setRLABILEN( veg.getRLABILEN()*avgfac+y[I_LABILEN]*(1.0-avgfac));
                                                         
-                                                        mdemandc = y[I_ALLOCLC] + y[I_ALLOCSC] + y[I_ALLOCRC] + y[I_ALLOCSEEDC] + y[I_RVGRW];
-                                                        mdemandn = y[I_ALLOCLN] + y[I_ALLOCSN] + y[I_ALLOCRN] + y[I_ALLOCSEEDN]
-                                                        -y[I_NRESORBL] -y[I_NRESORBS] -y[I_NRESORBR] -y[I_NRESORBSEED];
+                    mdemandc = y[I_ALLOCLC] + y[I_ALLOCSC] + y[I_ALLOCRC] + y[I_ALLOCSEEDC] + y[I_RVGRW];
+                    mdemandn = y[I_ALLOCLN] + y[I_ALLOCSN] + y[I_ALLOCRN] + y[I_ALLOCSEEDN]
+                               -y[I_NRESORBL] -y[I_NRESORBS] -y[I_NRESORBR] -y[I_NRESORBSEED];
                                                         
-                                                        veg.setRDEMANDC( veg.getRDEMANDC()*avgfac+mdemandc*(1.0-avgfac));
-                                                        veg.setRDEMANDN( veg.getRDEMANDN()*avgfac+mdemandn*(1.0-avgfac));
+                    veg.setRDEMANDC( veg.getRDEMANDC()*avgfac+mdemandc*(1.0-avgfac));
+                    veg.setRDEMANDN( veg.getRDEMANDN()*avgfac+mdemandn*(1.0-avgfac));
                                                         
-                                                        // Update atms.prevco2 for next month
+                    // Update atms.prevco2 for next month
                                                         
-                                                        atms.setPREVCO2( atms.getCO2() );
+                    atms.setPREVCO2( atms.getCO2() );
                                                         
-                                                        // Update atms.prevtair and atms.prev2tair for next month
+                    // Update atms.prevtair and atms.prev2tair for next month
                                                         
-                                                        atms.setPREV2TAIR( atms.getPREVTAIR() );
-                                                        atms.setPREVTAIR( atms.getTAIR() );
+                    atms.setPREV2TAIR( atms.getPREVTAIR() );
+                    atms.setPREVTAIR( atms.getTAIR() );
                                                         
-                                                        // Update previous snowpack for next month
+                    // Update previous snowpack for next month
                                                         
-                                                        soil.setPREVSPACK( soil.getSNOWPACK() );
+                    soil.setPREVSPACK( soil.getSNOWPACK() );
                                                         
-                                                        // Update ag.prevPROD1, ag.prevPROD10 and ag.prevPROD100
-                                                        // for next month
+                    // Update ag.prevPROD1, ag.prevPROD10 and ag.prevPROD100
+                    // for next month
                                                         
-                                                        ag.setPREVPROD1C( ag.getPROD1C() );
-                                                        ag.setPREVPROD1N( ag.getPROD1N() );
+                    ag.setPREVPROD1C( ag.getPROD1C() );
+                    ag.setPREVPROD1N( ag.getPROD1N() );
                                                         
                                                         ag.setPREVPROD10C( ag.getPROD10C() );
                                                         ag.setPREVPROD10N( ag.getPROD10N() );
