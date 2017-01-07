@@ -123,11 +123,9 @@ void Humnact45::conversion( const int& pdcmnt,
                              const double& vegc,
                              const double& vstrn,
                              const double& vston,
-//                             const double& soilc,             //commented out for MJ MLS;
                              const double& active_c,
                              const double& slow_c,
                              const double& passive_c,
-//                             const double& soiln,
                              const double& active_n,
                              const double& slow_n,
                              const double& passive_n )
@@ -142,10 +140,9 @@ void Humnact45::conversion( const int& pdcmnt,
 
   vconvrtflx.carbon = (vconvert * vegc) / (double) CYCLE;
 
-  sconvrtflx_active.carbon = (sconvert * active_c)/ (double) CYCLE;       //come back for sconvert parameter for each horizon MJ MLS;
+  sconvrtflx_active.carbon = (sconvert * active_c)/ (double) CYCLE;       //check back for sconvert parameter for each soil quality MJ MLS;
   sconvrtflx_slow.carbon = (sconvert * slow_c)/ (double) CYCLE;
   sconvrtflx_passive.carbon = (sconvert * passive_c)/ (double) CYCLE;
-
 
   sconvrtflx.carbon = sconvrtflx_active.carbon + sconvrtflx_slow.carbon + sconvrtflx_passive.carbon;      //added MJ MLS;
 

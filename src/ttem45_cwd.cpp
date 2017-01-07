@@ -1020,7 +1020,7 @@ int Ttem45::adapt( const int& numeq,
 
 /* *************************************************************
 ************************************************************* */
-void Ttem45::bkeu(const double prvstemp[],  //previous day/month temperature at each layer
+void Ttem45::bkeu(const double prvstemp[],    //previous day/month temperature at each layer
                     const double& upcon,      //up boundary condition
                     const double& downcon)    //bottom boundary condition
 
@@ -1057,7 +1057,7 @@ void Ttem45::bkeu(const double prvstemp[],  //previous day/month temperature at 
    bkeu_matrix[i+1][i] = -s;
   }
 
-//  cout << "before Inverse" << bkeu_matrix[1][2] << bkeu_matrix[1][1] << bkeu_matrix[2][1]<< endl;
+  // cout << "before Inverse" << bkeu_matrix[1][2] << bkeu_matrix[1][1] << bkeu_matrix[2][1]<< endl;
 
 //start of matrix inversion calculation;
 
@@ -1213,8 +1213,8 @@ void Ttem45::bkeu(const double prvstemp[],  //previous day/month temperature at 
 
   mlsoiltemp[0] = upcon;
   mlsoiltemp[10] = downcon;
-
-
+  
+  cout << "end bkeu " << mlsoiltemp[0] << endl;
 };
 
 
@@ -4916,7 +4916,7 @@ int Ttem45::stepmonth( const int& pdyr,
   //    prevy[I_SOLN] = y[I_SOLN] = y[I_SOLN]/10.0; 
   //  }
   
-  // start transient loop
+  // initialize decomposition rate from datfile
   
   cout << "KD_ACTIVE 1 " << microbe.getKD_ACTIVE(veg.cmnt) << endl;   // MJ
   
@@ -4926,8 +4926,8 @@ int Ttem45::stepmonth( const int& pdyr,
     {
       microbe.setKD_ACTIVE( microbe.getKD_ACTIVE( veg.cmnt ), veg.cmnt);
       
+      cout << "pdyr " << pdyr << endl;    //MJ
       cout << "KD_ACTIVE 2 " << microbe.getKD_ACTIVE(veg.cmnt) << endl;   // MJ
-      
       
       microbe.setKD_SLOW( microbe.getKD_SLOW( veg.cmnt), veg.cmnt);
       microbe.setKD_PASSIVE( microbe.getKD_PASSIVE( veg.cmnt), veg.cmnt);
@@ -4966,7 +4966,7 @@ int Ttem45::stepmonth( const int& pdyr,
         ag.setNATSOIL_ACTIVE( soil.getACTIVE_C() );
         ag.setNATSOIL_SLOW( soil.getSLOW_C() );
         ag.setNATSOIL_PASSIVE( soil.getPASSIVE_C() );
-        ag.setNATSOIL( soil.getSOLC() );
+        ag.setNATSOIL( ag.getNATSOIL_ACTIVE() + ag.getNATSOIL_SLOW() + ag.getNATSOIL_PASSIVE() );
       }
       else
       {
@@ -5327,10 +5327,10 @@ int Ttem45::stepmonth( const int& pdyr,
         prevy[I_ROOTN] = y[I_ROOTN] = ZERO;
         prevy[I_SEEDC] = y[I_SEEDC] = ZERO;
         prevy[I_SEEDN] = y[I_SEEDN] = ZERO;
-        y[I_ACTIVE_C] += ag.getSTUBBLEC();  //does STUBBLEC include root C MJ MLS? 
-        prevy[I_ACTIVE_C] = y[I_ACTIVE_C];
-        y[I_ACTIVE_N] += ag.getSTUBBLEN();
-        prevy[I_ACTIVE_N] = y[I_ACTIVE_N];
+        y[I_SLOW_C] += ag.getSTUBBLEC();  //does STUBBLEC include root C MJ MLS? 
+        prevy[I_SLOW_C] = y[I_SLOW_C];
+        y[I_SLOW_N] += ag.getSTUBBLEN();
+        prevy[I_SLOW_N] = y[I_SLOW_N];
       }
       
       if(0 == ag.getISPERENNIAL( ag.cmnt )
@@ -5353,6 +5353,7 @@ int Ttem45::stepmonth( const int& pdyr,
     // Run TEM for a monthly time step
     
     veg.setERRCNT( ZERO );
+    
 #ifdef DEBUG_CTEM
     move(DEBUG_ROW,1);
     printw(" entering adapt( NUMEQ, y, ptol, pdm ) ");
@@ -5375,18 +5376,23 @@ int Ttem45::stepmonth( const int& pdyr,
     //  }
     // BSF COMBO END
     
-    //cout << "starting soil calculation" << endl;
+    cout << "starting soil calculation" << endl;
     
-    //  cout << "upd 1 " << atms.getTAIRD() << endl;
+    cout << "upd 1 " << atms.getTAIRD() << endl;
     
-    bkeu( prvstempd, atms.getTAIRD(), downd);
+    // bkeu function returns nothing, check back point. Problem with returning a matrix. MJ MLS
+    /*
+    bkeu( prvstempd, atms.getTAIRD(), downd);   
     
+    cout << "after bkeu " << mlsoiltemp[0] << endl;
     int i;
+    
     for (i = 0; i<11; i++)
     {
+      cout << "after bkeu " << endl;
       tsoild[i] = mlsoiltemp[i];
       
-      //    cout << "soild = " <<  i << " " << tsoild[i]  << " " << prvstempd[i] << endl;
+      cout << "soild = " <<  i << " " << tsoild[i]  << " " << prvstempd[i] << endl;
     }
     
     
@@ -5424,6 +5430,7 @@ int Ttem45::stepmonth( const int& pdyr,
     prvstempn[9] = tsoiln[9];
     prvstempn[10] = tsoiln[10];
     
+    */
     
     mintflag = adapt( NUMEQ, y, ptol, pdm );
     
