@@ -142,9 +142,9 @@ class Tmcrb45: public ProcessXML45
 
      // kd *****************************************************     
      
-     inline double getKD( void ) { return kd; }
+     // inline double getKD( void ) { return kd; }
 
-     inline void setKD( const double& pkd ) { kd = pkd; }
+     // inline void setKD( const double& pkd ) { kd = pkd; }
 
       // decomp **********************************************
 
@@ -171,7 +171,7 @@ class Tmcrb45: public ProcessXML45
      // kdb ****************************************************
      
      // all kd are not done correctly at the moment, check back when updating calibration
-
+/*
      inline double getKDB( const int& pcmnt )
      {
        return kdb[pcmnt];
@@ -182,7 +182,7 @@ class Tmcrb45: public ProcessXML45
      {
        kdb[pcmnt] = pkdb;
      }
-
+*/
       // kd_active ****************************************************
       
       inline double getKD_ACTIVE( const int& pcmnt )
@@ -224,10 +224,10 @@ class Tmcrb45: public ProcessXML45
 
      // kdc ****************************************************
 
-     inline double getKDC( void ) { return kdc; }
+     // inline double getKDC( void ) { return kdc; }
 
-     inline void setKDC( const double& pkdc ) { kdc = pkdc; }
-
+     // inline void setKDC( const double& pkdc ) { kdc = pkdc; }
+     
 
      // kn2 ****************************************************
 
@@ -569,12 +569,12 @@ class Tmcrb45: public ProcessXML45
      // Biome-specific decomposition parameters for function rhxclm
 
      double kd;
-     double kdb[MAXCMNT];
+     // double kdb[MAXCMNT];
      double kd_active[MAXCMNT];
      double kd_slow[MAXCMNT];
      double kd_passive[MAXCMNT];
 
-     double kdc;
+     // double kdc;
 
      double kdin[NUMMSAC];     // kd values read in from file
      double kdsave[NUMMSAC];   // kd values saved to a file

@@ -2350,7 +2350,11 @@ int Ttem45::ecdqc( const int& dcmnt )
 
   if( veg.getKRA( dcmnt ) <= -99.99 ) { return qc = 143; }
 
-  if( microbe.getKDB( dcmnt ) <= -99.99 ) { return qc = 146; }
+  if( microbe.getKD_ACTIVE( dcmnt ) <= -99.99 ) { return qc = 146; }
+  
+  if( microbe.getKD_SLOW( dcmnt ) <= -99.99 ) { return qc = 146; }
+  
+  if( microbe.getKD_PASSIVE( dcmnt ) <= -99.99 ) { return qc = 146; }
 
   if( microbe.getLCCLNC( dcmnt ) <= -99.99 ) { return qc = 147; }
   
@@ -3005,13 +3009,6 @@ void Ttem45::getsitecd( const int& dv, const string&  ecd )
                                          "vegkra",
                                          veg.cmnt ),
               veg.cmnt );
-  /*
-   microbe.setKDB( veg.getXMLcmntArrayDouble( fecd[dv],
-                                             "siteECD",
-                                             "microbekdb",
-                                             veg.cmnt ),
-                  veg.cmnt );
-  */
 
   microbe.setKD_ACTIVE( veg.getXMLcmntArrayDouble( fecd[dv],
                                              "siteECD",
@@ -4867,6 +4864,8 @@ int Ttem45::stepmonth( const int& pdyr,
   #endif
   resetODEflux();
   
+  cout << "getAVLN after resetODE " << soil.getAVLN() << " " << y[I_AVLN] << endl;   // MJ
+  
   // If 12 months have passed since disturbance, reset
   //   all immediate fluxes associated with disturbance
   //   (i.e., slash, convrtflx, nretent) to zero
@@ -4874,7 +4873,7 @@ int Ttem45::stepmonth( const int& pdyr,
   if ( CYCLE == distmnthcnt )
   {
     distmnthcnt = 0;
-    ag.resetMonthlyDisturbFluxes();
+    ag.resetMonthlyDisturbFluxes();     // check back
   }
   
   // Count the number of months since disturbance
@@ -4917,11 +4916,19 @@ int Ttem45::stepmonth( const int& pdyr,
   //    prevy[I_SOLN] = y[I_SOLN] = y[I_SOLN]/10.0; 
   //  }
   
+  // start transient loop
+  
+  cout << "KD_ACTIVE 1 " << microbe.getKD_ACTIVE(veg.cmnt) << endl;   // MJ
+  
   if( 0 == pdm )
   {
     if( 0 == pdyr )
     {
       microbe.setKD_ACTIVE( microbe.getKD_ACTIVE( veg.cmnt ), veg.cmnt);
+      
+      cout << "KD_ACTIVE 2 " << microbe.getKD_ACTIVE(veg.cmnt) << endl;   // MJ
+      
+      
       microbe.setKD_SLOW( microbe.getKD_SLOW( veg.cmnt), veg.cmnt);
       microbe.setKD_PASSIVE( microbe.getKD_PASSIVE( veg.cmnt), veg.cmnt);
       

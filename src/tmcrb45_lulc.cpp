@@ -83,25 +83,6 @@ Tmcrb45::Tmcrb45() : ProcessXML45()
 /* **************************************************************
 ************************************************************** */
 
-/*
-void Tmcrb45::kdfbxclm(    )
-{
-  //Calculate kdfb based on kdc parameter and soil temperature,
-  //soil water, soil quality and soil texture information
-  //at the correct horizon 
-
-  double kdfb;
-  double ftemp, fwater, fquality, ftexture;
-
-  fquality = 1;
-  ftexture = 1;
-  fwater = 1;
-
-
-  kdfb = kdc * ftemp * fwater * fquality * ftexture;
-
-}
-*/
 
 /* **************************************************************
 ************************************************************** */
@@ -291,14 +272,13 @@ double Tmcrb45::nminxclm( const int& pdcmnt,
 void Tmcrb45::resetEcds( const int& pcmnt,
                             const double& psiplusc )
 {
-  kdc =  kdb[pcmnt];   
+  // kdc =  kdb[pcmnt];   
 
-  if( kdc < ZERO ) { kdc = ZERO; }
+  // if( kdc < ZERO ) { kdb = ZERO; }
 
+  //  nup =  nupb[pcmnt];    // check back
 
-//  nup =  nupb[pcmnt];
-
-//  if( nup < ZERO ) { nup = ZERO; }
+  //  if( nup < ZERO ) { nup = ZERO; }
 
 
   // Determine the "decay" parameter

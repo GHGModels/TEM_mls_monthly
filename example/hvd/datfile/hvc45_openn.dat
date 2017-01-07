@@ -38,8 +38,8 @@
     <vegtauseed>1.0</vegtauseed>
     <vegkra>0.22</vegkra>
     <microbekd_active>1.0</microbekd_active>
-    <microbekd_slow>1.0</microbekd_slow>
-    <microbekd_passive>1.0</microbekd_passive>
+    <microbekd_slow>0.5</microbekd_slow>
+    <microbekd_passive>0.1</microbekd_passive>
     <microbelcclnc>67.4</microbelcclnc>
     <microbepropftos>0.2000</microbepropftos>
     <vegnmax1b>475.0</vegnmax1b>
