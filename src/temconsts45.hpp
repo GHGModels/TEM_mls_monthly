@@ -127,7 +127,7 @@ const int NUMATMS = 18;
 // Maximum number of pool variables in simulation
 #ifndef MAXSTATE_CONST
 #define MAXSTATE_CONST
-  const int MAXSTATE = MAXWSTAT + MAXESTAT;
+  const int MAXSTATE = MAXWSTAT + MAXESTAT;     //MAXWSTAT = 5, MAXESTAT = 27
 #endif
 
 // Maximum number of state (pools plus fluxes) variables

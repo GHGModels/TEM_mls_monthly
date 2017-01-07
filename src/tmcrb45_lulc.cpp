@@ -331,7 +331,10 @@ void Tmcrb45::resetMonthlyFluxes( void )
   // Nitrogen fluxes
 
   nuptake = ZERO;
-
+  nuptake_active = ZERO;
+  nuptake_slow = ZERO;
+  nuptake_passive = ZERO;
+  
   netnmin = ZERO;
   netnmin_active = ZERO;
   netnmin_slow = ZERO;

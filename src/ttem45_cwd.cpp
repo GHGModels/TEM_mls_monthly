@@ -4530,15 +4530,15 @@ void Ttem45::resetMonthlyELMNTFluxes( void )
 
   // Reset all monthly fluxes to zero
 
-  atms.resetMonthlyFluxes();
+  atms.resetMonthlyFluxes();    
 
-  veg.resetMonthlyFluxes();
+  veg.resetMonthlyFluxes();        // checked
 
-  microbe.resetMonthlyFluxes();
+  microbe.resetMonthlyFluxes();    // checked, nuptake split into active, slow, passive
 
-  soil.resetMonthlyFluxes();
+  soil.resetMonthlyFluxes();       // check back
 
-  ag.resetMonthlyFluxes();
+  ag.resetMonthlyFluxes();         // check back
 
   // Carbon fluxes
 
@@ -4820,8 +4820,6 @@ int Ttem45::stepmonth( const int& pdyr,
   avgfac = exp(-avgfac);
   if(pdm == 0) { mxeet = 0.0; }
   
-  cout << "SOLC 1 " << soil.getSOLC() << endl;   // MJ
-  
   soil.setSOLC( y[I_ACTIVE_C] + y[I_SLOW_C] + y[I_PASSIVE_C] ); 
   
   cout << "SOLC 2 " << soil.getSOLC() << endl;   // MJ
@@ -4842,8 +4840,7 @@ int Ttem45::stepmonth( const int& pdyr,
   
   cout << "microbe.setNUP " << microbe.getNUP(veg.cmnt) << endl; 
   cout << "setNUPTAKE " << microbe.getNUPTAKE() << " " << y[I_MNUP] << endl;   // MJ
-  cout << "MNUP pools " << y[I_MNUP_ACTIVE] << " " << y[I_MNUP_SLOW] << endl; // MJ
-  
+
   soil.setLCHDIN( y[I_LCHDIN] );
   
   // Reset all monthly fluxes to zero
