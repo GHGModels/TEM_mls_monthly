@@ -2350,9 +2350,9 @@ int Ttem45::ecdqc( const int& dcmnt )
 
   if( veg.getKRA( dcmnt ) <= -99.99 ) { return qc = 143; }
 
-  if( microbe.getKD_ACTIVE( dcmnt ) <= -99.99 ) { return qc = 146; }
+  if( microbe.getKD_ACTIVE( dcmnt ) <= -99.99 ) { return qc = 144; }
   
-  if( microbe.getKD_SLOW( dcmnt ) <= -99.99 ) { return qc = 146; }
+  if( microbe.getKD_SLOW( dcmnt ) <= -99.99 ) { return qc = 145; }
   
   if( microbe.getKD_PASSIVE( dcmnt ) <= -99.99 ) { return qc = 146; }
 
